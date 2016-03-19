@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.testjunit;
+package br.com.a1402072.mia.testjunitpostgre;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.com.a1402072.projetoic.control.SystemControl;
-import br.com.a1402072.projetoic.model.MyImage;
+import br.com.a1402072.mia.control.SystemControl;
+import br.com.a1402072.mia.model.MyImage;
 
 public class MyImageControlTest {
 	

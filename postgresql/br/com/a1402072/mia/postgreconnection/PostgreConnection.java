@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.postgreconnection;
+package br.com.a1402072.mia.postgreconnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

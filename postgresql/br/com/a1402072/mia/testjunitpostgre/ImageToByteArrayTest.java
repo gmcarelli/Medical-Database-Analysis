@@ -1,11 +1,11 @@
-package br.com.a1402072.projetoic.testjunit;
+package br.com.a1402072.mia.testjunitpostgre;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
-import br.com.a1402072.projetoic.model.MyImage;
+import br.com.a1402072.mia.model.MyImage;
 
 public class ImageToByteArrayTest {	
 	

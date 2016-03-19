@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.main;
+package br.com.a1402072.mia.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import br.com.a1402072.projetoic.control.SystemControl;
-import br.com.a1402072.projetoic.model.MyImage;
+import br.com.a1402072.mia.control.SystemControl;
+import br.com.a1402072.mia.model.MyImage;
 
 public class JFrameTest extends JFrame {
 

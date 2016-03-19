@@ -1,10 +1,10 @@
-package br.com.a1402072.projetoic.control;
+package br.com.a1402072.mia.control;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.a1402072.projetoic.postgreconnection.PostgreConnection;
+import br.com.a1402072.mia.postgreconnection.PostgreConnection;
 
 public class QueryHelper {
 

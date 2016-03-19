@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.neoj4connection;
+package br.com.a1402072.mia.neoj4connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

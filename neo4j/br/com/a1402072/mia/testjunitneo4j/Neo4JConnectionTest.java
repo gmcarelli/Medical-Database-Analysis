@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.testjunit;
+package br.com.a1402072.mia.testjunitneo4j;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.com.a1402072.projetoic.neoj4connection.Neo4JConnection;
+import br.com.a1402072.mia.neoj4connection.Neo4JConnection;
 
 
 

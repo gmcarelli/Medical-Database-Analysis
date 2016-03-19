@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.testjunit;
+package br.com.a1402072.mia.testjunitpostgre;
 import static org.junit.Assert.*;
 
 import java.io.File;

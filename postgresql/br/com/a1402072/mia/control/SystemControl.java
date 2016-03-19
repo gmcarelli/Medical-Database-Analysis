@@ -1,4 +1,4 @@
-package br.com.a1402072.projetoic.control;
+package br.com.a1402072.mia.control;
 
 public class SystemControl {
 

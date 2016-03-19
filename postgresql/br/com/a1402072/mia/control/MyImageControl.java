@@ -1,9 +1,9 @@
-package br.com.a1402072.projetoic.control;
+package br.com.a1402072.mia.control;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.a1402072.projetoic.model.MyImage;
+import br.com.a1402072.mia.model.MyImage;
 
 public class MyImageControl extends QueryHelper {
 
