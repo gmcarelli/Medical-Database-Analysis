@@ -1,4 +1,4 @@
-package br.com.a1402072.mia.testjunitpostgre;
+package br.edu.ifsp.connection;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.com.a1402072.mia.postgreconnection.PostgreConnection;
+import br.edu.ifsp.connection.PostgreConnection;
 
 public class PostgreTest {
 

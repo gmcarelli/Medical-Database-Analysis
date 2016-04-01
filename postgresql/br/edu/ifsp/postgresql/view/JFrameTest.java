@@ -1,4 +1,4 @@
-package br.com.a1402072.mia.main;
+package br.edu.ifsp.postgresql.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import br.com.a1402072.mia.control.SystemControl;
-import br.com.a1402072.mia.model.MyImage;
+import br.edu.ifsp.postgresql.control.SystemControl;
+import br.edu.ifsp.postgresql.model.MyImage;
 
 public class JFrameTest extends JFrame {
 

@@ -1,10 +1,10 @@
-package br.com.a1402072.mia.control;
+package br.edu.ifsp.postgresql.control;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.a1402072.mia.postgreconnection.PostgreConnection;
+import br.edu.ifsp.connection.PostgreConnection;
 
 public class QueryHelper {
 

@@ -1,14 +1,14 @@
-package br.com.a1402072.mia.testjunitpostgre;
+package br.edu.ifsp.postgresql.model;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
-import br.com.a1402072.mia.model.MyImage;
+import br.edu.ifsp.postgresql.model.MyImage;
 
-public class ImageToByteArrayTest {	
-	
+public class MyImageTest {	
 	
 	@Test
 	public void test() throws IOException {
@@ -19,7 +19,6 @@ public class ImageToByteArrayTest {
 		System.out.println(imageBytes.length);
 		
 		assertTrue(imageBytes.length > 0);
-		
 	}
 
 }

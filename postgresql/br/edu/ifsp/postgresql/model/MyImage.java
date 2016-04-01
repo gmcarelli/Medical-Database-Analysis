@@ -1,4 +1,4 @@
-package br.com.a1402072.mia.model;
+package br.edu.ifsp.postgresql.model;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

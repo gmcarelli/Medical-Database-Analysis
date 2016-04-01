@@ -1,4 +1,4 @@
-package br.com.a1402072.mia.testjunitpostgre;
+package br.edu.ifsp.postgresql.control;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.com.a1402072.mia.control.SystemControl;
-import br.com.a1402072.mia.model.MyImage;
+import br.edu.ifsp.postgresql.control.SystemControl;
+import br.edu.ifsp.postgresql.model.MyImage;
 
 public class MyImageControlTest {
 	
@@ -16,6 +16,7 @@ public class MyImageControlTest {
 		MyImage myImage = new MyImage();
 		
 		myImage.setImageName("DCC.TIFF");
+		
 		try {
 			
 			myImage.setImageBytes(MyImage.ImageToByteArray("imageSamples/DCC.tif"));

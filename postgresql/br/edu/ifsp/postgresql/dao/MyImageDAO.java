@@ -1,16 +1,17 @@
-package br.com.a1402072.mia.control;
+package br.edu.ifsp.postgresql.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.a1402072.mia.model.MyImage;
+import br.edu.ifsp.postgresql.control.QueryHelper;
+import br.edu.ifsp.postgresql.model.MyImage;
 
-public class MyImageControl extends QueryHelper {
+public class MyImageDAO extends QueryHelper {
 
 	public boolean insertMyImageIntoDB(MyImage myImage) throws SQLException {
 		this.query = "INSERT INTO image (imageName, imageBytes) VALUES (?, ?)";
 
-		this.preparedStatement = this.postgreConnection.getConnection().prepareStatement(this.query);
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 		
 		this.preparedStatement.setString(1, myImage.getImageName());
 		this.preparedStatement.setBytes(2, myImage.getImageBytes());
