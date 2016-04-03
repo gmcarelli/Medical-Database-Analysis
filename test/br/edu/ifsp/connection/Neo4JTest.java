@@ -15,7 +15,10 @@ public class Neo4JTest {
 
 	@Test
 	public void connectionTest() throws SQLException {		
-		assertTrue(Neo4JConnection.getConnection() != null);
+		Neo4JConnection neo4jConnection = new Neo4JConnection();
+		
+		assertTrue(neo4jConnection.connect() != null);
+
 	}
 
 }

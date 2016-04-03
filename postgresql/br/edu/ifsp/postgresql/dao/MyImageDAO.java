@@ -1,13 +1,10 @@
 package br.edu.ifsp.postgresql.dao;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.idrsolutions.image.tiff.TiffDecoder;
 
 import br.edu.ifsp.dao.ReadFromFileDao;
 import br.edu.ifsp.helper.QueryHelper;

@@ -23,7 +23,7 @@ public class QueryHelper {
                 + " ORDER BY " + primaryKeyField
                 + " DESC LIMIT 1";
 
-        this.preparedStatement = this.postgreConnection.getConnection().prepareStatement(this.query);
+        this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
         this.resultSet = this.executeQuerySelect();
 
@@ -42,7 +42,7 @@ public class QueryHelper {
    public boolean executeUpdate() throws SQLException {
        int aux;
        aux = this.preparedStatement.executeUpdate();
-       this.postgreConnection.closeConnection();
+       this.postgreConnection.disconnect();
        return aux > 0;
    }
 

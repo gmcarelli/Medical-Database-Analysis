@@ -15,6 +15,6 @@ public class PostgreTest {
 	public void connectionTest() throws SQLException {
 		PostgreConnection postgreConnection = new PostgreConnection();
 		
-		assertTrue(postgreConnection.getConnection() != null);
+		assertTrue(postgreConnection.connect() != null);
 	}	
 }

@@ -19,7 +19,7 @@ public class MyImageControlTest {
 		
 		try {
 			
-			myImage.setImageBytes(MyImage.fileToByteArray("imageSamples/DCC.tif"));
+			myImage.setImageBytes(DAOManager.myImageDAO().fileToByteArray("imageSamples/DCC.tif"));
 			
 			assertTrue(DAOManager.myImageDAO().insertMyImageIntoDB(myImage));
 			
