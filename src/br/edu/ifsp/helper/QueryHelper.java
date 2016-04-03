@@ -1,4 +1,4 @@
-package br.edu.ifsp.postgresql.control;
+package br.edu.ifsp.helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

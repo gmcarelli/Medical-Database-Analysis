@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.postgresql.control.SystemControl;
-import br.edu.ifsp.postgresql.model.MyImage;
+import br.edu.ifsp.model.MyImage;
+import br.edu.ifsp.postgresql.dao.DAOManager;
 
 public class MyImageControlTest {
 	
@@ -19,9 +19,9 @@ public class MyImageControlTest {
 		
 		try {
 			
-			myImage.setImageBytes(MyImage.ImageToByteArray("imageSamples/DCC.tif"));
+			myImage.setImageBytes(MyImage.fileToByteArray("imageSamples/DCC.tif"));
 			
-			assertTrue(SystemControl.myImageControl().insertMyImageIntoDB(myImage));
+			assertTrue(DAOManager.myImageDAO().insertMyImageIntoDB(myImage));
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -31,9 +31,9 @@ public class MyImageControlTest {
 	
 	@Test
 	public void readImageFromDBTest() throws SQLException {
-		int imageId = SystemControl.myImageControl().getUltimoIdCadastrado("image", "imageId");
+		int imageId = DAOManager.myImageDAO().getUltimoIdCadastrado("image", "imageId");
 		
-		MyImage myImage = SystemControl.myImageControl().readMyImageFromDB(imageId);	
+		MyImage myImage = DAOManager.myImageDAO().readMyImageFromDB(imageId);	
 		
 		assertTrue(myImage.getImageBytes() != null);
 		assertTrue(myImage.getImageBytes().length > 0);	

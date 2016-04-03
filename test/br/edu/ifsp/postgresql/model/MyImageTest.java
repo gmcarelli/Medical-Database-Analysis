@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.postgresql.model.MyImage;
+import br.edu.ifsp.model.MyImage;
 
 public class MyImageTest {	
 	
@@ -14,7 +14,7 @@ public class MyImageTest {
 	public void test() throws IOException {
 		String imageUrl = "imageSamples/DCC.TIFF";
 		
-		byte[] imageBytes = MyImage.ImageToByteArray(imageUrl);
+		byte[] imageBytes = MyImage.fileToByteArray(imageUrl);
 		
 		System.out.println(imageBytes.length);
 		

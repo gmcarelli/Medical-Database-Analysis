@@ -83,7 +83,7 @@ public class PostgreConnection implements IConnection {
 
 	@Override
 	public void query() {
-		this.statement
+		
 		
 	}          
    

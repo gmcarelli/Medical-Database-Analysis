@@ -12,8 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import br.edu.ifsp.postgresql.control.SystemControl;
-import br.edu.ifsp.postgresql.model.MyImage;
+import br.edu.ifsp.helper.ImageHelper;
+import br.edu.ifsp.model.MyImage;
+import br.edu.ifsp.postgresql.dao.DAOManager;
 
 public class JFrameTest extends JFrame {
 
@@ -61,11 +62,11 @@ public class JFrameTest extends JFrame {
 
 		try {
 
-			MyImage myImage = SystemControl.myImageControl().readMyImageFromDB(14);
+			MyImage myImage = DAOManager.myImageDAO().readMyImageFromDB(14);
 			
-			BufferedImage bufferedImage = MyImage.byteArrayToBufferedImage(myImage.getImageBytes());			
+			BufferedImage bufferedImage = ImageHelper.byteArrayToBufferedImage(myImage.getImageBytes());			
 
-			ImageIcon imageIcon = new ImageIcon(MyImage.resizeBufferedImage(bufferedImage, 1024, 768));
+			ImageIcon imageIcon = new ImageIcon(ImageHelper.resizeBufferedImage(bufferedImage, 1024, 768));
 
 			jLabelImage.setIcon(imageIcon);
 			jLabelImage.setHorizontalAlignment(JLabel.CENTER);

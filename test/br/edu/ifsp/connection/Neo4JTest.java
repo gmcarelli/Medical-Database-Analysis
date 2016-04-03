@@ -1,4 +1,4 @@
-package br.com.a1402072.mia.testjunitneo4j;
+package br.edu.ifsp.connection;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +10,7 @@ import br.com.a1402072.mia.neoj4connection.Neo4JConnection;
 
 
 
-public class Neo4JConnectionTest {
+public class Neo4JTest {
 
 
 	@Test
