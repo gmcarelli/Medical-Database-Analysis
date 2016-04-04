@@ -19,9 +19,9 @@ public class MyImageControlTest {
 		
 		try {
 			
-			myImage.setImageBytes(DAOManager.myImageDAO().fileToByteArray("imageSamples/DCC.tif"));
+			myImage.setImageBytes(DAOManager.myImageDAO().ImageFileToByteArray("imageSamples/DCC.tif"));
 			
-			assertTrue(DAOManager.myImageDAO().insertMyImageIntoDB(myImage));
+			assertTrue(DAOManager.myImageDAO().insert(myImage));
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -33,7 +33,7 @@ public class MyImageControlTest {
 	public void readImageFromDBTest() throws SQLException {
 		int imageId = DAOManager.myImageDAO().getUltimoIdCadastrado("image", "imageId");
 		
-		MyImage myImage = DAOManager.myImageDAO().readMyImageFromDB(imageId);	
+		MyImage myImage = DAOManager.myImageDAO().search(imageId);	
 		
 		assertTrue(myImage.getImageBytes() != null);
 		assertTrue(myImage.getImageBytes().length > 0);	

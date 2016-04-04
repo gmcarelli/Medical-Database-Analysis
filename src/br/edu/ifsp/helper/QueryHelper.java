@@ -4,17 +4,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.edu.ifsp.connection.PostgreConnection;
+import br.edu.ifsp.connection.MongodbConnection;
 
 public class QueryHelper {
 
-	protected PostgreConnection postgreConnection;
+	protected MongodbConnection postgreConnection;
 	protected PreparedStatement preparedStatement;
     protected ResultSet resultSet;
     protected String query;
 
     public QueryHelper() {
-    	this.postgreConnection = new PostgreConnection();
+    	this.postgreConnection = new MongodbConnection();
     }
 
     public int getUltimoIdCadastrado(String tabela, String primaryKeyField) throws SQLException {

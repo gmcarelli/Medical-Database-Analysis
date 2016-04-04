@@ -2,21 +2,21 @@ package br.edu.ifsp.connection;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public interface IConnection {
 
-	public Connection connect() throws SQLException;
+	public Connection connect() throws Exception;
 	
-	public boolean disconnect() throws SQLException;
+	public boolean disconnect() throws Exception;
 	
-	public void query() throws SQLException;
+	public ResultSet executeQuery(String query) throws Exception;
 	
-	public void startTransaction() throws SQLException;
+	public void startTransaction() throws Exception;
 	
-	public void commit() throws SQLException;
+	public void commit() throws Exception;
 	
-	public void rollback() throws SQLException;
+	public void rollback() throws Exception;
 
-	public ResultSet update(String query) throws SQLException;	
+	public boolean executeUpdate(String query) throws Exception;	
+	
 }

@@ -14,7 +14,7 @@ public class MyImageTest {
 	public void test() throws IOException {
 		String imageUrl = "imageSamples/DCC.TIFF";
 		
-		byte[] imageBytes = DAOManager.myImageDAO().fileToByteArray(imageUrl);
+		byte[] imageBytes = DAOManager.myImageDAO().ImageFileToByteArray(imageUrl);
 		
 		System.out.println(imageBytes.length);
 		

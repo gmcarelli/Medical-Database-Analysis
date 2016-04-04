@@ -62,7 +62,7 @@ public class JFrameTest extends JFrame {
 
 		try {
 
-			MyImage myImage = DAOManager.myImageDAO().readMyImageFromDB(14);
+			MyImage myImage = DAOManager.myImageDAO().search(14);
 			
 			BufferedImage bufferedImage = ImageHelper.byteArrayToBufferedImage(myImage.getImageBytes());			
 

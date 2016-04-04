@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.connection.PostgreConnection;
+import br.edu.ifsp.connection.MongodbConnection;
 
 public class PostgreTest {
 
 
 	@Test
 	public void connectionTest() throws SQLException {
-		PostgreConnection postgreConnection = new PostgreConnection();
+		MongodbConnection postgreConnection = new MongodbConnection();
 		
 		assertTrue(postgreConnection.connect() != null);
 	}	
