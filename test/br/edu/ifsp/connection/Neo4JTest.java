@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.com.a1402072.mia.neoj4connection.Neo4JConnection;
+import br.edu.ifsp.connection.Neo4JConnection;
 
 
 
