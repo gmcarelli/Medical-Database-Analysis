@@ -16,7 +16,7 @@ import br.edu.ifsp.helper.ImageHelper;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.postgresql.dao.DAOManager;
 
-public class JFrameTest extends JFrame {
+public class JFrameMainView extends JFrame {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class JFrameTest extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFrameTest frame = new JFrameTest();
+					JFrameMainView frame = new JFrameMainView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class JFrameTest extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JFrameTest() {
+	public JFrameMainView() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 800);
 		contentPane = new JPanel();

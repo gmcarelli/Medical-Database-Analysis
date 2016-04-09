@@ -106,6 +106,7 @@ public class MyImageDAO extends QueryHelper implements ReadFromFileDAO, IDAO<MyI
 		this.postgreConnection.disconnect();
 
 		return myImageList;
+		
 	}
 
 }
