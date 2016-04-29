@@ -8,76 +8,102 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifsp.connection.PostgreConnection;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ReadFromFileDAO;
 import br.edu.ifsp.helper.QueryHelper;
 import br.edu.ifsp.model.MyImage;
 
-public class MyImageDAO extends QueryHelper implements ReadFromFileDAO, IDAO<MyImage> {
+public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
+
+	private PostgreConnection postgreConnection;
+	private ResultSet resultSet;
+	private String query;
+
+	public MyImageDAO() {
+
+		this.postgreConnection = new PostgreConnection();
+		this.resultSet = null;
+		this.query = null;
+
+	}
 
 	public byte[] ImageFileToByteArray(String imageUrl) throws IOException {
-		
+
 		File file = new File(imageUrl);
 
 		return Files.readAllBytes(file.toPath());
+
 	}
 
 	@Override
 	public boolean insert(MyImage myImage) throws SQLException {
-		
-		this.query = "INSERT INTO image (imageName, imageBytes) VALUES (?, ?)";
 
-		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
+		boolean executeUpdate = false;
 
-		this.preparedStatement.setString(1, myImage.getImageName());
-		this.preparedStatement.setBytes(2, myImage.getImageBytes());
+		this.query = "INSERT INTO image (imageName, imageBytes) VALUES ('" + myImage.getImageName() + "', '"
+				+ myImage.getImageBytes() + "');";
 
-		return this.executeUpdate();
+		this.postgreConnection.connect();
+
+		executeUpdate = this.postgreConnection.executeUpdate(query);
+
+		this.postgreConnection.disconnect();
+
+		return executeUpdate;
+
 	}
 
 	@Override
 	public boolean update(MyImage myImage) throws SQLException {
-		
-		this.query = "UPDATE myImage SET imageName = ?, imageBytes = ? WHERE imageId = ?";
 
-		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
+		boolean executeUpdate = false;
 
-		this.preparedStatement.setString(1, myImage.getImageName());
-		this.preparedStatement.setBytes(2, myImage.getImageBytes());
-		this.preparedStatement.setInt(3, myImage.getImageId());
+		this.query = "UPDATE myImage SET imageName = '" + myImage.getImageName() + "', imageBytes = '"
+				+ myImage.getImageBytes() + "' WHERE imageId = " + myImage.getImageId() + ";";
 
-		return this.executeUpdate();
+		this.postgreConnection.connect();
+
+		executeUpdate = this.postgreConnection.executeUpdate(query);
+
+		this.postgreConnection.disconnect();
+
+		return executeUpdate;
+
 	}
 
 	@Override
 	public boolean delete(MyImage myImage) throws SQLException {
-		
-		this.query = "DELETE FROM myImage WHERE imageId = ?";
 
-		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
+		boolean executeUpdate = false;
 
-		this.preparedStatement.setInt(1, myImage.getImageId());
+		this.query = "DELETE FROM myImage WHERE imageId = " + myImage.getImageId() + ";";
 
-		return this.executeUpdate();
+		this.postgreConnection.connect();
+
+		executeUpdate = this.postgreConnection.executeUpdate(query);
+
+		this.postgreConnection.disconnect();
+
+		return executeUpdate;
+
 	}
 
 	@Override
 	public MyImage search(int imageId) throws SQLException {
+
+		this.query = "SELECT * FROM image WHERE imageID = " + imageId + ";";
 		
-		this.query = "SELECT * FROM image WHERE imageID = ?";
+		this.postgreConnection.connect();
 
-		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
-
-		this.preparedStatement.setInt(1, imageId);
-
-		ResultSet resultSet = this.executeQuerySelect();
+		ResultSet resultSet = this.postgreConnection.executeQuery(query);
 
 		MyImage myImage = null;
 
 		if (resultSet.next()) {
-			
+
 			myImage = new MyImage(imageId, resultSet.getString("imageName"), resultSet.getBytes("imageBytes"));
-			
+
 		}
 
 		this.postgreConnection.disconnect();
@@ -87,26 +113,42 @@ public class MyImageDAO extends QueryHelper implements ReadFromFileDAO, IDAO<MyI
 
 	@Override
 	public List<MyImage> list() throws SQLException {
-		
+
 		this.query = "SELECT * FROM image";
 
-		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
+		this.postgreConnection.connect();
 
-		ResultSet resultSet = this.executeQuerySelect();
+		this.resultSet = this.postgreConnection.executeQuery(this.query);
 
 		List<MyImage> myImageList = new ArrayList<>();
 
-		while (resultSet.next()) {
-			
-			myImageList.add(new MyImage(resultSet.getInt("imageId"), resultSet.getString("imageName"),
-					resultSet.getBytes("imageBytes")));
-			
+		while (this.resultSet.next()) {
+
+			myImageList.add(new MyImage(this.resultSet.getInt("imageId"), this.resultSet.getString("imageName"),
+					this.resultSet.getBytes("imageBytes")));
+
 		}
 
 		this.postgreConnection.disconnect();
 
 		return myImageList;
-		
+
 	}
 
+	public int getUltimoIdCadastrado(String tabela, String primaryKeyField) throws SQLException {
+
+		this.query = "SELECT " + primaryKeyField + " FROM " + tabela + " ORDER BY " + primaryKeyField + " DESC LIMIT 1";
+
+		this.postgreConnection.connect();
+
+		this.resultSet = this.postgreConnection.executeQuery(this.query);
+
+		int ultimoIdCadastrado = 0;
+
+		if (resultSet.next()) {
+			ultimoIdCadastrado = resultSet.getInt(primaryKeyField);
+		}
+
+		return ultimoIdCadastrado;
+	}
 }

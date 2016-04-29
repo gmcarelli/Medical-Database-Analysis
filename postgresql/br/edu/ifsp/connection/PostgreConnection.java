@@ -59,7 +59,9 @@ public class PostgreConnection implements IConnection {
 	public ResultSet executeQuery(String query) throws SQLException {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
+			
 			return this.statement.executeQuery(query);
+			
 		}
 		
 		return null;
@@ -74,13 +76,23 @@ public class PostgreConnection implements IConnection {
 
 	@Override
 	public void commit() throws SQLException {
-		// TODO Auto-generated method stub
+		
+		if(!this.connection.isClosed() && this.connection != null) {
+			
+			this.connection.commit();
+			
+		}
 		
 	}
 
 	@Override
 	public void rollback() throws SQLException {
-		// TODO Auto-generated method stub
+		
+		if(!this.connection.isClosed() && this.connection != null) {
+			
+			this.connection.rollback();
+			
+		}
 		
 	}
 
@@ -88,7 +100,9 @@ public class PostgreConnection implements IConnection {
 	public boolean executeUpdate(String query) throws SQLException {		
 		
 		if(!this.connection.isClosed() && this.connection != null) {
+			
 			return this.statement.executeUpdate(query) > 0;
+			
 		}
 		
 		return false;

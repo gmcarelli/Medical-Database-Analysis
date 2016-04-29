@@ -30,23 +30,23 @@ public class MyImageController {
 
 	public boolean isImageValid() {
 
+		boolean isImageValid = false;
+		
 		if (this.myImage != null) {
 
 			if (this.myImage.getImageName() == null || this.myImage.getImageName().equals("")) {
-				return false;
+				isImageValid =  false;
 			}
 
 			if (this.myImage.getImageBytes() == null || this.myImage.getImageBytes().length == 0) {
-				return false;
+				isImageValid =  false;
 			}
 
-			return true;
-			
-		} else {
-
-			return false;
-			
+			isImageValid = true;
 		}
+
+		return isImageValid;
+
 	}
 
 }

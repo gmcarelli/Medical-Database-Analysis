@@ -1,4 +1,4 @@
-package br.edu.ifsp.postgresql.control;
+package br.edu.ifsp.postgresql.dao;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -7,9 +7,19 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.postgresql.dao.DAOManager;
 
-public class MyImageControlTest {
+public class MyImageDAOTest {
+	
+	@Test
+	public void ImageFileToByteArrayTest() throws IOException {
+		String imageUrl = "imageSamples/DCC.TIFF";
+		
+		byte[] imageBytes = DAOManager.myImageDAO().ImageFileToByteArray(imageUrl);
+		
+		System.out.println(imageBytes.length);
+		
+		assertTrue(imageBytes.length > 0);
+	}
 	
 	@Test
 	public void insertImageTest() throws SQLException {

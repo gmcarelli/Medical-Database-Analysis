@@ -57,6 +57,17 @@ public class JFrameMainView extends JFrame {
 		formWindowOpened(new WindowEvent(this, 0));
 	}
 
+	public JScrollPane getjScrollPane() {
+		return jScrollPane;
+	}
+
+	public void setjScrollPane(JScrollPane jScrollPane) {
+		this.jScrollPane = jScrollPane;
+	}
+
+	
+	
+
 	private void formWindowOpened(java.awt.event.WindowEvent evt) {
 		this.jLabelImage = new JLabel();
 
