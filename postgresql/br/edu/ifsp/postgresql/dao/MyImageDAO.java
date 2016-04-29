@@ -130,14 +130,14 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 		}
 
 		this.postgreConnection.disconnect();
-
+		
 		return myImageList;
 
 	}
 
-	public int getUltimoIdCadastrado(String tabela, String primaryKeyField) throws SQLException {
+	public int getUltimoIdCadastrado(String tabela, String primaryKeyColumn) throws SQLException {
 
-		this.query = "SELECT " + primaryKeyField + " FROM " + tabela + " ORDER BY " + primaryKeyField + " DESC LIMIT 1";
+		this.query = "SELECT " + primaryKeyColumn + " FROM " + tabela + " ORDER BY " + primaryKeyColumn + " DESC LIMIT 1";
 
 		this.postgreConnection.connect();
 
@@ -146,9 +146,12 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 		int ultimoIdCadastrado = 0;
 
 		if (resultSet.next()) {
-			ultimoIdCadastrado = resultSet.getInt(primaryKeyField);
+			ultimoIdCadastrado = resultSet.getInt(primaryKeyColumn);
 		}
+		
+		this.postgreConnection.disconnect();
 
 		return ultimoIdCadastrado;
+		
 	}
 }
