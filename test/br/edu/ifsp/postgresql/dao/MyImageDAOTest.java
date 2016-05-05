@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import br.edu.ifsp.dao.DAOManager;
 import br.edu.ifsp.model.MyImage;
 
 public class MyImageDAOTest {
@@ -14,7 +15,7 @@ public class MyImageDAOTest {
 	public void ImageFileToByteArrayTest() throws IOException {
 		String imageUrl = "imageSamples/DCC.TIFF";
 		
-		byte[] imageBytes = DAOManagerPostgre.myImageDAO().ImageFileToByteArray(imageUrl);
+		byte[] imageBytes = DAOManager.myImageDAOPostgre().ImageFileToByteArray(imageUrl);
 		
 		System.out.println(imageBytes.length);
 		
@@ -29,9 +30,9 @@ public class MyImageDAOTest {
 		
 		try {
 			
-			myImage.setImageBytes(DAOManagerPostgre.myImageDAO().ImageFileToByteArray("imageSamples/DCC.tif"));
+			myImage.setImageBytes(DAOManager.myImageDAOPostgre().ImageFileToByteArray("imageSamples/DCC.tif"));
 			
-			assertTrue(DAOManagerPostgre.myImageDAO().insert(myImage));
+			assertTrue(DAOManager.myImageDAOPostgre().insert(myImage));
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -41,9 +42,9 @@ public class MyImageDAOTest {
 	
 	@Test
 	public void readImageFromDBTest() throws SQLException {
-		int imageId = DAOManagerPostgre.myImageDAO().getUltimoIdCadastrado("image", "imageId");
+		int imageId = DAOManager.myImageDAOPostgre().getUltimoIdCadastrado("image", "imageId");
 		
-		MyImage myImage = DAOManagerPostgre.myImageDAO().search(imageId);	
+		MyImage myImage = DAOManager.myImageDAOPostgre().search(imageId);	
 		
 		assertTrue(myImage.getImageBytes() != null);
 		assertTrue(myImage.getImageBytes().length > 0);	

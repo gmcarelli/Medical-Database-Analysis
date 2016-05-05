@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import br.edu.ifsp.connection.Neo4JConnection;
+import br.edu.ifsp.dao.DAOManager;
 import br.edu.ifsp.model.MyImage;
 
 public class MyImageDAONeo4JTest {
@@ -21,7 +22,7 @@ public class MyImageDAONeo4JTest {
 		myImage.setImageName("DCC.TIFF");
 
 		try {
-			myImage.setImageBytes(DAOManagerNeo4J.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.TIFF"));
+			myImage.setImageBytes(DAOManager.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.TIFF"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
