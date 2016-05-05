@@ -3,8 +3,11 @@ package br.edu.ifsp.neo4j.dao;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -16,9 +19,10 @@ public class MyImageDAONeo4JTest {
 
 	@Test
 	public void insertImageTest() throws SQLException {
+		
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(1);
+		myImage.setImageId(5);
 
 		myImage.setImageName("DCC.TIFF");
 
@@ -29,47 +33,41 @@ public class MyImageDAONeo4JTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String query = "CREATE (n:MyImage { imageId : '"
-				+ myImage.getImageId() + "', imageName : '"
-				+ myImage.getImageName() + "', imageBytes : '"
-					+ myImage.getImageBytes() + "' })";
 		
-		Neo4JConnection neo4jConnection = new Neo4JConnection();
-
-		neo4jConnection.connect();
-
-		assertTrue(neo4jConnection.executeUpdate(query));
+		/*String query = "CREATE (n:MyImage { imageId : "
+				+ myImage.getImageId() + ", imageName : '"
+				+ myImage.getImageName() + "', imageBytes : [";
 		
-		neo4jConnection.disconnect();
-
-	}
-	
-	@Test
-	public void readImageTest() throws SQLException {
+		System.out.println(myImage.getImageBytes().length);
 		
-		MyImage myImage = null;
-		
-		int imageId = 1;
-		
-		String query = "MATCH (n:MyImage { imageId : '"
-				+ imageId + "'}) RETURN n";
-		
-		Neo4JConnection neo4jConnection = new Neo4JConnection();
-
-		neo4jConnection.connect();
-
-		ResultSet resultSet = neo4jConnection.executeQuery(query);
-		
-		if(resultSet.next()) {
+		for(int i= 0; i < 1000; i++) {
 			
-			String node = resultSet.getString("n");
+			query += myImage.getImageBytes()[i] + ", ";
 			
-			System.out.println(node);
+			System.out.println(i);
 			
 		}
 		
+		query = query.substring(0, query.length() - 2);
 		
-	}
+		query += "] })";*/
+		
+		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";
+		
+		
+		
+		Neo4JConnection neo4jConnection = new Neo4JConnection();
 
+		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
+		
+		preparedStatement.setInt(1, myImage.getImageId());
+		preparedStatement.setString(2, myImage.getImageName());
+		preparedStatement.setBytes(3, myImage.getImageBytes());		
+
+		assertTrue(preparedStatement.executeUpdate() >= 0);
+		
+		neo4jConnection.disconnect();
+
+	}	
+		
 }
