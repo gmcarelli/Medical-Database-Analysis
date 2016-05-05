@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.edu.ifsp.helper.ImageHelper;
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.postgresql.dao.DAOManager;
+import br.edu.ifsp.postgresql.dao.DAOManagerPostgre;
 
 public class JFrameMainView extends JFrame {
 
@@ -73,7 +73,7 @@ public class JFrameMainView extends JFrame {
 
 		try {
 
-			MyImage myImage = DAOManager.myImageDAO().search(14);
+			MyImage myImage = DAOManagerPostgre.myImageDAO().search(14);
 			
 			BufferedImage bufferedImage = ImageHelper.byteArrayToBufferedImage(myImage.getImageBytes());			
 

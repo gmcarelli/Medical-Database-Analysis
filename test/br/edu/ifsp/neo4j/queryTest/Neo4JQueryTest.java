@@ -18,7 +18,7 @@ public class Neo4JQueryTest {
 
 		neo4jConnection.connect();
 		
-		assertTrue(neo4jConnection.executeUpdate("CREATE (n:Person {name : 'Gil Carelli', title : 'Developer' })"));
+		assertTrue(neo4jConnection.executeUpdate("CREATE (n:Person {name : 'Gil Carelli', title : 'Developer'})"));
 
 	}
 
@@ -29,9 +29,11 @@ public class Neo4JQueryTest {
 
 		neo4jConnection.connect();
 		
-		ResultSet resultSet = neo4jConnection.executeQuery("CREATE (n:Person {name : 'Stevie Ray Vaughan', title : 'Yoda' })");
+		ResultSet resultSet = neo4jConnection.executeQuery("CREATE (n:Person {name : 'Stevie Ray Vaughan', title : 'Yoda'})");
 		
 		assertTrue(resultSet != null);
+		
+		neo4jConnection.disconnect();
 
 	}
 

@@ -14,13 +14,13 @@ import br.edu.ifsp.dao.ReadFromFileDAO;
 import br.edu.ifsp.helper.QueryHelper;
 import br.edu.ifsp.model.MyImage;
 
-public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
+public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 	private PostgreConnection postgreConnection;
 	private ResultSet resultSet;
 	private String query;
 
-	public MyImageDAO() {
+	public MyImageDAOPostgre() {
 
 		this.postgreConnection = new PostgreConnection();
 		this.resultSet = null;
@@ -46,7 +46,7 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(query);
+		executeUpdate = this.postgreConnection.executeUpdate(this.query);
 
 		this.postgreConnection.disconnect();
 
@@ -64,7 +64,7 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(query);
+		executeUpdate = this.postgreConnection.executeUpdate(this.query);
 
 		this.postgreConnection.disconnect();
 
@@ -81,7 +81,7 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(query);
+		executeUpdate = this.postgreConnection.executeUpdate(this.query);
 
 		this.postgreConnection.disconnect();
 
@@ -96,7 +96,7 @@ public class MyImageDAO implements ReadFromFileDAO, IDAO<MyImage> {
 		
 		this.postgreConnection.connect();
 
-		ResultSet resultSet = this.postgreConnection.executeQuery(query);
+		ResultSet resultSet = this.postgreConnection.executeQuery(this.query);
 
 		MyImage myImage = null;
 
