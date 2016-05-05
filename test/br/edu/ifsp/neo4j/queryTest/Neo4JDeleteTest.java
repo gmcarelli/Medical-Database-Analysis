@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.connection.Neo4JConnection;
+import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 
 public class Neo4JDeleteTest {
 

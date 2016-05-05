@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ifsp.connection.PostgreConnection;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ReadFromFileDAO;
 import br.edu.ifsp.helper.QueryHelper;
 import br.edu.ifsp.model.MyImage;
+import br.edu.ifsp.postgresql.connection.PostgreConnection;
 
 public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 

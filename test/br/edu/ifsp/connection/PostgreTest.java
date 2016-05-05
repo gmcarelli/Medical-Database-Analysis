@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import br.edu.ifsp.postgresql.connection.PostgreConnection;
+
 public class PostgreTest {
 
 

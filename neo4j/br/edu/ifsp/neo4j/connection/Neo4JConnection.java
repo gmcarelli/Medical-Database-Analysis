@@ -1,4 +1,4 @@
-package br.edu.ifsp.connection;
+package br.edu.ifsp.neo4j.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,36 +6,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class PostgreConnection implements IConnection {   
-    
-    private Connection connection = null;
-	private Statement statement;
-      
-    /**
-     * Método que  cria uma conexão com o banco de dados
-     * @return uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public Connection connect() throws SQLException {
-        
-    	try {
-    		
-            Class.forName("org.postgresql.Driver");
-            
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "1qaz2wsx");
-            
-            this.statement = this.connection.createStatement();
-            
-        } catch (ClassNotFoundException ex) {
-        	
-            throw new SQLException(ex.getMessage());
-            
-        }
-    	
-    	return this.connection;
-    }
+import br.edu.ifsp.connection.IConnection;
 
-    /**
+public class Neo4JConnection implements IConnection {
+
+	private Connection connection = null;
+	private Statement statement;
+
+	/**
+	 * Método que cria uma conexão com o banco de dados
+	 * 
+	 * @return uma conexão com o banco de dados
+	 * @throws java.sql.SQLException
+	 */
+	public Connection connect() throws SQLException {
+
+		try {
+
+			Class.forName("org.neo4j.jdbc.Driver");
+
+			this.connection = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "1qaz2wsx");
+
+			this.statement = this.connection.createStatement();
+
+		} catch (ClassNotFoundException ex) {
+
+			throw new SQLException(ex.getMessage());
+
+		}
+
+		return this.connection;
+	}
+
+	/**
      * Método que encerra uma conexão com o banco de dados
      * @throws java.sql.SQLException
      */
@@ -50,6 +53,7 @@ public class PostgreConnection implements IConnection {
     	} catch(Exception e) {
     
     		result = false;
+    		
     	}
     	
     	return result;
@@ -101,12 +105,11 @@ public class PostgreConnection implements IConnection {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeUpdate(query) > 0;
+			return this.statement.executeUpdate(query) >= 0;
 			
 		}
 		
 		return false;
 	}
-    
 	
 }

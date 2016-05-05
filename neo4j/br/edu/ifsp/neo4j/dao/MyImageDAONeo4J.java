@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import br.edu.ifsp.connection.Neo4JConnection;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ReadFromFileDAO;
 import br.edu.ifsp.helper.QueryHelper;
 import br.edu.ifsp.model.MyImage;
+import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 
 public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
 	
