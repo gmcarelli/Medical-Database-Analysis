@@ -21,7 +21,7 @@ public class MyImageDAONeo4JTest {
 		myImage.setImageName("DCC.TIFF");
 
 		try {
-			myImage.setImageBytes(DAOManagerNeo4J.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.tif"));
+			myImage.setImageBytes(DAOManagerNeo4J.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.TIFF"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

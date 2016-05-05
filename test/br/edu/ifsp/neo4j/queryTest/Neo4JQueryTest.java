@@ -31,7 +31,7 @@ public class Neo4JQueryTest {
 		
 		ResultSet resultSet = neo4jConnection.executeQuery("CREATE (n:Person {name : 'Stevie Ray Vaughan', title : 'Yoda'})");
 		
-		assertTrue(resultSet != null);
+		assertTrue(resultSet != null);//epic fail > .executeQuery nunca retorna null! kkkkk
 		
 		neo4jConnection.disconnect();
 

@@ -103,7 +103,7 @@ public class Neo4JConnection implements IConnection {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeUpdate(query) > 0;
+			return this.statement.executeUpdate(query) >= 0;
 			
 		}
 		
