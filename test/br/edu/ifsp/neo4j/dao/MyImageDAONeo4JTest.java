@@ -22,15 +22,16 @@ public class MyImageDAONeo4JTest {
 		
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(5);
+		myImage.setImageId(2);
 
 		myImage.setImageName("DCC.TIFF");
 
 		try {
 			myImage.setImageBytes(DAOManager.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.TIFF"));
+
+			System.out.println(myImage.getImageBytes().length);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -52,9 +53,7 @@ public class MyImageDAONeo4JTest {
 		
 		query += "] })";*/
 		
-		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";
-		
-		
+		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";		
 		
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
 

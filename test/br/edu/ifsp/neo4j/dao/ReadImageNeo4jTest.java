@@ -2,24 +2,22 @@ package br.edu.ifsp.neo4j.dao;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.dao.DAOManager;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 
-public class readImageNeo4jTest {
+public class ReadImageNeo4jTest {
 
 	@Test
 	public void readImageTest() throws SQLException {
 		
 		MyImage myImage = null;
 		
-		int imageId = 5;
+		int imageId = 1;
 		
 		String query = "MATCH (n:MyImage { imageId : '"
 				+ imageId + "'}) RETURN n.imageId, n.imageName, n.imageBytes";
@@ -38,7 +36,7 @@ public class readImageNeo4jTest {
 			
 			System.out.println(resultSet.getString("n.imageName"));
 			
-			System.out.println(resultSet.getBytes("n.imageBytes"));
+			System.out.println(resultSet.getBytes("n.imageBytes").length);
 			
 			myImage.setImageId(resultSet.getInt("n.imageId"));
 			
@@ -50,24 +48,11 @@ public class readImageNeo4jTest {
 			
 			assertTrue(myImage.getImageName().equals("DCC.TIFF"));
 			
-			assertTrue(myImage.getImageBytes().length == 1000);
+			assertTrue(myImage.getImageBytes().length == 11487232);			
 			
-			/*byte[] imageBytes = null;
-			
-			try {
-				 imageBytes = DAOManager.myImageDAONeo4J().ImageFileToByteArray("imageSamples/DCC.TIFF");
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			for(int i = 0; i < imageBytes.length; i++) {
-			
-				assertTrue(myImage.getImageBytes()[i] == imageBytes[i]);
-			
-			}*/
 		}
+		
+		neo4jConnection.disconnect();
 	}
 
 }
