@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 
-public class Neo4JQueryTest {	
+public class Neo4JCreateNodeTest {	
 
 	@Test
 	public void ExecuteUpdatetest() throws SQLException {
@@ -31,7 +31,7 @@ public class Neo4JQueryTest {
 		
 		ResultSet resultSet = neo4jConnection.executeQuery("CREATE (n:Person {name : 'Stevie Ray Vaughan', title : 'Yoda'})");
 		
-		assertTrue(resultSet != null);//epic fail > .executeQuery nunca retorna null! kkkkk
+		assertTrue(resultSet != null);//epic fail > .executeQuery retorna um ResultSet que nunca é null! kkkkk
 		
 		neo4jConnection.disconnect();
 

@@ -22,7 +22,7 @@ public class MyImageDAONeo4JTest {
 		
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(2);
+		myImage.setImageId(1);
 
 		myImage.setImageName("DCC.TIFF");
 
@@ -53,7 +53,7 @@ public class MyImageDAONeo4JTest {
 		
 		query += "] })";*/
 		
-		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";		
+		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [1,2,3,4,5] })";		
 		
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
 
@@ -61,7 +61,7 @@ public class MyImageDAONeo4JTest {
 		
 		preparedStatement.setInt(1, myImage.getImageId());
 		preparedStatement.setString(2, myImage.getImageName());
-		preparedStatement.setBytes(3, myImage.getImageBytes());		
+		//preparedStatement.setBytes(3, myImage.getImageBytes());		
 
 		assertTrue(preparedStatement.executeUpdate() >= 0);
 		
