@@ -35,7 +35,7 @@ public class MyImageDAONeo4JTest {
 			e.printStackTrace();
 		}
 		
-		/*String query = "CREATE (n:MyImage { imageId : "
+		String query = "CREATE (n:MyImage { imageId : "
 				+ myImage.getImageId() + ", imageName : '"
 				+ myImage.getImageName() + "', imageBytes : [";
 		
@@ -51,23 +51,23 @@ public class MyImageDAONeo4JTest {
 		
 		query = query.substring(0, query.length() - 2);
 		
-		query += "] })";*/
+		query += "] })";
 		
-		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";		
+		//String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : [?] })";		
 		
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
 		
-		//neo4jConnection.connect();
+		neo4jConnection.connect();
 
-		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
+//		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
+//		
+//		preparedStatement.setInt(1, myImage.getImageId());
+//		preparedStatement.setString(2, myImage.getImageName());
+//		preparedStatement.setBytes(3, myImage.getImageBytes());		
+//
+//		assertTrue(preparedStatement.executeUpdate() >= 0);
 		
-		preparedStatement.setInt(1, myImage.getImageId());
-		preparedStatement.setString(2, myImage.getImageName());
-		preparedStatement.setBytes(3, myImage.getImageBytes());		
-
-		assertTrue(preparedStatement.executeUpdate() >= 0);
-		
-		//assertTrue(neo4jConnection.executeUpdate(query));
+		assertTrue(neo4jConnection.executeUpdate(query));
 		
 		neo4jConnection.disconnect();
 

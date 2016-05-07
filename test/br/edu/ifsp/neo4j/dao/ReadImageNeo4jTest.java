@@ -18,7 +18,7 @@ public class ReadImageNeo4jTest {
 
 		MyImage myImage = null;
 
-		int imageId = 1;
+		int imageId = 2;
 
 		String query = "MATCH (n:MyImage { imageId : " + imageId + "}) RETURN n.imageId, n.imageName, n.imageBytes";
 
