@@ -2,6 +2,7 @@ package br.edu.ifsp.neo4j.dao;
 
 import static org.junit.Assert.*;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,35 +37,33 @@ public class ReadImageNeo4jTest {
 
 			System.out.println(resultSet.getString("n.imageName"));
 
-			byte[] imageBytes = resultSet.getBytes("n.imageBytes");			
+			ArrayList<Integer> imageBytes = (ArrayList<Integer>) resultSet.getObject("n.imageBytes");		
 			
-			System.out.println(imageBytes.length);
+			byte[] test = new byte[imageBytes.size()];
 
-//			byte[] test = new byte[imageBytes.length()];
-//
-//			for (int i = 0; i < temp.size(); i++) {
-//
-//				test[i] = temp.get(i).byteValue();
-//				
-//			}
+			for (int i = 0; i < imageBytes.size(); i++) {
+
+				test[i] = imageBytes.get(i).byteValue();
+				
+			}
 
 			// test = (byte[]) auxList;
 
-			//System.out.println(test.length);
+			System.out.println(imageBytes.size());
 
 			myImage.setImageId(resultSet.getInt("n.imageId"));
 
 			myImage.setImageName(resultSet.getString("n.imageName"));
 
-			//myImage.setImageBytes(test);
+			myImage.setImageBytes(test);
 
 		}
 
-		assertTrue(myImage.getImageId() == 1);
+		assertTrue(myImage.getImageId() == 2);
 
 		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
 
-		//assertTrue(myImage.getImageBytes().length == 11487232);
+		assertTrue(myImage.getImageBytes().length == 10000);
 
 		neo4jConnection.disconnect();
 	}
