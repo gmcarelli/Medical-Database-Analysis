@@ -37,33 +37,44 @@ public class ReadImageNeo4jTest {
 
 			System.out.println(resultSet.getString("n.imageName"));
 
-			ArrayList<Integer> imageBytes = (ArrayList<Integer>) resultSet.getObject("n.imageBytes");		
+			String imageBytes = resultSet.getString("n.imageBytes");		
 			
-			byte[] test = new byte[imageBytes.size()];
-
-			for (int i = 0; i < imageBytes.size(); i++) {
-
-				test[i] = imageBytes.get(i).byteValue();
+			int i = 0;
+			
+			for (byte b : imageBytes.getBytes()) {
+				System.out.print(b + ", ");
 				
+				if (++i == 100)
+					break;
 			}
+			
+			System.exit(0);
+			
+//			byte[] test = new byte[imageBytes];
+//
+//			for (int i = 0; i < imageBytes.size(); i++) {
+//
+//				test[i] = imageBytes.get(i).byteValue();
+//				
+//			}
 
 			// test = (byte[]) auxList;
 
-			System.out.println(imageBytes.size());
+//			System.out.println(imageBytes.size());
 
 			myImage.setImageId(resultSet.getInt("n.imageId"));
 
 			myImage.setImageName(resultSet.getString("n.imageName"));
 
-			myImage.setImageBytes(test);
+//			myImage.setImageBytes(test);
 
 		}
 
-		assertTrue(myImage.getImageId() == 2);
+		assertTrue(myImage.getImageId() == 1);
 
 		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
 
-		assertTrue(myImage.getImageBytes().length == 10000);
+		assertTrue(myImage.getImageBytes().length == 1000);
 
 		neo4jConnection.disconnect();
 	}

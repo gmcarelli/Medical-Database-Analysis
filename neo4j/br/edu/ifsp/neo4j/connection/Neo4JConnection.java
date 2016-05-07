@@ -25,7 +25,7 @@ public class Neo4JConnection implements IConnection {
 
 			Class.forName("org.neo4j.jdbc.Driver");
 
-			this.connection = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "1qaz2wsx");
+			this.connection = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "12345");
 
 			this.statement = this.connection.createStatement();
 
