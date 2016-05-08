@@ -9,7 +9,7 @@ public interface IConnection {
 	
 	public boolean disconnect() throws Exception;
 	
-	public ResultSet executeQuery(String query) throws Exception;
+	public ResultSet executeQuery() throws Exception;
 	
 	public void startTransaction() throws Exception;
 	
@@ -17,6 +17,6 @@ public interface IConnection {
 	
 	public void rollback() throws Exception;
 
-	public boolean executeUpdate(String query) throws Exception;	
+	public boolean executeUpdate() throws Exception;	
 	
 }

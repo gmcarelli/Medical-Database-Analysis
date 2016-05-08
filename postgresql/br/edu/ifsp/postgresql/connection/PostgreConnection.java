@@ -2,6 +2,7 @@ package br.edu.ifsp.postgresql.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +12,7 @@ import br.edu.ifsp.connection.IConnection;
 public class PostgreConnection implements IConnection {   
     
     private Connection connection = null;
-	private Statement statement;
+	private PreparedStatement preparedStatement = null;
       
     /**
      * Método que  cria uma conexão com o banco de dados
@@ -25,9 +26,7 @@ public class PostgreConnection implements IConnection {
             Class.forName("org.postgresql.Driver");
             
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "1qaz2wsx");
-            
-            this.statement = this.connection.createStatement();
-            
+                        
         } catch (ClassNotFoundException ex) {
         	
             throw new SQLException(ex.getMessage());
@@ -58,11 +57,11 @@ public class PostgreConnection implements IConnection {
     }
 
 	@Override
-	public ResultSet executeQuery(String query) throws SQLException {
+	public ResultSet executeQuery() throws SQLException {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeQuery(query);
+			return this.preparedStatement.executeQuery();
 			
 		}
 		
@@ -99,11 +98,11 @@ public class PostgreConnection implements IConnection {
 	}
 
 	@Override
-	public boolean executeUpdate(String query) throws SQLException {		
+	public boolean executeUpdate() throws SQLException {		
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeUpdate(query) > 0;
+			return this.preparedStatement.executeUpdate() > 0;
 			
 		}
 		

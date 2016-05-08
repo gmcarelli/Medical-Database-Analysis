@@ -2,16 +2,24 @@ package br.edu.ifsp.neo4j.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import br.edu.ifsp.connection.IConnection;
 
 public class Neo4JConnection implements IConnection {
 
 	private Connection connection = null;
-	private Statement statement;
+	private PreparedStatement preparedStatement;
+
+	public PreparedStatement getPreparedStatement() {
+		return preparedStatement;
+	}
+
+	public void setPreparedStatement(PreparedStatement preparedStatement) {
+		this.preparedStatement = preparedStatement;
+	}
 
 	/**
 	 * Método que cria uma conexão com o banco de dados
@@ -27,7 +35,7 @@ public class Neo4JConnection implements IConnection {
 
 			this.connection = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "1qaz2wsx");
 
-			this.statement = this.connection.createStatement();
+			this.preparedStatement = null;
 
 		} catch (ClassNotFoundException ex) {
 
@@ -60,11 +68,11 @@ public class Neo4JConnection implements IConnection {
     }
 
 	@Override
-	public ResultSet executeQuery(String query) throws SQLException {
+	public ResultSet executeQuery() throws SQLException {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeQuery(query);
+			return this.preparedStatement.executeQuery();
 			
 		}
 		
@@ -101,11 +109,11 @@ public class Neo4JConnection implements IConnection {
 	}
 
 	@Override
-	public boolean executeUpdate(String query) throws SQLException {		
+	public boolean executeUpdate() throws SQLException {		
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.statement.executeUpdate(query) >= 0;
+			return this.preparedStatement.executeUpdate() >= 0;
 			
 		}
 		

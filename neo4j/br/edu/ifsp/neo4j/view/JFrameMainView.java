@@ -74,7 +74,7 @@ public class JFrameMainView extends JFrame {
 
 		try {
 
-			MyImage myImage = DAOManager.myImageDAONeo4J().search(1);
+			MyImage myImage = DAOManager.myImageDAONeo4J().search(2);
 			
 			BufferedImage bufferedImage = ImageHelper.byteArrayToBufferedImage(myImage.getImageBytes());			
 

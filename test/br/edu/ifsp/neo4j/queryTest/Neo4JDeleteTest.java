@@ -18,9 +18,9 @@ public class Neo4JDeleteTest {
 
 		neo4jConnection.connect();
 		
-		ResultSet resultSet = neo4jConnection.executeQuery("MATCH (n) DETACH DELETE n");
+		//ResultSet resultSet = neo4jConnection.executeQuery("MATCH (n) DETACH DELETE n");
 		
-		assertTrue(resultSet != null);
+		//assertTrue(resultSet != null);
 
 	}
 

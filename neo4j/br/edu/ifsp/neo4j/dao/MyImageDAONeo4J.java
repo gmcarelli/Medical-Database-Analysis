@@ -38,12 +38,11 @@ public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
 
 		boolean executeQuery = false;
 
-		this.query = "CREATE (n:MyImage { imageId : '" + myImage.getImageId() + "', imageName : '"
-				+ myImage.getImageName() + "', imageBytes : '" + myImage.getImageBytes() + "' })";
+		this.query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ? })";
 
-		this.neo4jConnection.connect();
+		this.neo4jConnection.setPreparedStatement(this.neo4jConnection.connect().prepareStatement(query));;
 
-		executeQuery = this.neo4jConnection.executeUpdate(this.query);
+		executeQuery = this.neo4jConnection.executeUpdate();
 
 		this.neo4jConnection.disconnect();
 
@@ -72,7 +71,7 @@ public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.neo4jConnection.connect();
 
-		this.resultSet = this.neo4jConnection.executeQuery(query);
+		this.resultSet = this.neo4jConnection.executeQuery();
 
 		if (this.resultSet.next()) {
 			

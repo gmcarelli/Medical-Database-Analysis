@@ -2,14 +2,14 @@ package br.edu.ifsp.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MongodbConnection implements IConnection {   
     
     private Connection connection = null;
-	private Statement statement;
+	private PreparedStatement preparedStatement;
       
     /**
      * Método que  cria uma conexao com o banco de dados
@@ -23,9 +23,7 @@ public class MongodbConnection implements IConnection {
             Class.forName("org.mongodb.Driver");
             
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "1qaz2wsx");
-            
-            this.statement = this.connection.createStatement();
-            
+                    
         } catch (ClassNotFoundException ex) {
         	
             throw new SQLException(ex.getMessage());
@@ -56,10 +54,10 @@ public class MongodbConnection implements IConnection {
     }
 
 	@Override
-	public ResultSet executeQuery(String query) throws Exception {
+	public ResultSet executeQuery() throws Exception {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
-			return this.statement.executeQuery(query);
+			return this.preparedStatement.executeQuery();
 		}
 		
 		return null;
@@ -84,10 +82,10 @@ public class MongodbConnection implements IConnection {
 	}
 
 	@Override
-	public boolean executeUpdate(String query) throws Exception {
+	public boolean executeUpdate() throws Exception {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
-			return this.statement.executeUpdate(query) > 0;
+			return this.preparedStatement.executeUpdate() > 0;
 		}
 		
 		return false;

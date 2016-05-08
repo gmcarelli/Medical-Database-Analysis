@@ -10,7 +10,6 @@ import java.util.List;
 
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ReadFromFileDAO;
-import br.edu.ifsp.helper.QueryHelper;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.postgresql.connection.PostgreConnection;
 
@@ -46,7 +45,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(this.query);
+		executeUpdate = this.postgreConnection.executeUpdate();
 
 		this.postgreConnection.disconnect();
 
@@ -64,7 +63,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(this.query);
+		executeUpdate = this.postgreConnection.executeUpdate();
 
 		this.postgreConnection.disconnect();
 
@@ -81,7 +80,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		executeUpdate = this.postgreConnection.executeUpdate(this.query);
+		executeUpdate = this.postgreConnection.executeUpdate();
 
 		this.postgreConnection.disconnect();
 
@@ -96,7 +95,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 		
 		this.postgreConnection.connect();
 
-		ResultSet resultSet = this.postgreConnection.executeQuery(this.query);
+		ResultSet resultSet = this.postgreConnection.executeQuery();
 
 		MyImage myImage = null;
 
@@ -118,7 +117,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		this.resultSet = this.postgreConnection.executeQuery(this.query);
+		this.resultSet = this.postgreConnection.executeQuery();
 
 		List<MyImage> myImageList = new ArrayList<>();
 
@@ -141,7 +140,7 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.postgreConnection.connect();
 
-		this.resultSet = this.postgreConnection.executeQuery(this.query);
+		this.resultSet = this.postgreConnection.executeQuery();
 
 		int ultimoIdCadastrado = 0;
 
