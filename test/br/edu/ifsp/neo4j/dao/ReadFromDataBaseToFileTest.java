@@ -1,13 +1,13 @@
 package br.edu.ifsp.neo4j.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import br.edu.ifsp.dao.DAOManager;
@@ -17,7 +17,7 @@ import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 public class ReadFromDataBaseToFileTest {
 
 	@Test
-	public void ReadFromDataBaseToFileTest() throws SQLException {
+	public void FromDataBaseToFileTest() throws SQLException {
 
 		MyImage myImage = null;
 
@@ -49,17 +49,20 @@ public class ReadFromDataBaseToFileTest {
 
 			myImage.setImageName(resultSet.getString("n.imageName"));
 
-//			int i = 0;
+			//int i = 0;
 			
-			byte[] imageBytesAux = imageBytes.getBytes();	
+			byte[] imageBytesAux = Base64.decodeBase64(imageBytes);
 			
-//			for(int j = 0; j < imageBytes.length(); j++) {
-//				imageBytesAux[j] = (byte) imageBytes.charAt(j);
+//			for(int j = 0; j < 100; j++) {
+//				System.out.print(imageBytesAux[j] + ", ");
 //			}
 
 //			for (byte b : imageBytes.getBytes()) {
-//				imageBytesAux[i] = b;
-//				i++;				
+//				System.out.print(b + ", ");
+//				
+//				if(++i == 100) {
+//					break;
+//				}
 //			}
 			
 			myImage.setImageBytes(imageBytesAux);

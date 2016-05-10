@@ -4,12 +4,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import br.edu.ifsp.dao.DAOManager;
@@ -45,8 +47,8 @@ public class MyImageDAONeo4JTest {
 		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
 		
 		preparedStatement.setInt(1, myImage.getImageId());
-		preparedStatement.setString(2, myImage.getImageName());
-		preparedStatement.setString(3, new String(myImage.getImageBytes()));		
+		preparedStatement.setString(2, myImage.getImageName());	
+		preparedStatement.setString(3, Base64.encodeBase64String(myImage.getImageBytes()));		
 		
 //		int i = 0;
 //		
