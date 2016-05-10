@@ -1,6 +1,7 @@
 package br.edu.ifsp.connection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public interface IConnection {
@@ -9,7 +10,7 @@ public interface IConnection {
 	
 	public boolean disconnect() throws Exception;
 	
-	public ResultSet executeQuery() throws Exception;
+	public ResultSet executeQuery(PreparedStatement preparedStatement) throws Exception;
 	
 	public void startTransaction() throws Exception;
 	
@@ -17,6 +18,6 @@ public interface IConnection {
 	
 	public void rollback() throws Exception;
 
-	public boolean executeUpdate() throws Exception;	
+	public boolean executeUpdate(PreparedStatement preparedStatement) throws Exception;	
 	
 }

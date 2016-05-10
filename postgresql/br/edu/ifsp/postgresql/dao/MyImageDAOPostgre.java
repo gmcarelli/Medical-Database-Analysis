@@ -3,6 +3,7 @@ package br.edu.ifsp.postgresql.dao;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +17,14 @@ import br.edu.ifsp.postgresql.connection.PostgreConnection;
 public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 	private PostgreConnection postgreConnection;
+	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private String query;
 
 	public MyImageDAOPostgre() {
 
 		this.postgreConnection = new PostgreConnection();
+		this.preparedStatement = null;
 		this.resultSet = null;
 		this.query = null;
 
@@ -40,12 +43,14 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "INSERT INTO image (imageName, imageBytes) VALUES ('" + myImage.getImageName() + "', '"
-				+ myImage.getImageBytes() + "');";
+		this.query = "INSERT INTO image (imageName, imageBytes) VALUES (?, ?)";
 
-		this.postgreConnection.connect();
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
-		executeUpdate = this.postgreConnection.executeUpdate();
+		this.preparedStatement.setString(1, myImage.getImageName());
+		this.preparedStatement.setBytes(2, myImage.getImageBytes());
+
+		executeUpdate = this.postgreConnection.executeUpdate(preparedStatement);
 
 		this.postgreConnection.disconnect();
 
@@ -58,12 +63,15 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "UPDATE myImage SET imageName = '" + myImage.getImageName() + "', imageBytes = '"
-				+ myImage.getImageBytes() + "' WHERE imageId = " + myImage.getImageId() + ";";
+		this.query = "UPDATE myImage SET imageName = ?, imageBytes = ? " + "WHERE imageId = ?";
 
-		this.postgreConnection.connect();
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
-		executeUpdate = this.postgreConnection.executeUpdate();
+		this.preparedStatement.setString(1, myImage.getImageName());
+		this.preparedStatement.setBytes(2, myImage.getImageBytes());
+		this.preparedStatement.setInt(3, myImage.getImageId());
+
+		executeUpdate = this.postgreConnection.executeUpdate(preparedStatement);
 
 		this.postgreConnection.disconnect();
 
@@ -76,11 +84,13 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "DELETE FROM myImage WHERE imageId = " + myImage.getImageId() + ";";
+		this.query = "DELETE FROM myImage WHERE imageId = ?";
 
-		this.postgreConnection.connect();
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
-		executeUpdate = this.postgreConnection.executeUpdate();
+		this.preparedStatement.setInt(1, myImage.getImageId());
+
+		executeUpdate = this.postgreConnection.executeUpdate(preparedStatement);
 
 		this.postgreConnection.disconnect();
 
@@ -91,11 +101,13 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 	@Override
 	public MyImage search(int imageId) throws SQLException {
 
-		this.query = "SELECT * FROM image WHERE imageID = " + imageId + ";";
-		
-		this.postgreConnection.connect();
+		this.query = "SELECT * FROM image WHERE imageID = ?";
 
-		ResultSet resultSet = this.postgreConnection.executeQuery();
+		this.preparedStatement =this.postgreConnection.connect().prepareStatement(this.query);
+
+		this.preparedStatement.setInt(1, imageId);
+
+		ResultSet resultSet = this.postgreConnection.executeQuery(preparedStatement);
 
 		MyImage myImage = null;
 
@@ -115,9 +127,9 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 
 		this.query = "SELECT * FROM image";
 
-		this.postgreConnection.connect();
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
-		this.resultSet = this.postgreConnection.executeQuery();
+		this.resultSet = this.postgreConnection.executeQuery(preparedStatement);
 
 		List<MyImage> myImageList = new ArrayList<>();
 
@@ -129,28 +141,29 @@ public class MyImageDAOPostgre implements ReadFromFileDAO, IDAO<MyImage> {
 		}
 
 		this.postgreConnection.disconnect();
-		
+
 		return myImageList;
 
 	}
 
 	public int getUltimoIdCadastrado(String tabela, String primaryKeyColumn) throws SQLException {
 
-		this.query = "SELECT " + primaryKeyColumn + " FROM " + tabela + " ORDER BY " + primaryKeyColumn + " DESC LIMIT 1";
+		this.query = "SELECT " + primaryKeyColumn + " FROM " + tabela + " ORDER BY " + primaryKeyColumn
+				+ " DESC LIMIT 1";
 
-		this.postgreConnection.connect();
+		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
-		this.resultSet = this.postgreConnection.executeQuery();
+		this.resultSet = this.postgreConnection.executeQuery(preparedStatement);
 
 		int ultimoIdCadastrado = 0;
 
 		if (resultSet.next()) {
 			ultimoIdCadastrado = resultSet.getInt(primaryKeyColumn);
 		}
-		
+
 		this.postgreConnection.disconnect();
 
 		return ultimoIdCadastrado;
-		
+
 	}
 }

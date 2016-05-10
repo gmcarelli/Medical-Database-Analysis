@@ -1,11 +1,10 @@
 package br.edu.ifsp.neo4j.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.sql.Array;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -21,13 +20,15 @@ public class ReadImageNeo4jTest {
 
 		int imageId = 2;
 
-		String query = "MATCH (n:MyImage { imageId : " + imageId + "}) RETURN n.imageId, n.imageName, n.imageBytes";
+		String query = "MATCH (n:MyImage { imageId : ?}) RETURN n.imageId, n.imageName, n.imageBytes";
 
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
 
-		neo4jConnection.connect();
+		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
+		
+		preparedStatement.setInt(1, imageId);
 
-		ResultSet resultSet = neo4jConnection.executeQuery();
+		ResultSet resultSet = neo4jConnection.executeQuery(preparedStatement);
 
 		if (resultSet.next()) {
 

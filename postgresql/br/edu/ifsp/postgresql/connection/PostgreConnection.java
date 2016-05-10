@@ -5,16 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 import br.edu.ifsp.connection.IConnection;
 
 public class PostgreConnection implements IConnection {   
     
     private Connection connection = null;
-	private PreparedStatement preparedStatement = null;
-      
-    /**
+	
+	/**
      * Método que  cria uma conexão com o banco de dados
      * @return uma conexão com o banco de dados
      * @throws java.sql.SQLException
@@ -57,11 +54,11 @@ public class PostgreConnection implements IConnection {
     }
 
 	@Override
-	public ResultSet executeQuery() throws SQLException {
+	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException {	
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.preparedStatement.executeQuery();
+			return preparedStatement.executeQuery();
 			
 		}
 		
@@ -98,11 +95,11 @@ public class PostgreConnection implements IConnection {
 	}
 
 	@Override
-	public boolean executeUpdate() throws SQLException {		
+	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {		
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return this.preparedStatement.executeUpdate() > 0;
+			return preparedStatement.executeUpdate() > 0;
 			
 		}
 		

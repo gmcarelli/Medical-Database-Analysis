@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public class MongodbConnection implements IConnection {   
     
     private Connection connection = null;
-	private PreparedStatement preparedStatement;
       
     /**
      * Método que  cria uma conexao com o banco de dados
@@ -54,10 +53,10 @@ public class MongodbConnection implements IConnection {
     }
 
 	@Override
-	public ResultSet executeQuery() throws Exception {
+	public ResultSet executeQuery(PreparedStatement preparedStatement) throws Exception {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
-			return this.preparedStatement.executeQuery();
+			return preparedStatement.executeQuery();
 		}
 		
 		return null;
@@ -82,10 +81,11 @@ public class MongodbConnection implements IConnection {
 	}
 
 	@Override
-	public boolean executeUpdate() throws Exception {
+	public boolean executeUpdate(PreparedStatement preparedStatement) throws Exception {
 		
 		if(!this.connection.isClosed() && this.connection != null) {
-			return this.preparedStatement.executeUpdate() > 0;
+			
+			return preparedStatement.executeUpdate() > 0;
 		}
 		
 		return false;
