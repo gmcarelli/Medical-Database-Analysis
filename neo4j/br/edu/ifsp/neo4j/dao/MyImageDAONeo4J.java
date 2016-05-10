@@ -1,6 +1,7 @@
 package br.edu.ifsp.neo4j.dao;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.PreparedStatement;
@@ -10,10 +11,11 @@ import java.util.List;
 
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ReadFromFileDAO;
+import br.edu.ifsp.dao.WriteToFileDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.neo4j.connection.Neo4JConnection;
 
-public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
+public class MyImageDAONeo4J implements ReadFromFileDAO, WriteToFileDAO, IDAO<MyImage> {
 
 	private Neo4JConnection neo4jConnection;
 	private PreparedStatement preparedStatement;
@@ -34,6 +36,29 @@ public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
 		File file = new File(imageUrl);
 
 		return Files.readAllBytes(file.toPath());
+	}
+	
+	@Override
+	public boolean byteArrayToTiffFile(MyImage myImage) throws IOException {
+
+		boolean writeToFile = false;
+
+		FileOutputStream stream = new FileOutputStream("imageOutput/" + myImage.getImageName());
+
+		try {
+
+			stream.write(myImage.getImageBytes());
+
+		} finally {
+
+			stream.close();
+
+			writeToFile = true;
+
+		}
+
+		return writeToFile;
+
 	}
 
 	@Override
@@ -104,5 +129,5 @@ public class MyImageDAONeo4J implements ReadFromFileDAO, IDAO<MyImage> {
 
 		return null;
 	}
-
+	
 }

@@ -2,6 +2,7 @@ package br.edu.ifsp.neo4j.queryTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,12 +16,12 @@ public class Neo4JDeleteTest {
 	public void DeleteDBtest() throws SQLException {
 		
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
-
-		neo4jConnection.connect();
 		
-		//ResultSet resultSet = neo4jConnection.executeQuery("MATCH (n) DETACH DELETE n");
+		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement("MATCH (n) DETACH DELETE n");
 		
-		//assertTrue(resultSet != null);
+		ResultSet resultSet = neo4jConnection.executeQuery(preparedStatement);
+		
+		assertTrue(resultSet != null);
 
 	}
 

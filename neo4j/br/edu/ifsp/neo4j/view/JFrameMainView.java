@@ -85,7 +85,7 @@ public class JFrameMainView extends JFrame {
 			jScrollPane.getViewport().add(jLabelImage);
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
