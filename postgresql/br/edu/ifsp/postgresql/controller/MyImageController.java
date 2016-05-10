@@ -1,14 +1,14 @@
 package br.edu.ifsp.postgresql.controller;
 
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.neo4j.view.JFrameMainView;
+import br.edu.ifsp.neo4j.view.JFMainViewNeo4J;
 
 public class MyImageController {
 
 	private MyImage myImage;
-	private JFrameMainView mainView;
+	private JFMainViewNeo4J mainView;
 
-	public MyImageController(MyImage myImage, JFrameMainView mainView) {
+	public MyImageController(MyImage myImage, JFMainViewNeo4J mainView) {
 
 	}
 
@@ -20,11 +20,11 @@ public class MyImageController {
 		this.myImage = myImage;
 	}
 
-	public JFrameMainView getMainView() {
+	public JFMainViewNeo4J getMainView() {
 		return mainView;
 	}
 
-	public void setMainView(JFrameMainView mainView) {
+	public void setMainView(JFMainViewNeo4J mainView) {
 		this.mainView = mainView;
 	}
 

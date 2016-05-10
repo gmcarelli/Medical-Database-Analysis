@@ -48,24 +48,8 @@ public class ReadFromDataBaseToFileTest {
 			myImage.setImageId(resultSet.getInt("n.imageId"));
 
 			myImage.setImageName(resultSet.getString("n.imageName"));
-
-			//int i = 0;
 			
-			byte[] imageBytesAux = Base64.decodeBase64(imageBytes);
-			
-//			for(int j = 0; j < 100; j++) {
-//				System.out.print(imageBytesAux[j] + ", ");
-//			}
-
-//			for (byte b : imageBytes.getBytes()) {
-//				System.out.print(b + ", ");
-//				
-//				if(++i == 100) {
-//					break;
-//				}
-//			}
-			
-			myImage.setImageBytes(imageBytesAux);
+			myImage.setImageBytes(Base64.decodeBase64(imageBytes));
 			
 			try {
 				assertTrue(DAOManager.myImageDAONeo4J().byteArrayToTiffFile(myImage));

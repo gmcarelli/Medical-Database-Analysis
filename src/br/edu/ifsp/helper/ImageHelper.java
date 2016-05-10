@@ -3,15 +3,9 @@ package br.edu.ifsp.helper;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileOutputStream;
 
-import javax.imageio.stream.FileImageOutputStream;
-
 import com.idrsolutions.image.tiff.TiffDecoder;
-
-import br.edu.ifsp.model.MyImage;
 
 public class ImageHelper {
 

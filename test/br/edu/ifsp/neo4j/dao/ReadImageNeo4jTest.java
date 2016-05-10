@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import br.edu.ifsp.model.MyImage;
@@ -18,7 +19,7 @@ public class ReadImageNeo4jTest {
 
 		MyImage myImage = null;
 
-		int imageId = 2;
+		int imageId = 1;
 
 		String query = "MATCH (n:MyImage { imageId : ?}) RETURN n.imageId, n.imageName, n.imageBytes";
 
@@ -40,35 +41,17 @@ public class ReadImageNeo4jTest {
 
 			String imageBytes = resultSet.getString("n.imageBytes");		
 			
-//			int i = 0;
-//			
-//			for (byte b : imageBytes.getBytes()) {
-//				System.out.print(b + ", ");
-//				
-//				
-//			}
-			
-//			byte[] test = new byte[imageBytes];
-//
-//			for (int i = 0; i < imageBytes.size(); i++) {
-//
-//				test[i] = imageBytes.get(i).byteValue();
-//				
-//			}
-
-			// test = (byte[]) auxList;
-
 			System.out.println(imageBytes.length());
 
 			myImage.setImageId(resultSet.getInt("n.imageId"));
 
 			myImage.setImageName(resultSet.getString("n.imageName"));
 
-			myImage.setImageBytes(imageBytes.getBytes());
+			myImage.setImageBytes(Base64.decodeBase64(imageBytes));
 
 		}
 
-		assertTrue(myImage.getImageId() == 2);
+		assertTrue(myImage.getImageId() == 1);
 
 		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
 

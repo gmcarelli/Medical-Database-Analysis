@@ -1,4 +1,4 @@
-package br.edu.ifsp.postgresql.view;
+package br.edu.ifsp.neo4j.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -16,7 +16,7 @@ import br.edu.ifsp.dao.DAOManager;
 import br.edu.ifsp.helper.ImageHelper;
 import br.edu.ifsp.model.MyImage;
 
-public class JFrameMainView extends JFrame {
+public class JFMainViewNeo4J extends JFrame {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class JFrameMainView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFrameMainView frame = new JFrameMainView();
+					JFMainViewNeo4J frame = new JFMainViewNeo4J();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class JFrameMainView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JFrameMainView() {
+	public JFMainViewNeo4J() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 800);
 		contentPane = new JPanel();
@@ -69,11 +69,12 @@ public class JFrameMainView extends JFrame {
 	
 
 	private void formWindowOpened(java.awt.event.WindowEvent evt) {
+		
 		this.jLabelImage = new JLabel();
 
 		try {
 
-			MyImage myImage = DAOManager.myImageDAOPostgre().search(14);
+			MyImage myImage = DAOManager.myImageDAONeo4J().search(1);
 			
 			BufferedImage bufferedImage = ImageHelper.byteArrayToBufferedImage(myImage.getImageBytes());			
 

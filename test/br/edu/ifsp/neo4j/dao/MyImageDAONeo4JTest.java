@@ -4,12 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
