@@ -1,18 +1,19 @@
 package br.edu.ifsp.mongodb.dao;
 
-import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.Binary;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
-import br.edu.ifsp.connection.MongodbConnection;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ImageFileDAO;
 import br.edu.ifsp.model.MyImage;
@@ -20,42 +21,46 @@ import br.edu.ifsp.model.MyImage;
 public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 
 	private MongoClient mongoClient;
+	private MongoDatabase mongoDatabase;
+	private MongoCollection<Document> mongoCollection;
 
 	public MyImageDAOMongo() {
 
-		try {
+		this.mongoClient = new MongoClient();
 
-			this.mongoClient = MongodbConnection.connect();
+		this.mongoDatabase = mongoClient.getDatabase("MedicalDatabaseAnalysis");
 
-		} catch (UnknownHostException e) {
-
-			e.printStackTrace();
-		}
+		this.mongoCollection = mongoDatabase.getCollection("MyImage");
 
 	}
 
 	@Override
 	public boolean insert(MyImage myImage) {
 
-		WriteResult writeResult = null;
+		boolean writeResult = false;
 
 		if (this.mongoClient != null) {
 
-			DBCollection dbCollection = this.mongoClient.getDB("MedicalDatabaseAnalysis").getCollection("MyImage");
+			Document document = new Document().append("imageId", myImage.getImageId())
+					.append("imageName", myImage.getImageName()).append("imageBytes",new Binary(myImage.getImageBytes()));
 
-			DBObject dbObject = new BasicDBObject();
-
-			String imageBytes = Base64.encodeBase64String(myImage.getImageBytes());
-
-			dbObject.put("imageId", myImage.getImageId());
-			dbObject.put("imageName", myImage.getImageName());
-			dbObject.put("imageBytes", imageBytes);
-
-			writeResult = dbCollection.insert(dbObject);
+			try {
+				
+				this.mongoCollection.insertOne(document);
+				
+				writeResult = true;
+				
+			} catch (Exception e) {
+				
+				writeResult = false;
+				
+			}					
 
 		}
 
-		return writeResult != null;
+		this.mongoClient.close();
+
+		return writeResult;
 
 	}
 
@@ -72,32 +77,31 @@ public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 	}
 
 	@Override
-	public MyImage search(int objectId) {
+	public MyImage search(int imageId) {		
 
-		DBCursor dbCursor = null;
-
-		MyImage myImage = null;
+		MyImage myImage = null;	
 
 		if (this.mongoClient != null) {
+			
+			DBCollection dbCollection = mongoClient.getDB("MedicalDatabaseAnalysis").getCollection("MyImage");
+			
+			DBCursor dbCursor = dbCollection.find(new BasicDBObject("imageId", imageId));
 
-			dbCursor = this.mongoClient.getDB("MedicalDatabaseAnalysis").getCollection("MyImage")
-					.find(new BasicDBObject("imageId", objectId));
+			if (dbCursor.hasNext()) {			
 
-			if (dbCursor.hasNext()) {
-
-				DBObject object = dbCursor.next();
-
-				System.out.println(object.get("imageId"));
+				//System.out.println(dbCursor.getInt("imageId"));
 
 				myImage = new MyImage();
 
-				myImage.setImageId((int) object.get("imageId"));
+				myImage.setImageId((int) dbCursor.next().get("imageId"));
 
-				myImage.setImageName((String) object.get("imageName"));
+				myImage.setImageName((String) dbCursor.next().get("imageName"));
+				
+				byte[] imageBytes = (byte[]) dbCursor.next().get("imageBytes");
 
-				String imageBytes = (String) object.get("imageBytes");
+				//String imageBytes = doc.get;
 
-				myImage.setImageBytes(Base64.decodeBase64(imageBytes));
+				myImage.setImageBytes((imageBytes));
 
 			}
 

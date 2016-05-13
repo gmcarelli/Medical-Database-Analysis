@@ -13,20 +13,20 @@ public class MongodbTest {
 	@Test
 	public void Connectiontest() throws UnknownHostException {
 		
-		MongoClient mongoCliente = null;
+		MongoClient mongoClient = new MongoClient();
 		
-		mongoCliente = MongodbConnection.connect();
+		assertTrue(mongoClient != null);
 		
-		assertTrue(MongodbConnection.connect() != null);
+		mongoClient.close();
 		
 	}
 	
 	@Test
 	public void ConnectionTest2() throws UnknownHostException {
 		
-		MongoClient mongoClient = new MongoClient();
+		MongodbConnection mongodbConnection = new MongodbConnection();
 		
-		assertTrue(mongoClient != null);
+		assertTrue(mongodbConnection != null);
 		
 	}
 

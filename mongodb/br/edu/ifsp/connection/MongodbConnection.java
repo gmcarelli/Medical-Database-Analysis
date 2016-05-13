@@ -9,24 +9,16 @@ import com.mongodb.WriteResult;
 
 public class MongodbConnection {
 
-	private static MongoClient mongoCliente = null;
-	private DBCursor dbCursor;
+	private MongoClient mongoCliente = null;
+	private DBCursor dbCursor = null;
 	
-	private MongodbConnection() {}
-
-	public static MongoClient connect() throws UnknownHostException {
-		
-		if(MongodbConnection.mongoCliente == null) {
+	
+	
+	public MongoClient connect() throws UnknownHostException {		
 			
-			MongodbConnection.mongoCliente =  new MongoClient("localhost", 27017);			
+			this.mongoCliente =  new MongoClient("localhost", 27017);			
 			
-			return MongodbConnection.mongoCliente;
-			
-		} else {
-			
-			return MongodbConnection.mongoCliente;
-			
-		}
+			return this.mongoCliente;	
 
 	}
 
@@ -34,7 +26,9 @@ public class MongodbConnection {
 
 		boolean disconnect = false;
 		
-		if(MongodbConnection.mongoCliente != null) {
+		if(this.mongoCliente != null) {
+			
+			this.mongoCliente.close();
 			
 			this.dbCursor.close();
 			

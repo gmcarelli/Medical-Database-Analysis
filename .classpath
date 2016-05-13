@@ -10,7 +10,8 @@
 	<classpathentry kind="lib" path="lib/postgresql-9.4.1208.jre6.jar"/>
 	<classpathentry kind="lib" path="lib/neo4j-jdbc-2.3.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/mongo-java-driver-2.14.2.jar"/>
-	<classpathentry kind="lib" path="lib/mongo-java-driver-2.14.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/bson-3.0.1.jar.zip"/>
+	<classpathentry kind="lib" path="lib/mongo-java-driver-3.2.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/mongo-java-driver-3.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
