@@ -1,54 +1,34 @@
 package br.edu.ifsp.connection;
 
-import java.net.UnknownHostException;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
 
 public class MongodbConnection {
 
-	private static MongoClient mongoCliente = null;
-	private DBCursor dbCursor;
 	
-	private MongodbConnection() {}
-
-	public static MongoClient connect() throws UnknownHostException {
+	private MongodbConnection() {
 		
-		if(MongodbConnection.mongoCliente == null) {
-			
-			MongodbConnection.mongoCliente =  new MongoClient("localhost", 27017);			
-			
-			return MongodbConnection.mongoCliente;
-			
-		} else {
-			
-			return MongodbConnection.mongoCliente;
-			
-		}
-
+		
+		
 	}
+
+//	public static MongoClient connect() throws UnknownHostException {
+//		
+//
+//	}
 
 	public boolean disconnect() throws Exception {
 
 		boolean disconnect = false;
 		
-		if(MongodbConnection.mongoCliente != null) {
-			
-			this.dbCursor.close();
-			
-			disconnect = true;
-			
-		}
+		
 
 		return disconnect;
 	}
 
-	public WriteResult executeQuery(BasicDBObject basicDBObject) {
+	public void executeQuery() {
 
 
-		return null;
+		
 	}
 
 	public void startTransaction() throws Exception {
@@ -65,7 +45,7 @@ public class MongodbConnection {
 
 	}
 
-	public boolean executeUpdate(BasicDBObject basicDBObject) {
+	public boolean executeUpdate() {
 
 		
 
