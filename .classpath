@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="postgresql"/>
-	<classpathentry kind="src" path="mongodb"/>
 	<classpathentry kind="src" path="neo4j"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
