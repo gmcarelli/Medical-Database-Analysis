@@ -1,15 +1,14 @@
 package br.edu.ifsp.mongodb.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.Binary;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -89,17 +88,15 @@ public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 
 			if (dbCursor.hasNext()) {			
 
-				//System.out.println(dbCursor.getInt("imageId"));
+				DBObject object = dbCursor.next();				
 
 				myImage = new MyImage();
 
-				myImage.setImageId((int) dbCursor.next().get("imageId"));
+				myImage.setImageId((int) object.get("imageId"));
 
-				myImage.setImageName((String) dbCursor.next().get("imageName"));
+				myImage.setImageName((String) object.get("imageName"));
 				
-				byte[] imageBytes = (byte[]) dbCursor.next().get("imageBytes");
-
-				//String imageBytes = doc.get;
+				byte[] imageBytes = (byte[]) object.get("imageBytes");
 
 				myImage.setImageBytes((imageBytes));
 
