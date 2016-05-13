@@ -30,6 +30,9 @@ public class MongodbConnection {
 			
 			this.mongoCliente.close();
 			
+			/**
+			 * FIXME NullPointerException
+			 */
 			this.dbCursor.close();
 			
 			disconnect = true;

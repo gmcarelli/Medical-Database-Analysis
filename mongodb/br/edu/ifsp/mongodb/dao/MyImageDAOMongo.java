@@ -82,6 +82,9 @@ public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 
 		if (this.mongoClient != null) {
 			
+			/**
+			 * FIXME
+			 */
 			DBCollection dbCollection = mongoClient.getDB("MedicalDatabaseAnalysis").getCollection("MyImage");
 			
 			DBCursor dbCursor = dbCollection.find(new BasicDBObject("imageId", imageId));
