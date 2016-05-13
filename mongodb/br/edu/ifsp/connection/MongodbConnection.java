@@ -1,96 +1,75 @@
 package br.edu.ifsp.connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.UnknownHostException;
 
-public class MongodbConnection implements IConnection {   
-    
-    private Connection connection = null;
-      
-    /**
-     * M�todo que  cria uma conexao com o banco de dados
-     * @return uma conexao com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public Connection connect() throws SQLException {
-        
-    	try {
-    		
-            Class.forName("org.mongodb.Driver");
-            
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "1qaz2wsx");
-                    
-        } catch (ClassNotFoundException ex) {
-        	
-            throw new SQLException(ex.getMessage());
-            
-        }
-    	
-    	return this.connection;
-    }
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+import com.mongodb.WriteResult;
 
-    /**
-     * Método que encerra uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public boolean disconnect() throws SQLException {
-    	
-    	boolean result = true;
-    	
-    	try {
-    		
-    		this.connection.close();
-    		
-    	} catch(Exception e) {
-    
-    		result = false;
-    	}
-    	
-    	return result;
-    }
+public class MongodbConnection {
 
-	@Override
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws Exception {
+	private static MongoClient mongoCliente = null;
+	private DBCursor dbCursor;
+	
+	private MongodbConnection() {}
+
+	public static MongoClient connect() throws UnknownHostException {
 		
-		if(!this.connection.isClosed() && this.connection != null) {
-			return preparedStatement.executeQuery();
+		if(MongodbConnection.mongoCliente == null) {
+			
+			MongodbConnection.mongoCliente =  new MongoClient("localhost", 27017);			
+			
+			return MongodbConnection.mongoCliente;
+			
+		} else {
+			
+			return MongodbConnection.mongoCliente;
+			
 		}
+
+	}
+
+	public boolean disconnect() throws Exception {
+
+		boolean disconnect = false;
 		
+		if(MongodbConnection.mongoCliente != null) {
+			
+			this.dbCursor.close();
+			
+			disconnect = true;
+			
+		}
+
+		return disconnect;
+	}
+
+	public WriteResult executeQuery(BasicDBObject basicDBObject) {
+
+
 		return null;
 	}
 
-	@Override
 	public void startTransaction() throws Exception {
-		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
 	public void commit() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
 	public void rollback() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
-	public boolean executeUpdate(PreparedStatement preparedStatement) throws Exception {
+	public boolean executeUpdate(BasicDBObject basicDBObject) {
+
 		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			return preparedStatement.executeUpdate() > 0;
-		}
-		
+
 		return false;
 	}
-    
-	
-   
+
 }

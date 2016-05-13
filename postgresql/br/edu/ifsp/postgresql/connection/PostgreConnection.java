@@ -39,7 +39,7 @@ public class PostgreConnection implements IConnection {
      */
     public boolean disconnect() throws SQLException {
     	
-    	boolean result = true;
+    	boolean disconnect = true;
     	
     	try {
     		
@@ -47,10 +47,10 @@ public class PostgreConnection implements IConnection {
     		
     	} catch(Exception e) {
     
-    		result = false;
+    		disconnect = false;
     	}
     	
-    	return result;
+    	return disconnect;
     }
 
 	@Override
