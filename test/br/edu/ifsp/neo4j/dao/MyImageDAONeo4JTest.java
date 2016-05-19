@@ -33,10 +33,8 @@ public class MyImageDAONeo4JTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
-		
-		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ?})";		
+				
+		String query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ?}) RETURN 1";		
 		
 		Neo4JConnection neo4jConnection = new Neo4JConnection();
 
@@ -45,15 +43,6 @@ public class MyImageDAONeo4JTest {
 		preparedStatement.setInt(1, myImage.getImageId());
 		preparedStatement.setString(2, myImage.getImageName());	
 		preparedStatement.setString(3, Base64.encodeBase64String(myImage.getImageBytes()));		
-		
-//		int i = 0;
-//		
-//		for (byte b : myImage.getImageBytes()) {
-//			System.out.print(b + ", ");
-//			
-//			if (++i == 100)
-//				break;
-//		}
 		
 		assertTrue(neo4jConnection.executeUpdate(preparedStatement));
 		

@@ -34,7 +34,7 @@ public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ? })";
+		this.query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ? }) RETURN 1";
 
 		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
 
@@ -55,7 +55,7 @@ public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "MATCH (n:MyImage {imageId : ?}) SET n.imageName = ?, n.imageByte = ? RETURN n";
+		this.query = "MATCH (n:MyImage {imageId : ?}) SET n.imageName = ?, n.imageBytes = ? RETURN 1";
 
 		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
 
@@ -65,6 +65,8 @@ public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 
 		executeUpdate = this.neo4jConnection.executeUpdate(preparedStatement);
 
+		this.neo4jConnection.disconnect();
+		
 		return executeUpdate;
 		
 	}
@@ -74,13 +76,15 @@ public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "MATCH (n:MyImage {imageId : ?}) DETACH DELETE n";
+		this.query = "MATCH (n:MyImage {imageId : ?}) DETACH DELETE n RETURN 1";
 
 		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
 
 		this.preparedStatement.setInt(1, myImage.getImageId());
 
 		executeUpdate = this.neo4jConnection.executeUpdate(preparedStatement);
+		
+		this.neo4jConnection.disconnect();
 
 		return executeUpdate;
 		

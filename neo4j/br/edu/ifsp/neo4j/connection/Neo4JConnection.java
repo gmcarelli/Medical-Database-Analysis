@@ -8,9 +8,7 @@ import java.sql.SQLException;
 
 import br.edu.ifsp.connection.IConnection;
 
-public class Neo4JConnection implements IConnection {
-
-	private Connection connection = null;
+public class Neo4JConnection extends IConnection {	
 
 	/**
 	 * Método que cria uma conexão com o banco de dados
@@ -32,53 +30,26 @@ public class Neo4JConnection implements IConnection {
 		}
 
 		return this.connection;
-	}
-
-	/**
-     * Método que encerra uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public boolean disconnect() throws SQLException {
-    	
-    	boolean result = true;
-    	
-    	try {
-    		
-    		this.connection.close();
-    		
-    	} catch(Exception e) {
-    
-    		result = false;
-    		
-    	}
-    	
-    	return result;
-    }
-
-	@Override
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException {
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			return preparedStatement.executeQuery();
-			
-		}
-		
-		return null;
-		
-	}
-
+	}	
 	
-	@Override
-	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {		
+public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {		
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
-			return preparedStatement.executeUpdate() >= 0;
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			int result = 0;
+			
+			if (resultSet.next()) {
+				
+				result = resultSet.getInt(1);
+				
+			}
+			
+			return result > 0;
 			
 		}
 		
 		return false;
 	}
-	
 }

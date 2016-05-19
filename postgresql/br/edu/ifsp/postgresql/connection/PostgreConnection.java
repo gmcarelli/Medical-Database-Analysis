@@ -3,79 +3,44 @@ package br.edu.ifsp.postgresql.connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import br.edu.ifsp.connection.IConnection;
 
-public class PostgreConnection implements IConnection {   
-    
-    private Connection connection = null;
-	
+public class PostgreConnection extends IConnection {
+
 	/**
-     * Método que  cria uma conexão com o banco de dados
-     * @return uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public Connection connect() throws SQLException {
-        
-    	try {
-    		
-            Class.forName("org.postgresql.Driver");
-            
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "1qaz2wsx");
-                        
-        } catch (ClassNotFoundException ex) {
-        	
-            throw new SQLException(ex.getMessage());
-            
-        }
-    	
-    	return this.connection;
-    }
+	 * Método que cria uma conexão com o banco de dados
+	 * 
+	 * @return uma conexão com o banco de dados
+	 * @throws java.sql.SQLException
+	 */
+	public Connection connect() throws SQLException {
 
-    /**
-     * Método que encerra uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public boolean disconnect() throws SQLException {
-    	
-    	boolean disconnect = true;
-    	
-    	try {
-    		
-    		this.connection.close();
-    		
-    	} catch(Exception e) {
-    
-    		disconnect = false;
-    	}
-    	
-    	return disconnect;
-    }
+		try {
 
-	@Override
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException {	
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			return preparedStatement.executeQuery();
-			
+			Class.forName("org.postgresql.Driver");
+
+			this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres",
+					"1qaz2wsx");
+
+		} catch (ClassNotFoundException ex) {
+
+			throw new SQLException(ex.getMessage());
+
 		}
-		
-		return null;
-		
-	}	
 
-	@Override
-	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {		
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
+		return this.connection;
+	}
+
+	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {
+
+		if (!this.connection.isClosed() && this.connection != null) {
+
 			return preparedStatement.executeUpdate() > 0;
-			
+
 		}
-		
+
 		return false;
-	}    
-	
+	}
 }
