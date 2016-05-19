@@ -7,7 +7,7 @@ import java.nio.file.Files;
 
 import br.edu.ifsp.model.MyImage;
 
-public abstract class ImageFileDAO implements ReadFromFileDAO, WriteToFileDAO {
+public abstract class ImageFileDAO {
 	 
 	
 	public byte[] ImageFileToByteArray(String imageUrl) throws IOException {
