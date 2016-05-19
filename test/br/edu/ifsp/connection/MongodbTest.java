@@ -23,10 +23,8 @@ public class MongodbTest {
 	
 	@Test
 	public void ConnectionTest2() throws UnknownHostException {
-		
-		MongodbConnection mongodbConnection = new MongodbConnection();
-		
-		assertTrue(mongodbConnection != null);
+			
+		assertTrue(MongodbConnection.connect() != null);
 		
 	}
 

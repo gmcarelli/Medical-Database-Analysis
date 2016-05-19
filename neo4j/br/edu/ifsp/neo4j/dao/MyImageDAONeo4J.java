@@ -3,6 +3,7 @@ package br.edu.ifsp.neo4j.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -31,70 +32,116 @@ public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 	@Override
 	public boolean insert(MyImage myImage) throws SQLException {
 
-		boolean executeQuery = false;
+		boolean executeUpdate = false;
 
 		this.query = "CREATE (n:MyImage { imageId : ?, imageName : ?, imageBytes : ? })";
 
 		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
-		
+
 		this.preparedStatement.setInt(1, myImage.getImageId());
 		this.preparedStatement.setString(2, myImage.getImageName());
 		this.preparedStatement.setString(3, Base64.encodeBase64String(myImage.getImageBytes()));
 
-		executeQuery = this.neo4jConnection.executeUpdate(preparedStatement);
+		executeUpdate = this.neo4jConnection.executeUpdate(preparedStatement);
 
 		this.neo4jConnection.disconnect();
 
-		return executeQuery;
+		return executeUpdate;
 
 	}
 
 	@Override
 	public boolean update(MyImage myImage) throws SQLException {
 
-		return false;
+		boolean executeUpdate = false;
+
+//		this.query = "MATCH (n:MyImage {imageId : ?})  DELETE n";
+//
+//		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
+//
+//		this.preparedStatement.setInt(1, myImage.getImageId());
+//
+//		executeUpdate = this.neo4jConnection.executeUpdate(preparedStatement);
+
+		return executeUpdate;
 	}
 
 	@Override
 	public boolean delete(MyImage myImage) throws SQLException {
 
-		return false;
+		boolean executeUpdate = false;
+
+		this.query = "MATCH (n:MyImage {imageId : ?})  DELETE n";
+
+		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
+
+		this.preparedStatement.setInt(1, myImage.getImageId());
+
+		executeUpdate = this.neo4jConnection.executeUpdate(preparedStatement);
+
+		return executeUpdate;
 	}
 
 	@Override
 	public MyImage search(int imageId) throws SQLException {
 
 		MyImage myImage = null;
-		
+
 		this.query = "MATCH (n:MyImage {imageId : ?}) RETURN n.imageId, n.imageName, n.imageBytes";
 
 		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);
-		
+
 		this.preparedStatement.setInt(1, imageId);
 
 		this.resultSet = this.neo4jConnection.executeQuery(preparedStatement);
 
 		if (this.resultSet.next()) {
-			
+
 			myImage = new MyImage();
 
 			myImage.setImageId(this.resultSet.getInt("n.imageId"));
 
 			myImage.setImageName(this.resultSet.getString("n.imageName"));
-			
+
 			myImage.setImageBytes(Base64.decodeBase64(this.resultSet.getString("n.imageBytes")));
 		}
 
 		this.neo4jConnection.disconnect();
-		
+
 		return myImage;
-		
+
 	}
 
 	@Override
 	public List<MyImage> list() throws SQLException {
 
-		return null;
+		List<MyImage> myImageList = new ArrayList<>();
+		
+		this.query = "MATCH (n:MyImage) RETURN n.imageId, n.imageName, n.imageBytes";
+
+		this.preparedStatement = this.neo4jConnection.connect().prepareStatement(this.query);		
+
+		this.resultSet = this.neo4jConnection.executeQuery(preparedStatement);
+		
+		MyImage myImage = null;
+
+		while (this.resultSet.next()) {
+
+			myImage = new MyImage();
+
+			myImage.setImageId(this.resultSet.getInt("n.imageId"));
+
+			myImage.setImageName(this.resultSet.getString("n.imageName"));
+
+			myImage.setImageBytes(Base64.decodeBase64(this.resultSet.getString("n.imageBytes")));
+			
+			myImageList.add(myImage);
+			
+		}
+
+		this.neo4jConnection.disconnect();
+
+		return myImageList;
 	}
-	
+
 }

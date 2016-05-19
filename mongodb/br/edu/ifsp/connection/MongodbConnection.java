@@ -6,23 +6,35 @@ import com.mongodb.MongoClient;
 
 public class MongodbConnection {
 
-	private MongoClient mongoCliente = null;	
+	private static MongoClient mongoCliente = null;
 	
-	public MongoClient connect() throws UnknownHostException {		
+	private MongodbConnection() {
+		
+		MongodbConnection.mongoCliente = new MongoClient("localhost", 27017);
+		
+	}
+	
+	public static MongoClient connect() throws UnknownHostException {		
 			
-			this.mongoCliente =  new MongoClient("localhost", 27017);			
+		if(MongodbConnection.mongoCliente == null) {
 			
-			return this.mongoCliente;	
+			new MongodbConnection();
+			
+			return MongodbConnection.mongoCliente;
+			
+		}
+		
+		return 	MongodbConnection.mongoCliente;
 
 	}
 
-	public boolean disconnect() throws Exception {
+	public static boolean disconnect() throws Exception {
 
 		boolean disconnect = false;
 		
-		if(this.mongoCliente != null) {
+		if(MongodbConnection.mongoCliente != null) {
 			
-			this.mongoCliente.close();			
+			MongodbConnection.mongoCliente.close();			
 			
 			disconnect = true;
 			
