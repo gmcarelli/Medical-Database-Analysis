@@ -10,7 +10,7 @@ public class MongodbConnection {
 	
 	private MongodbConnection() {
 		
-		MongodbConnection.mongoCliente = new MongoClient("localhost", 27017);
+		//MongodbConnection.mongoCliente = new MongoClient("localhost", 27017);
 		
 	}
 	
@@ -18,7 +18,7 @@ public class MongodbConnection {
 			
 		if(MongodbConnection.mongoCliente == null) {
 			
-			new MongodbConnection();
+			MongodbConnection.mongoCliente = new MongoClient("localhost", 27017);
 			
 			return MongodbConnection.mongoCliente;
 			
