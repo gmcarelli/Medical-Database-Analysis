@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 public class ImageHelper {	
 
 	public static BufferedImage resizeBufferedImage(BufferedImage image, int newWidth, int newHeight) {
+		
 		int imageWidth = image.getWidth();
+		
 		int imageHeight = image.getHeight();
 
 		BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, image.getType());
