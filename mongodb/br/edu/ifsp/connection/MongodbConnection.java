@@ -2,17 +2,11 @@ package br.edu.ifsp.connection;
 
 import java.net.UnknownHostException;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
 
 public class MongodbConnection {
 
-	private MongoClient mongoCliente = null;
-	private DBCursor dbCursor = null;
-	
-	
+	private MongoClient mongoCliente = null;	
 	
 	public MongoClient connect() throws UnknownHostException {		
 			
@@ -28,12 +22,7 @@ public class MongodbConnection {
 		
 		if(this.mongoCliente != null) {
 			
-			this.mongoCliente.close();
-			
-			/**
-			 * FIXME NullPointerException
-			 */
-			this.dbCursor.close();
+			this.mongoCliente.close();			
 			
 			disconnect = true;
 			
@@ -41,32 +30,4 @@ public class MongodbConnection {
 
 		return disconnect;
 	}
-
-	public WriteResult executeQuery(BasicDBObject basicDBObject) {
-
-
-		return null;
-	}
-
-	public void startTransaction() throws Exception {
-
-	}
-
-	public void commit() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void rollback() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	public boolean executeUpdate(BasicDBObject basicDBObject) {
-
-		
-
-		return false;
-	}
-
 }

@@ -14,7 +14,6 @@ public class Neo4JConnection implements IConnection {
 
 	/**
 	 * Método que cria uma conexão com o banco de dados
-	 * 
 	 * @return uma conexão com o banco de dados
 	 * @throws java.sql.SQLException
 	 */
@@ -69,34 +68,7 @@ public class Neo4JConnection implements IConnection {
 		
 	}
 
-	@Override
-	public void startTransaction() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void commit() throws SQLException {
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			this.connection.commit();
-			
-		}
-		
-	}
-
-	@Override
-	public void rollback() throws SQLException {
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			this.connection.rollback();
-			
-		}
-		
-	}
-
+	
 	@Override
 	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {		
 		

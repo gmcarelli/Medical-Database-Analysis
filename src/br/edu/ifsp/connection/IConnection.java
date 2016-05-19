@@ -10,13 +10,7 @@ public interface IConnection {
 	
 	public boolean disconnect() throws Exception;
 	
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws Exception;
-	
-	public void startTransaction() throws Exception;
-	
-	public void commit() throws Exception;
-	
-	public void rollback() throws Exception;
+	public ResultSet executeQuery(PreparedStatement preparedStatement) throws Exception;	
 
 	public boolean executeUpdate(PreparedStatement preparedStatement) throws Exception;	
 	

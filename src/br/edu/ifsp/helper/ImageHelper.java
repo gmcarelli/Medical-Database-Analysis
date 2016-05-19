@@ -3,39 +3,8 @@ package br.edu.ifsp.helper;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 
-import com.idrsolutions.image.tiff.TiffDecoder;
-
-public class ImageHelper {
-
-	public static BufferedImage byteArrayToBufferedImage(byte[] imageBytes) throws Exception {
-		TiffDecoder decoder = new TiffDecoder(imageBytes);
-
-		return decoder.read();
-	}
-
-	public static boolean byteArrayToTiffFile(byte[] imageBytes) throws Exception {
-
-		boolean writeToFile = false;
-
-		FileOutputStream stream = new FileOutputStream("imageOutput/Test.TIFF");
-
-		try {
-
-			stream.write(imageBytes);
-
-		} finally {
-
-			stream.close();
-
-			writeToFile = true;
-
-		}
-
-		return writeToFile;
-
-	}	
+public class ImageHelper {	
 
 	public static BufferedImage resizeBufferedImage(BufferedImage image, int newWidth, int newHeight) {
 		int imageWidth = image.getWidth();

@@ -6,9 +6,6 @@ import org.bson.Document;
 import org.bson.types.Binary;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -85,23 +82,19 @@ public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 			/**
 			 * FIXME
 			 */
-			DBCollection dbCollection = mongoClient.getDB("MedicalDatabaseAnalysis").getCollection("MyImage");
+			MongoCollection<Document> dbCollection = mongoClient.getDatabase("MedicalDatabaseAnalysis").getCollection("MyImage");
 			
-			DBCursor dbCursor = dbCollection.find(new BasicDBObject("imageId", imageId));
+			Document document = dbCollection.find(new BasicDBObject("imageId", imageId)).first();
 			
-			//dbCursor = this.mongoCollection.find();
-
-			if (dbCursor.hasNext()) {			
-
-				DBObject object = dbCursor.next();				
+			if (document != null) {			
 
 				myImage = new MyImage();
 
-				myImage.setImageId((int) object.get("imageId"));
+				myImage.setImageId((int) document.get("imageId"));
 
-				myImage.setImageName((String) object.get("imageName"));
+				myImage.setImageName((String) document.get("imageName"));
 				
-				byte[] imageBytes = (byte[]) object.get("imageBytes");
+				byte[] imageBytes = (byte[]) document.get("imageBytes");
 
 				myImage.setImageBytes((imageBytes));
 
