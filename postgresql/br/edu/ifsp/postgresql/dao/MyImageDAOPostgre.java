@@ -121,11 +121,20 @@ public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
 		this.resultSet = this.postgreConnection.executeQuery(preparedStatement);
 
 		List<MyImage> myImageList = new ArrayList<>();
+		
+		MyImage myImage = null;
 
 		while (this.resultSet.next()) {
+			
+			myImage = new MyImage();
 
-			myImageList.add(new MyImage(this.resultSet.getInt("imageId"), this.resultSet.getString("imageName"),
-					this.resultSet.getBytes("imageBytes")));
+			myImage.setImageId(this.resultSet.getInt("n.imageId"));
+
+			myImage.setImageName(this.resultSet.getString("n.imageName"));
+
+			myImage.setImageBytes(this.resultSet.getBytes("n.imageBytes"));
+
+			myImageList.add(myImage);
 
 		}
 
