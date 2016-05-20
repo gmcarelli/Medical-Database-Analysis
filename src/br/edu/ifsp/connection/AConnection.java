@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class IConnection {
+public abstract class AConnection {
 	
 	protected Connection connection = null;
 	

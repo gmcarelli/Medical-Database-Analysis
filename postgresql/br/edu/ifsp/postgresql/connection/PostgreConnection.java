@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import br.edu.ifsp.connection.IConnection;
+import br.edu.ifsp.connection.AConnection;
 
-public class PostgreConnection extends IConnection {
+public class PostgreConnection extends AConnection {
 
 	/**
 	 * Método que cria uma conexão com o banco de dados

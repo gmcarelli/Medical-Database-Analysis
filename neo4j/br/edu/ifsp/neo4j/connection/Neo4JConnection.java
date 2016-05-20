@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.edu.ifsp.connection.IConnection;
+import br.edu.ifsp.connection.AConnection;
 
-public class Neo4JConnection extends IConnection {	
+public class Neo4JConnection extends AConnection {	
 
 	/**
 	 * Método que cria uma conexão com o banco de dados
