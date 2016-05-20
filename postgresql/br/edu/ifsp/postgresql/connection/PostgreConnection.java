@@ -21,8 +21,8 @@ public class PostgreConnection extends AConnection {
 
 			Class.forName("org.postgresql.Driver");
 
-			this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres",
-					"1qaz2wsx");
+			this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MedicalDatabaseAnalysis",
+					"postgres", "1qaz2wsx");
 
 		} catch (ClassNotFoundException ex) {
 

@@ -32,7 +32,7 @@ public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
 
 		boolean executeUpdate = false;
 
-		this.query = "INSERT INTO image (imageName, imageBytes) VALUES (?, ?)";
+		this.query = "INSERT INTO myImage (imageName, imageBytes) VALUES (?, ?)";
 
 		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
@@ -90,19 +90,25 @@ public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
 	@Override
 	public MyImage search(int imageId) throws SQLException {
 
-		this.query = "SELECT * FROM image WHERE imageID = ?";
+		this.query = "SELECT * FROM myImage WHERE imageId = ?";
 
 		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
 		this.preparedStatement.setInt(1, imageId);
 
-		ResultSet resultSet = this.postgreConnection.executeQuery(preparedStatement);
+		this.resultSet = this.postgreConnection.executeQuery(preparedStatement);
 
 		MyImage myImage = null;
 
-		if (resultSet.next()) {
+		if (this.resultSet.next()) {
 
-			myImage = new MyImage(imageId, resultSet.getString("imageName"), resultSet.getBytes("imageBytes"));
+			myImage = new MyImage();
+
+			myImage.setImageId(this.resultSet.getInt("imageId"));
+
+			myImage.setImageName(this.resultSet.getString("imageName"));
+
+			myImage.setImageBytes(this.resultSet.getBytes("imageBytes"));
 
 		}
 
@@ -114,7 +120,7 @@ public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
 	@Override
 	public List<MyImage> list() throws SQLException {
 
-		this.query = "SELECT * FROM image";
+		this.query = "SELECT * FROM myImage";
 
 		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
 
@@ -128,11 +134,11 @@ public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
 			
 			myImage = new MyImage();
 
-			myImage.setImageId(this.resultSet.getInt("n.imageId"));
+			myImage.setImageId(this.resultSet.getInt("imageId"));
 
-			myImage.setImageName(this.resultSet.getString("n.imageName"));
+			myImage.setImageName(this.resultSet.getString("imageName"));
 
-			myImage.setImageBytes(this.resultSet.getBytes("n.imageBytes"));
+			myImage.setImageBytes(this.resultSet.getBytes("imageBytes"));
 
 			myImageList.add(myImage);
 
