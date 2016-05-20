@@ -4,17 +4,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public abstract class AConnection {
 	
 	protected Connection connection = null;
+	
+	protected String host;
+	
+	protected int port;
+	
+	protected String databaseName;	
 	
 	/**
 	 * Método que cria uma conexão com o banco de dados
 	 * @return uma conexão com o banco de dados
 	 * @throws java.sql.SQLException
 	 */
-	public abstract Connection connect() throws SQLException;
+	public abstract AConnection connect() throws SQLException;
 
 	/**
      * Método que encerra uma conexão com o banco de dados
@@ -37,7 +44,9 @@ public abstract class AConnection {
     	return result;
     }
 
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException {
+	public ResultSet executeQuery() throws SQLException {
+		
+		ResultSet result = null;
 		
 		if(!this.connection.isClosed() && this.connection != null) {
 			
@@ -49,6 +58,8 @@ public abstract class AConnection {
 		
 	}
 	
-	public abstract boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException;	
+	public abstract boolean executeUpdate(String string, Map<String, Object> values, ) throws SQLException;
+
+	public abstract boolean executeInsert(String string, Map<String, Object> values);
 
 }

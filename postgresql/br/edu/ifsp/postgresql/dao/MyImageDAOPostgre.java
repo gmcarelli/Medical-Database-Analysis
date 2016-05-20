@@ -1,29 +1,23 @@
 package br.edu.ifsp.postgresql.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifsp.connection.AConnection;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ImageFileDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.postgresql.connection.PostgreConnection;
 
-public class MyImageDAOPostgre extends ImageFileDAO implements IDAO<MyImage> {
+public class MyImageDAO<E extends AConnection> extends ImageFileDAO implements IDAO<MyImage> {
 
-	private PostgreConnection postgreConnection;
-	private PreparedStatement preparedStatement;
-	private ResultSet resultSet;
-	private String query;
+	private E connection;
+
 
 	public MyImageDAOPostgre() {
 
-		this.postgreConnection = new PostgreConnection();
-		this.preparedStatement = null;
-		this.resultSet = null;
-		this.query = null;
+		connection.c
 
 	}
 	

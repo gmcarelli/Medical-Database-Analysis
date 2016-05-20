@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import br.edu.ifsp.connection.AConnection;
 
-public class Neo4JConnection extends AConnection {	
+public class Neo4JConnection extends Connection {	
 
 	/**
 	 * Método que cria uma conexão com o banco de dados

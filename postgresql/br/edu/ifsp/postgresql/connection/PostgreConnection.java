@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import br.edu.ifsp.connection.AConnection;
+import java.util.Map;
 
 public class PostgreConnection extends AConnection {
 
@@ -31,6 +30,53 @@ public class PostgreConnection extends AConnection {
 		}
 
 		return this.connection;
+	}
+	
+	
+	public boolean executeInsert(String tableName, Map<String, Object> values) {		
+
+		String query = "INSERT INTO " + tableName + " (";
+		
+		int i = 0;
+		
+		for (String key : values.keySet()) {
+			query += key + ": ?";
+			
+			if (++i < values.size()) {
+				query += ", ";
+			}
+			
+		}
+		
+		query += ") VALUES (";
+		
+		for (i = 0; i < values.size(); i++) {
+			query += "?";
+			
+			if (++i < values.size()) {
+				query += ", ";
+			}
+			
+		}
+		
+		query += ")";
+		
+		
+//		this.preparedStatement = this.postgreConnection.connect().prepareStatement(this.query);
+		i = 0;
+		
+		for (Object value : values.values()) {
+			
+			if (value instanceof String)
+				this.preparedStatement.setString(++i, value);
+			else if (value instanceof Integer)
+				this.preparedStatement.setInt(++i, value);
+			else if (value instanceof byte[])
+				this.preparedStatement.setBytes(++i, value);
+		}
+		
+		
+		
 	}
 
 	public boolean executeUpdate(PreparedStatement preparedStatement) throws SQLException {

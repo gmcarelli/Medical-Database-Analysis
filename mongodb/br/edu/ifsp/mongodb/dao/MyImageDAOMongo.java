@@ -20,10 +20,10 @@ import br.edu.ifsp.model.MyImage;
 
 public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 
-	private MongoClient mongoClient;
-	private MongoDatabase mongoDatabase;
-	private MongoCollection<Document> mongoCollection;
-
+	private MongodbConnection mongodbConnection;
+	
+	private static final String collectionName = "MyImage";
+	
 	public MyImageDAOMongo() {
 
 		try {
@@ -45,43 +45,17 @@ public class MyImageDAOMongo extends ImageFileDAO implements IDAO<MyImage> {
 	@Override
 	public boolean insert(MyImage myImage) {
 
-		boolean writeResult = false;
+		Document document = new Document().append("imageId", myImage.getImageId())
+							.append("imageName", myImage.getImageName())
+							.append("imageBytes", new Binary(myImage.getImageBytes()));
 
-		if (this.mongoClient != null) {
-
-			Document document = new Document().append("imageId", myImage.getImageId())
-					.append("imageName", myImage.getImageName())
-					.append("imageBytes", new Binary(myImage.getImageBytes()));
-
-			try {
-
-				this.mongoCollection.insertOne(document);
-				
-				writeResult = true;
-
-			} catch (Exception e) {
-
-				writeResult = false;
-
-			}
-			
-		}
-		
-		this.mongoClient.close();
-		
-		return writeResult;
+		return MongodbConnection.executeInsert(collectionName, document);
 
 	}
 
 	@Override
 	public boolean update(MyImage myImage) throws Exception {
 		
-		Document document = null;
-
-		if (this.mongoClient != null) {
-
-			MongoCollection<Document> mongoCollection = mongoClient.getDatabase("MedicalDatabaseAnalysis")
-					.getCollection("MyImage");
 			
 			Document newDocument = new Document().append("imageId", myImage.getImageId())
 					.append("imageName", myImage.getImageName())
