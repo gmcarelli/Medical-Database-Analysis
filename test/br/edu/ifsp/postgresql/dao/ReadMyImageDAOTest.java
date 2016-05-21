@@ -5,8 +5,9 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.dao.DAOManager;
+import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
+import br.edu.ifsp.postgresql.connection.PostgreJDBCConnection;
 
 public class ReadMyImageDAOTest {
 	
@@ -14,9 +15,15 @@ public class ReadMyImageDAOTest {
 	@Test
 	public void readImageFromDBTest() throws SQLException {
 		
-		int imageId = DAOManager.myImageDAOPostgre().getUltimoIdCadastrado("myImage", "imageId");
+		MyImageDAO myImageDAO = new MyImageDAO(new PostgreJDBCConnection());
 		
-		MyImage myImage = DAOManager.myImageDAOPostgre().search(imageId);			
+		PostgreJDBCConnection connection = new PostgreJDBCConnection();
+		
+		connection.connect();
+		
+		int imageId = connection.getLastInsertedId("MyImage", "imageId");
+				
+		MyImage myImage = myImageDAO.search(imageId);			
 		
 		assertTrue(myImage != null);
 		

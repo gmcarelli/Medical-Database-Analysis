@@ -86,8 +86,7 @@ public class MongodbConnection extends AConnection {
 				writeResult = true;
 				
 			}
-
-			((MongodbConnection) this.connection).disconnect();
+			
 		}
 
 		return writeResult;
@@ -119,8 +118,6 @@ public class MongodbConnection extends AConnection {
 
 			resultDocument = mongoCollection.findOneAndUpdate(new BasicDBObject(col, values.get(col)), document);
 
-			((MongodbConnection) this.connection).disconnect();
-
 		}
 
 		return resultDocument != null;
@@ -140,8 +137,6 @@ public class MongodbConnection extends AConnection {
 
 			resultDocument = mongoCollection.findOneAndDelete(new BasicDBObject(col, objectId));
 			
-			((MongodbConnection) this.connection).disconnect();
-			
 		}
 
 		return resultDocument != null;
@@ -159,17 +154,15 @@ public class MongodbConnection extends AConnection {
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(tableName);
 
 			document = mongoCollection.find(new BasicDBObject(col, objectId)).first();
-
-			((MongodbConnection) this.connection).disconnect();
 		}
 
 		return document;
 	}
 
 	@Override
-	public List<Object> executeListData(String tableName) {
+	public Object executeListData(String tableName) {
 
-		List<Object> objectList = new ArrayList<>();
+		FindIterable<Document> findIterable = null;
 
 		if (this.connection != null) {
 
@@ -177,25 +170,15 @@ public class MongodbConnection extends AConnection {
 
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(tableName);
 
-			FindIterable<Document> documentList = mongoCollection.find();
-
-			while (documentList.iterator().hasNext()) {
-
-				Document document = documentList.iterator().next();				
-
-				objectList.add(document);
-
-			}
-
-			((MongodbConnection) this.connection).disconnect();
+			findIterable = mongoCollection.find();
 			
 		}
 		
-		return objectList;
+		return findIterable;
 	}
 
 	@Override
-	public int getLastInsertedId(String tableName, String col, int objectId) {
+	public int getLastInsertedId(String tableName, String col) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

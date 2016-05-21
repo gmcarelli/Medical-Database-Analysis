@@ -1,5 +1,6 @@
 package br.edu.ifsp.connection;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +40,8 @@ public abstract class AConnection {
 
 	public abstract Object executeSearch(String tableName, String col, int objectId);
 
-	public abstract List<Object> executeListData(String tableName);
+	public abstract Object executeListData(String tableName);
 
-	public abstract int getLastInsertedId(String tableName, String col, int objectId);
+	public abstract int getLastInsertedId(String tableName, String col) throws Exception;
 
 }

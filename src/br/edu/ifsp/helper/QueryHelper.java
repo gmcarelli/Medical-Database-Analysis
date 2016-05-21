@@ -7,14 +7,14 @@ public class QueryHelper {
 
 	private String query;
 
-	public String setInsertQuery(String tableName, Map<String, Object> values) {
+	public String createInsertQueryPostgre(String tableName, Map<String, Object> values) {
 
-		query = "INSERT INTO ? (";
+		query = "INSERT INTO " + tableName + " (";
 
 		int i = 0;
 
 		for (String key : values.keySet()) {
-			query += key + "?";
+			query += key;
 
 			if (++i < values.size()) {
 				query += ", ";
@@ -23,8 +23,10 @@ public class QueryHelper {
 		}
 
 		query += ") VALUES (";
+		
+		i = 0;
 
-		for (i = 0; i < values.size(); i++) {
+		for (int j = 0; j < values.size(); j++) {
 			query += "?";
 
 			if (++i < values.size()) {
@@ -39,33 +41,94 @@ public class QueryHelper {
 
 	}
 
-	public String setUpdateQuery(String tableName, Map<String, Object> values) {
+	public String createInsertQueryNeo4j(String tableName, Map<String, Object> values) {
 
-		query = "UPDATE ? SET ";
+		query = "CREATE (n:" + tableName + " {";
+
+		int i = 0;
+
+		for (String key : values.keySet()) {
+			query += key + " : ?";
+
+			if (++i < values.size()) {
+				query += ", ";
+			}
+
+		}
+
+		query += " }) RETURN 1";
+		
+		return query;
+
+	}
+
+	public String createUpdateQueryPostgre(String tableName, Map<String, Object> values) {
+
+		query = "UPDATE " + tableName + " SET ";
+
+		int i = 0;
+		
+		Set<String> set = values.keySet();
+		
+		String col = set.iterator().next();
+		
+		int objectId = (int) values.get(col);
+		
+		Map<String, Object> valuesAux = values;
+		
+		valuesAux.remove(col);	
+
+		for (String key : valuesAux.keySet()) {			
+
+			query += key + " = ?";
+
+			if (++i < valuesAux.size()) {
+
+				query += ", ";
+
+			} 			
+			
+		}
+		
+		query += " WHERE " + col + " = ?";
+		
+		return query;
+
+	}
+
+	public String createUpdateQueryNeo4j(String tableName, Map<String, Object> values) {
+
+		query = "MATCH (n:" + tableName + "{"; 
 
 		int i = 0;
 
 		for (String key : values.keySet()) {
 			
-			query += key + " = ?";
+			if(i == 0) {
+				
+				query += key + " : ? }) SET ";
+				
+				i++;
+				
+			}  else {
+				
+				query += key + " : ?";
 
-			if (++i < values.size()) {
-				
-				query += ", ";
-				
-			} else if (++i == values.size() - 1) {
-				
-				Set<String> set = values.keySet();
-				
-				query += " WHERE " + set.iterator().next() + " = ?";
-				
+				if (++i < values.size()) {
+
+					query += ", ";
+
+				} 
 			}
 
-		}		
+		}
 		
+		query += " RETURN 1";
+		
+		System.out.println(query);
+
 		return query;
 
 	}
-	
-	
+
 }

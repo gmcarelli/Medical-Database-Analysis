@@ -1,12 +1,13 @@
 package br.edu.ifsp.mongodb.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.dao.DAOManager;
+import br.edu.ifsp.connection.MongodbConnection;
+import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 
 public class MyImageReadTest {
@@ -14,14 +15,16 @@ public class MyImageReadTest {
 	@Test
 	public void readTest() throws Exception {
 		
+		MyImageDAO myImageDAO = new MyImageDAO(new MongodbConnection());
+		
 		MyImage myImage = null;
 
 		int imageId = 1;
 		
-		myImage = DAOManager.myImageDAOMongo().search(imageId);
+		myImage = myImageDAO.search(imageId);
 		
 		try {
-			assertTrue(DAOManager.myImageDAONeo4J().byteArrayToTiffFile(myImage));
+			assertTrue(myImageDAO.byteArrayToTiffFile(myImage));
 			
 		} catch (IOException e) {
 			

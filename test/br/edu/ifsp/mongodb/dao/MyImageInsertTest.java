@@ -6,13 +6,16 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.dao.DAOManager;
+import br.edu.ifsp.connection.MongodbConnection;
+import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 
 public class MyImageInsertTest {
 
 	@Test
 	public void insertTest() {
+		
+		MyImageDAO myImageDAO = new MyImageDAO(new MongodbConnection());
 					
 		MyImage myImage = new MyImage();
 		
@@ -23,7 +26,8 @@ public class MyImageInsertTest {
 		byte[] imageBytes = null;
 		
 		try {
-			imageBytes = DAOManager.myImageDAOMongo().ImageFileToByteArray("imageSamples/DML.TIFF");
+			
+			imageBytes = myImageDAO.ImageFileToByteArray("imageSamples/DML.TIFF");
 			
 			System.out.println(imageBytes.length);
 			
@@ -34,7 +38,7 @@ public class MyImageInsertTest {
 		
 		myImage.setImageBytes(imageBytes);
 		
-		assertTrue(DAOManager.myImageDAOMongo().insert(myImage));	
+		assertTrue(myImageDAO.insert(myImage));	
 		
 	}
 }

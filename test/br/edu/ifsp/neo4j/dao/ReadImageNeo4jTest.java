@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
+import br.edu.ifsp.connection.MongodbConnection;
+import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
@@ -16,48 +18,21 @@ public class ReadImageNeo4jTest {
 
 	@Test
 	public void readImageTest() throws SQLException {
+		
+		MyImageDAO myImageDAO = new MyImageDAO(new Neo4jJDBCConnection());
 
 		MyImage myImage = null;
 
 		int imageId = 1;
 
-		String query = "MATCH (n:MyImage { imageId : ?}) RETURN n.imageId, n.imageName, n.imageBytes";
-
-		Neo4jJDBCConnection neo4jConnection = new Neo4jJDBCConnection();
-
-		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
+		myImage = myImageDAO.search(imageId);
 		
-		preparedStatement.setInt(1, imageId);
-
-		ResultSet resultSet = neo4jConnection.executeQuery(preparedStatement);
-
-		if (resultSet.next()) {
-
-			myImage = new MyImage();
-
-			System.out.println(resultSet.getInt("n.imageId"));
-
-			System.out.println(resultSet.getString("n.imageName"));
-
-			String imageBytes = resultSet.getString("n.imageBytes");		
-			
-			System.out.println(imageBytes.length());
-
-			myImage.setImageId(resultSet.getInt("n.imageId"));
-
-			myImage.setImageName(resultSet.getString("n.imageName"));
-
-			myImage.setImageBytes(Base64.decodeBase64(imageBytes));
-
-		}
-
 		assertTrue(myImage.getImageId() == 1);
 
 		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
 
 		assertTrue(myImage.getImageBytes().length == 11487232);
 
-		neo4jConnection.disconnect();
 	}
 
 }

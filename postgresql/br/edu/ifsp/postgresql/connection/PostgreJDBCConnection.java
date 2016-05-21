@@ -5,13 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import br.edu.ifsp.connection.AConnection;
 import br.edu.ifsp.helper.QueryHelper;
 
-public class PostgreJDBCConnection extends AConnection {	
+public class PostgreJDBCConnection extends AConnection {
 
 	@Override
 	public Object connect() {
@@ -62,39 +61,42 @@ public class PostgreJDBCConnection extends AConnection {
 	@Override
 	public boolean executeInsert(String tableName, Map<String, Object> values) {
 
-		boolean executeInsert;
-		
-		try {
+		boolean executeInsert = false;
 
-			this.queryHelper = new QueryHelper();
+		if (this.connection != null) {
 
-			String query = queryHelper.setInsertQuery(tableName, values);
-			
-			int i = 1;
+			try {
 
-			PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+				this.queryHelper = new QueryHelper();
 
-			preparedStatement.setString(i, tableName);
+				String query = queryHelper.createInsertQueryPostgre(tableName, values);
 
-			for (Object value : values.values()) {
+				int i = 1;
 
-				if (value instanceof String)
-					preparedStatement.setString(++i, (String) value);
-				else if (value instanceof Integer)
-					preparedStatement.setInt(++i, (int) value);
-				else if (value instanceof byte[])
-					preparedStatement.setBytes(++i, (byte[]) value);
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				preparedStatement.setString(i, tableName);
+
+				for (Object value : values.values()) {
+
+					if (value instanceof String)
+						preparedStatement.setString(++i, (String) value);
+					else if (value instanceof Integer)
+						preparedStatement.setInt(++i, (int) value);
+					else if (value instanceof byte[])
+						preparedStatement.setBytes(++i, (byte[]) value);
+
+				}
+
+				executeInsert = preparedStatement.executeUpdate() > 0;
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+				executeInsert = false;
 
 			}
-
-			executeInsert = preparedStatement.executeUpdate() > 0;
-
-		} catch (SQLException e) {
-
-			System.out.println(e.getMessage());
-
-			executeInsert = false;
-
 		}
 
 		return executeInsert;
@@ -103,13 +105,13 @@ public class PostgreJDBCConnection extends AConnection {
 	@Override
 	public boolean executeUpdate(String tableName, Map<String, Object> values) {
 
-		boolean executeUpdate = false;		
+		boolean executeUpdate = false;
 
 		if (this.connection != null) {
-			
+
 			this.queryHelper = new QueryHelper();
 
-			String query = queryHelper.setUpdateQuery(tableName, values);
+			String query = queryHelper.createUpdateQueryPostgre(tableName, values);
 
 			try {
 
@@ -149,7 +151,7 @@ public class PostgreJDBCConnection extends AConnection {
 		boolean executeDelete = false;
 
 		if (this.connection != null) {
-			
+
 			String query = "DELETE FROM ? WHERE ? = ?";
 
 			try {
@@ -198,7 +200,33 @@ public class PostgreJDBCConnection extends AConnection {
 
 			}
 
-			((AConnection) this.connection).disconnect();
+		}
+
+		return resultSet;
+	}
+
+	@Override
+	public Object executeListData(String tableName) {
+
+		String query = "SELECT * FROM ?";
+
+		ResultSet resultSet = null;
+
+		if (this.connection != null) {
+
+			try {
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				preparedStatement.setString(1, tableName);
+
+				resultSet = preparedStatement.executeQuery();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}	
 
 		}
 
@@ -206,15 +234,31 @@ public class PostgreJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public List<Object> executeListData(String tableName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public int getLastInsertedId(String tableName, String col) throws SQLException {
+		
+		String query = "SELECT " + col + " FROM " + tableName + " ORDER BY " + col
+				+ " DESC LIMIT 1";
 
-	@Override
-	public int getLastInsertedId(String tableName, String col, int objectId) {
-		// TODO Auto-generated method stub
-		return 0;
+		((PostgreJDBCConnection) this.connection).connect();
+		
+		PreparedStatement preparedStatement = ((Connection)this.connection).prepareStatement(query);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		int ultimoIdCadastrado = 0;
+
+		if (resultSet.next()) {
+			
+			ultimoIdCadastrado = resultSet.getInt(col);
+		}
+
+		((PostgreJDBCConnection) this.connection).disconnect();
+		
+		preparedStatement.close();
+		
+		resultSet.close();
+
+		return ultimoIdCadastrado;
 	}
 
 }

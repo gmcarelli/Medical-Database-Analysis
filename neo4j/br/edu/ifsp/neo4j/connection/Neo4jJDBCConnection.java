@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
-import com.mongodb.Mongo;
+import org.apache.commons.codec.binary.Base64;
 
 import br.edu.ifsp.connection.AConnection;
+import br.edu.ifsp.helper.QueryHelper;
 
 public class Neo4jJDBCConnection extends AConnection {
 
@@ -91,36 +91,188 @@ public class Neo4jJDBCConnection extends AConnection {
 
 	@Override
 	public boolean executeInsert(String tableName, Map<String, Object> values) {
-		// TODO Auto-generated method stub
-		return false;
+
+		boolean executeInsert = false;
+
+		if (this.connection != null) {
+
+			try {
+
+				this.queryHelper = new QueryHelper();
+
+				String query = queryHelper.createInsertQueryNeo4j(tableName, values);
+
+				int i = 1;
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				preparedStatement.setString(i, tableName);
+
+				for (Object value : values.values()) {
+
+					if (value instanceof String)
+						preparedStatement.setString(++i, (String) value);
+					else if (value instanceof Integer)
+						preparedStatement.setInt(++i, (int) value);
+					else if (value instanceof byte[])
+						preparedStatement.setString(++i, Base64.encodeBase64String((byte[]) value));
+				}
+
+				System.out.println(preparedStatement.toString());
+
+				executeInsert = preparedStatement.executeUpdate() > 0;
+
+				preparedStatement.close();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+				executeInsert = false;
+
+			}
+		}
+
+		return executeInsert;
 	}
 
 	@Override
 	public boolean executeUpdate(String tableName, Map<String, Object> values) {
-		// TODO Auto-generated method stub
-		return false;
+
+		boolean executeUpdate = false;
+
+		if (this.connection != null) {
+
+			this.queryHelper = new QueryHelper();
+
+			String query = queryHelper.createUpdateQueryNeo4j(tableName, values);
+
+			try {
+
+				int i = 1;
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				preparedStatement.setString(i, tableName);
+
+				for (Object value : values.values()) {
+
+					if (value instanceof String)
+						preparedStatement.setString(++i, (String) value);
+					else if (value instanceof Integer)
+						preparedStatement.setInt(++i, (int) value);
+					else if (value instanceof byte[])
+						preparedStatement.setString(++i, Base64.encodeBase64String((byte[]) value));
+
+				}
+
+				System.out.println(preparedStatement.toString());
+
+				executeUpdate = preparedStatement.executeUpdate() > 0;
+
+				preparedStatement.close();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}
+
+		}
+
+		return executeUpdate;
 	}
 
 	@Override
 	public boolean executeDelete(String tableName, String col, int objectId) {
-		// TODO Auto-generated method stub
-		return false;
+
+		boolean executeDelete = false;
+
+		if (this.connection != null) {
+
+			String query = "MATCH (n:" + tableName + "{" + col + " : " + objectId + "}) DETACH DELETE n RETURN 1";
+
+			try {
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				System.out.println(preparedStatement.toString());
+
+				executeDelete = preparedStatement.executeUpdate() > 0;
+
+				preparedStatement.close();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}
+
+		}
+
+		return executeDelete;
+
 	}
 
 	@Override
 	public Object executeSearch(String tableName, String col, int objectId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String query = "MATCH (n:" + tableName + "{" + col + " : " + objectId
+				+ "}) RETURN n.imageId, n.imageName, n.imageBytes";
+
+		ResultSet resultSet = null;
+
+		if (this.connection != null) {
+
+			try {
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				resultSet = preparedStatement.executeQuery();
+				
+				preparedStatement.close();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}
+
+		}
+
+		return resultSet;
 	}
 
 	@Override
-	public List<Object> executeListData(String tableName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object executeListData(String tableName) {
+		
+		String query = "MATCH (n:" + tableName + ") RETURN n.imageId, n.imageName, n.imageBytes";
+
+		ResultSet resultSet = null;
+
+		if (this.connection != null) {
+
+			try {
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+
+				preparedStatement.setString(1, tableName);
+
+				resultSet = preparedStatement.executeQuery();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}	
+
+		}
+
+		return resultSet;
 	}
 
 	@Override
-	public int getLastInsertedId(String tableName, String col, int objectId) {
+	public int getLastInsertedId(String tableName, String col) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
