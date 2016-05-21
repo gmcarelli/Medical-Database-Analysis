@@ -8,14 +8,14 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.neo4j.connection.Neo4JConnection;
+import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
 public class Neo4JCreateNodeTest {
 
 	@Test
 	public void ExecuteUpdatetest() throws SQLException {
 
-		Neo4JConnection neo4jConnection = new Neo4JConnection();
+		Neo4jJDBCConnection neo4jConnection = new Neo4jJDBCConnection();
 
 		PreparedStatement preparedStatement = neo4jConnection.connect()
 				.prepareStatement("CREATE (n:Person {name : 'Gil Carelli', title : 'Developer'})");
@@ -27,7 +27,7 @@ public class Neo4JCreateNodeTest {
 	@Test
 	public void ExecuteQuerytest() throws SQLException {
 
-		Neo4JConnection neo4jConnection = new Neo4JConnection();
+		Neo4jJDBCConnection neo4jConnection = new Neo4jJDBCConnection();
 
 		PreparedStatement preparedStatement = neo4jConnection.connect()
 				.prepareStatement("CREATE (n:Person {name : 'Stevie Ray Vaughan', title : 'Yoda'})");

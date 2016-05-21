@@ -1,65 +1,46 @@
 package br.edu.ifsp.connection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
+import br.edu.ifsp.helper.QueryHelper;
+
 public abstract class AConnection {
-	
-	protected Connection connection = null;
-	
-	protected String host;
-	
-	protected int port;
-	
-	protected String databaseName;	
-	
+
+	protected Object connection = null;
+	protected QueryHelper queryHelper;
+
+//	protected String host;
+//	protected String port;
+//	protected String user;	
+//	protected String password;
+	//protected String tableName;
+
 	/**
 	 * Método que cria uma conexão com o banco de dados
+	 * 
 	 * @return uma conexão com o banco de dados
 	 * @throws java.sql.SQLException
 	 */
-	public abstract AConnection connect() throws SQLException;
+	public abstract Object connect();
 
 	/**
-     * Método que encerra uma conexão com o banco de dados
-     * @throws java.sql.SQLException
-     */
-    public boolean disconnect() throws SQLException {
-    	
-    	boolean result = true;
-    	
-    	try {
-    		
-    		this.connection.close();
-    		
-    	} catch(Exception e) {
-    
-    		result = false;
-    		
-    	}
-    	
-    	return result;
-    }
+	 * Método que encerra uma conexão com o banco de dados
+	 * 
+	 * @throws java.sql.SQLException
+	 */
+	public abstract boolean disconnect();
 
-	public ResultSet executeQuery() throws SQLException {
-		
-		ResultSet result = null;
-		
-		if(!this.connection.isClosed() && this.connection != null) {
-			
-			return preparedStatement.executeQuery();
-			
-		}
-		
-		return null;
-		
-	}
-	
-	public abstract boolean executeUpdate(String string, Map<String, Object> values, ) throws SQLException;
+	public abstract boolean executeInsert(String tableName, Map<String, Object> values);
 
-	public abstract boolean executeInsert(String string, Map<String, Object> values);
+	public abstract boolean executeUpdate(String tableName, Map<String, Object> values);
+
+	public abstract boolean executeDelete(String tableName, String col, int objectId);
+
+	public abstract Object executeSearch(String tableName, String col, int objectId);
+
+	public abstract List<Object> executeListData(String tableName);
+
+	public abstract int getLastInsertedId(String tableName, String col, int objectId);
 
 }

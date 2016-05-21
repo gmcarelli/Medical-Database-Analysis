@@ -1,5 +1,7 @@
 package br.edu.ifsp.dao;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,51 +9,72 @@ import java.util.Map;
 import br.edu.ifsp.connection.AConnection;
 import br.edu.ifsp.model.MyImage;
 
-public class MyImageDAO implements IDAO<MyImage> {
-	
+public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
+
 	private AConnection connection;
-	
+	//private String tableName = null;
+
 	public MyImageDAO(AConnection connection) {
+		
 		this.connection = connection;
+		
 	}
 
 	@Override
 	public boolean insert(MyImage myImage) throws Exception {
-		
+
+		Map<String, Object> values = new HashMap<String, Object>();
+
+		values.put("imageId", myImage.getImageId());
+		values.put("imageName", myImage.getImageName());
+		values.put("imageBytes", myImage.getImageBytes());
+
+		return connection.executeInsert("MyImage", values);
+
+	}
+
+	@Override
+	public boolean update(MyImage myImage) throws Exception {
 		
 		Map<String, Object> values = new HashMap<String, Object>();
+
+		values.put("imageId", myImage.getImageId());
+		values.put("imageName", myImage.getImageName());
+		values.put("imageBytes", myImage.getImageBytes());
 		
-		values.put("imageId",    myImage.getImageId());
-		values.put("imageName",  myImage.getImageName());
-		values.put("imageBytes", myImage.getImageBytes());		
+		return connection.executeUpdate("MyImage", values);
 		
-		return connection.executeInsert("MyImage", values);
 	}
 
 	@Override
-	public boolean update(MyImage object) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(int imageId) throws Exception {
+		
+		return connection.executeDelete("MyImage", "imageId", imageId);
+		
 	}
 
 	@Override
-	public boolean delete(MyImage object) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public MyImage search(int imageId) throws Exception {
 
-	@Override
-	public MyImage search(int objectId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return (MyImage) connection.executeSearch("MyImage", "imageId", imageId);
+		
 	}
 
 	@Override
 	public List<MyImage> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Object> aux = connection.executeListData("MyImage");
+		
+		List<MyImage> myImageList = new ArrayList<>();
+		
+		for (Object object : aux) {
+			
+			myImageList.add((MyImage) object);
+			
+		}	
+		
+		return myImageList;
+		
 	}
-	
-	
 
 }

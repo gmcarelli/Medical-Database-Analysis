@@ -10,7 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.neo4j.connection.Neo4JConnection;
+import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
 public class ReadImageNeo4jTest {
 
@@ -23,7 +23,7 @@ public class ReadImageNeo4jTest {
 
 		String query = "MATCH (n:MyImage { imageId : ?}) RETURN n.imageId, n.imageName, n.imageBytes";
 
-		Neo4JConnection neo4jConnection = new Neo4JConnection();
+		Neo4jJDBCConnection neo4jConnection = new Neo4jJDBCConnection();
 
 		PreparedStatement preparedStatement = neo4jConnection.connect().prepareStatement(query);
 		

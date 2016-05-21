@@ -11,18 +11,18 @@ import org.apache.commons.codec.binary.Base64;
 import br.edu.ifsp.dao.IDAO;
 import br.edu.ifsp.dao.ImageFileDAO;
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.neo4j.connection.Neo4JConnection;
+import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
 public class MyImageDAONeo4J extends ImageFileDAO implements IDAO<MyImage> {
 
-	private Neo4JConnection neo4jConnection;
+	private Neo4jJDBCConnection neo4jConnection;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private String query;
 
 	public MyImageDAONeo4J() {
 
-		this.neo4jConnection = new Neo4JConnection();
+		this.neo4jConnection = new Neo4jJDBCConnection();
 		this.preparedStatement = null;
 		this.resultSet = null;
 		this.query = null;
