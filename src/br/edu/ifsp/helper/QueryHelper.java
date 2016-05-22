@@ -98,7 +98,7 @@ public class QueryHelper {
 
 	public String createUpdateQueryNeo4j(String tableName, Map<String, Object> values) {
 
-		query = "MATCH (n:" + tableName + "{"; 
+		query = "MATCH (n:" + tableName + "{ "; 
 
 		int i = 0;
 

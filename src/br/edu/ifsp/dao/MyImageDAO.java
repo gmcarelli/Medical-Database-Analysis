@@ -150,8 +150,10 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 				myImage.setImageId((int) document.get("imageId"));
 
 				myImage.setImageName((String) document.get("imageName"));
+				
+				Binary binary = (Binary) document.get("imageBytes");
 
-				byte[] imageBytes = (byte[]) document.get("imageBytes");
+				byte[] imageBytes = binary.getData();
 
 				myImage.setImageBytes((imageBytes));
 

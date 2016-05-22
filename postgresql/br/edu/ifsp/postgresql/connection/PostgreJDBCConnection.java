@@ -31,6 +31,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return this.connection;
+		
 	}
 
 	@Override
@@ -71,11 +72,9 @@ public class PostgreJDBCConnection extends AConnection {
 
 				String query = queryHelper.createInsertQueryPostgre(tableName, values);
 
-				int i = 1;
+				int i = 0;
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-
-				preparedStatement.setString(i, tableName);
 
 				for (Object value : values.values()) {
 
@@ -89,6 +88,8 @@ public class PostgreJDBCConnection extends AConnection {
 				}
 
 				executeInsert = preparedStatement.executeUpdate() > 0;
+				
+				preparedStatement.close();
 
 			} catch (SQLException e) {
 
@@ -100,6 +101,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeInsert;
+		
 	}
 
 	@Override
@@ -115,11 +117,9 @@ public class PostgreJDBCConnection extends AConnection {
 
 			try {
 
-				int i = 1;
+				int i = 0;
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-
-				preparedStatement.setString(i, tableName);
 
 				for (Object value : values.values()) {
 
@@ -133,6 +133,8 @@ public class PostgreJDBCConnection extends AConnection {
 				}
 
 				executeUpdate = preparedStatement.executeUpdate() > 0;
+				
+				preparedStatement.close();
 
 			} catch (SQLException e) {
 
@@ -143,26 +145,25 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeUpdate;
+		
 	}
 
 	@Override
-	public boolean executeDelete(String tableName, String col, int objectId) {
+	public boolean executeDelete(String tableName, String column, int objectId) {
 
 		boolean executeDelete = false;
 
 		if (this.connection != null) {
 
-			String query = "DELETE FROM ? WHERE ? = ?";
+			String query = "DELETE FROM " + tableName + " WHERE " + column + " = " + objectId;
 
 			try {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				preparedStatement.setString(1, tableName);
-				preparedStatement.setString(2, col);
-				preparedStatement.setInt(3, objectId);
-
 				executeDelete = preparedStatement.executeUpdate() > 0;
+				
+				preparedStatement.close();
 
 			} catch (SQLException e) {
 
@@ -173,12 +174,13 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeDelete;
+		
 	}
 
 	@Override
-	public Object executeSearch(String tableName, String col, int objectId) {
+	public Object executeSearch(String tableName, String column, int objectId) {
 
-		String query = "SELECT * FROM ? WHERE ? = ?";
+		String query = "SELECT * FROM " + tableName + " WHERE " + column + " = " + objectId;
 
 		ResultSet resultSet = null;
 
@@ -188,11 +190,40 @@ public class PostgreJDBCConnection extends AConnection {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				preparedStatement.setString(1, tableName);
-				preparedStatement.setString(2, col);
-				preparedStatement.setInt(3, objectId);
+				System.out.println(preparedStatement.toString());
+				
+				resultSet = preparedStatement.executeQuery();
+				
+				preparedStatement.close();
+
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+
+			}
+
+		}
+
+		return resultSet;
+		
+	}
+
+	@Override
+	public Object executeListData(String tableName) {
+
+		String query = "SELECT * FROM " + tableName;
+
+		ResultSet resultSet = null;
+
+		if (this.connection != null) {
+
+			try {
+
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
 				resultSet = preparedStatement.executeQuery();
+				
+				preparedStatement.close();
 
 			} catch (SQLException e) {
 
@@ -206,59 +237,31 @@ public class PostgreJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public Object executeListData(String tableName) {
+	public int getLastInsertedId(String tableName, String pkColumn) throws SQLException {
 
-		String query = "SELECT * FROM ?";
-
-		ResultSet resultSet = null;
+		String query = "SELECT " + pkColumn + " FROM " + tableName + " ORDER BY " + pkColumn + " DESC LIMIT 1";
+		
+		int lastInsertedId = 0;
 
 		if (this.connection != null) {
 
-			try {
+			PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+			ResultSet resultSet = preparedStatement.executeQuery();			
 
-				preparedStatement.setString(1, tableName);
+			if (resultSet.next()) {
 
-				resultSet = preparedStatement.executeQuery();
+				lastInsertedId = resultSet.getInt(pkColumn);
+			}
 
-			} catch (SQLException e) {
+			preparedStatement.close();
 
-				System.out.println(e.getMessage());
-
-			}	
+			resultSet.close();
 
 		}
 
-		return resultSet;
-	}
-
-	@Override
-	public int getLastInsertedId(String tableName, String col) throws SQLException {
+		return lastInsertedId;
 		
-		String query = "SELECT " + col + " FROM " + tableName + " ORDER BY " + col
-				+ " DESC LIMIT 1";
-
-		((PostgreJDBCConnection) this.connection).connect();
-		
-		PreparedStatement preparedStatement = ((Connection)this.connection).prepareStatement(query);
-
-		ResultSet resultSet = preparedStatement.executeQuery();
-
-		int ultimoIdCadastrado = 0;
-
-		if (resultSet.next()) {
-			
-			ultimoIdCadastrado = resultSet.getInt(col);
-		}
-
-		((PostgreJDBCConnection) this.connection).disconnect();
-		
-		preparedStatement.close();
-		
-		resultSet.close();
-
-		return ultimoIdCadastrado;
 	}
 
 }

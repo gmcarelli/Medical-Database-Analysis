@@ -1,7 +1,5 @@
 package br.edu.ifsp.connection;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -114,9 +112,9 @@ public class MongodbConnection extends AConnection {
 
 			Set<String> set = values.keySet();
 
-			String col = set.iterator().next();
+			String column = set.iterator().next();
 
-			resultDocument = mongoCollection.findOneAndUpdate(new BasicDBObject(col, values.get(col)), document);
+			resultDocument = mongoCollection.findOneAndUpdate(new BasicDBObject(column, values.get(column)), document);
 
 		}
 
@@ -125,7 +123,7 @@ public class MongodbConnection extends AConnection {
 	}
 
 	@Override
-	public boolean executeDelete(String tableName, String col, int objectId) {
+	public boolean executeDelete(String tableName, String column, int objectId) {
 
 		Document resultDocument = null;
 
@@ -135,7 +133,7 @@ public class MongodbConnection extends AConnection {
 
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(tableName);
 
-			resultDocument = mongoCollection.findOneAndDelete(new BasicDBObject(col, objectId));
+			resultDocument = mongoCollection.findOneAndDelete(new BasicDBObject(column, objectId));
 			
 		}
 
@@ -143,7 +141,7 @@ public class MongodbConnection extends AConnection {
 	}
 
 	@Override
-	public Object executeSearch(String tableName, String col, int objectId) {
+	public Object executeSearch(String tableName, String column, int objectId) {
 
 		Document document = null;
 
@@ -153,7 +151,7 @@ public class MongodbConnection extends AConnection {
 
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(tableName);
 
-			document = mongoCollection.find(new BasicDBObject(col, objectId)).first();
+			document = mongoCollection.find(new BasicDBObject(column, objectId)).first();
 		}
 
 		return document;
@@ -178,7 +176,7 @@ public class MongodbConnection extends AConnection {
 	}
 
 	@Override
-	public int getLastInsertedId(String tableName, String col) {
+	public int getLastInsertedId(String tableName, String pkColumn) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

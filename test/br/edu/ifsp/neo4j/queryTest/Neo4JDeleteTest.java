@@ -18,9 +18,9 @@ public class Neo4JDeleteTest {
 		
 		AConnection connection = new Neo4jJDBCConnection();
 		
-		connection.connect();
+		Connection conn = (Connection) connection.connect();
 		
-		PreparedStatement preparedStatement = ((Connection) connection).prepareStatement("MATCH (n) DETACH DELETE n");
+		PreparedStatement preparedStatement = conn.prepareStatement("MATCH (n) DETACH DELETE n");
 		
 		assertTrue(preparedStatement.executeQuery() != null);
 

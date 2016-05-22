@@ -32,35 +32,7 @@ public class Neo4jJDBCConnection extends AConnection {
 		}
 
 		return this.connection;
-	}
-
-	public boolean executeUpdate(PreparedStatement preparedStatement) {
-
-		int result = 0;
-
-		try {
-			if (!((Connection) this.connection).isClosed() && this.connection != null) {
-
-				ResultSet resultSet = preparedStatement.executeQuery();
-
-				if (resultSet.next()) {
-
-					result = resultSet.getInt(1);
-
-				}
-
-			}
-
-		} catch (SQLException e) {
-
-			System.out.println(e.getMessage());
-
-			result = 0;
-
-		}
-
-		return result > 0;
-	}
+	}	
 
 	@Override
 	public boolean disconnect() {
@@ -102,11 +74,9 @@ public class Neo4jJDBCConnection extends AConnection {
 
 				String query = queryHelper.createInsertQueryNeo4j(tableName, values);
 
-				int i = 1;
+				int i = 0;
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-
-				preparedStatement.setString(i, tableName);
 
 				for (Object value : values.values()) {
 
@@ -117,10 +87,18 @@ public class Neo4jJDBCConnection extends AConnection {
 					else if (value instanceof byte[])
 						preparedStatement.setString(++i, Base64.encodeBase64String((byte[]) value));
 				}
+				
+				ResultSet resultSet = preparedStatement.executeQuery();
 
-				System.out.println(preparedStatement.toString());
-
-				executeInsert = preparedStatement.executeUpdate() > 0;
+				int result = 0;
+				
+				if (resultSet.next()) {
+					
+					result = resultSet.getInt(1);
+					
+				}
+				
+				executeInsert = result > 0;
 
 				preparedStatement.close();
 
@@ -166,8 +144,6 @@ public class Neo4jJDBCConnection extends AConnection {
 
 				}
 
-				System.out.println(preparedStatement.toString());
-
 				executeUpdate = preparedStatement.executeUpdate() > 0;
 
 				preparedStatement.close();
@@ -184,19 +160,17 @@ public class Neo4jJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public boolean executeDelete(String tableName, String col, int objectId) {
+	public boolean executeDelete(String tableName, String column, int objectId) {
 
 		boolean executeDelete = false;
 
 		if (this.connection != null) {
 
-			String query = "MATCH (n:" + tableName + "{" + col + " : " + objectId + "}) DETACH DELETE n RETURN 1";
+			String query = "MATCH (n:" + tableName + "{" + column + " : " + objectId + "}) DETACH DELETE n RETURN 1";
 
 			try {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-
-				System.out.println(preparedStatement.toString());
 
 				executeDelete = preparedStatement.executeUpdate() > 0;
 
@@ -215,22 +189,24 @@ public class Neo4jJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public Object executeSearch(String tableName, String col, int objectId) {
+	public Object executeSearch(String tableName, String column, int objectId) {
 
-		String query = "MATCH (n:" + tableName + "{" + col + " : " + objectId
+		String query = "MATCH (n:" + tableName + "{" + column + " : " + objectId
 				+ "}) RETURN n.imageId, n.imageName, n.imageBytes";
+		
+		System.out.println(query);
 
 		ResultSet resultSet = null;
 
 		if (this.connection != null) {
 
 			try {
-
+				
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
 				resultSet = preparedStatement.executeQuery();
 				
-				preparedStatement.close();
+				preparedStatement.close();				
 
 			} catch (SQLException e) {
 
@@ -272,7 +248,7 @@ public class Neo4jJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public int getLastInsertedId(String tableName, String col) {
+	public int getLastInsertedId(String tableName, String pkColumn) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
