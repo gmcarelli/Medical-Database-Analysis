@@ -127,11 +127,9 @@ public class Neo4jJDBCConnection extends AConnection {
 
 			try {
 
-				int i = 1;
+				int i = 0;
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-
-				preparedStatement.setString(i, tableName);
 
 				for (Object value : values.values()) {
 
@@ -194,8 +192,6 @@ public class Neo4jJDBCConnection extends AConnection {
 		String query = "MATCH (n:" + tableName + "{" + column + " : " + objectId
 				+ "}) RETURN n.imageId, n.imageName, n.imageBytes";
 		
-		System.out.println(query);
-
 		ResultSet resultSet = null;
 
 		if (this.connection != null) {
@@ -204,9 +200,7 @@ public class Neo4jJDBCConnection extends AConnection {
 				
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				resultSet = preparedStatement.executeQuery();
-				
-				preparedStatement.close();				
+				resultSet = preparedStatement.executeQuery();	
 
 			} catch (SQLException e) {
 
@@ -217,6 +211,7 @@ public class Neo4jJDBCConnection extends AConnection {
 		}
 
 		return resultSet;
+		
 	}
 
 	@Override
@@ -245,6 +240,7 @@ public class Neo4jJDBCConnection extends AConnection {
 		}
 
 		return resultSet;
+		
 	}
 
 	@Override

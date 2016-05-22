@@ -229,11 +229,14 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 			} else if (this.connection instanceof MongodbConnection) {
 
+				@SuppressWarnings("unchecked")
 				FindIterable<Document> findIterable = (FindIterable<Document>) queryResult;
+				
+				Document document;
 
 				while (findIterable.iterator().hasNext()) {
 
-					Document document = findIterable.iterator().next();
+					document = findIterable.iterator().next();
 
 					myImage = new MyImage();
 

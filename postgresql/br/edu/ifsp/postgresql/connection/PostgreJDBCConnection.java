@@ -31,7 +31,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return this.connection;
-		
+
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class PostgreJDBCConnection extends AConnection {
 				}
 
 				executeInsert = preparedStatement.executeUpdate() > 0;
-				
+
 				preparedStatement.close();
 
 			} catch (SQLException e) {
@@ -101,7 +101,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeInsert;
-		
+
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class PostgreJDBCConnection extends AConnection {
 				}
 
 				executeUpdate = preparedStatement.executeUpdate() > 0;
-				
+
 				preparedStatement.close();
 
 			} catch (SQLException e) {
@@ -145,7 +145,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeUpdate;
-		
+
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class PostgreJDBCConnection extends AConnection {
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
 				executeDelete = preparedStatement.executeUpdate() > 0;
-				
+
 				preparedStatement.close();
 
 			} catch (SQLException e) {
@@ -174,7 +174,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return executeDelete;
-		
+
 	}
 
 	@Override
@@ -190,11 +190,7 @@ public class PostgreJDBCConnection extends AConnection {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				System.out.println(preparedStatement.toString());
-				
-				resultSet = preparedStatement.executeQuery();
-				
-				preparedStatement.close();
+				resultSet = preparedStatement.executeQuery();				
 
 			} catch (SQLException e) {
 
@@ -205,7 +201,7 @@ public class PostgreJDBCConnection extends AConnection {
 		}
 
 		return resultSet;
-		
+
 	}
 
 	@Override
@@ -222,7 +218,7 @@ public class PostgreJDBCConnection extends AConnection {
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
 				resultSet = preparedStatement.executeQuery();
-				
+
 				preparedStatement.close();
 
 			} catch (SQLException e) {
@@ -237,31 +233,39 @@ public class PostgreJDBCConnection extends AConnection {
 	}
 
 	@Override
-	public int getLastInsertedId(String tableName, String pkColumn) throws SQLException {
+	public int getLastInsertedId(String tableName, String pkColumn) {
 
 		String query = "SELECT " + pkColumn + " FROM " + tableName + " ORDER BY " + pkColumn + " DESC LIMIT 1";
-		
+
 		int lastInsertedId = 0;
 
 		if (this.connection != null) {
 
-			PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+			try {
 
-			ResultSet resultSet = preparedStatement.executeQuery();			
+				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-			if (resultSet.next()) {
+				ResultSet resultSet = preparedStatement.executeQuery();
 
-				lastInsertedId = resultSet.getInt(pkColumn);
+				if (resultSet.next()) {
+
+					lastInsertedId = resultSet.getInt(pkColumn);
+				}
+
+				preparedStatement.close();
+
+				resultSet.close();
+
+			} catch (SQLException e) {
+				
+				System.out.println(e.getMessage());				
+				
 			}
-
-			preparedStatement.close();
-
-			resultSet.close();
 
 		}
 
 		return lastInsertedId;
-		
+
 	}
 
 }

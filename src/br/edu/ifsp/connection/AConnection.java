@@ -29,6 +29,6 @@ public abstract class AConnection {
 
 	public abstract Object executeListData(String tableName);
 
-	public abstract int getLastInsertedId(String tableName, String column) throws Exception;
+	public abstract int getLastInsertedId(String tableName, String column);
 
 }

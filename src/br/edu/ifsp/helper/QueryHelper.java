@@ -72,8 +72,6 @@ public class QueryHelper {
 		
 		String col = set.iterator().next();
 		
-		int objectId = (int) values.get(col);
-		
 		Map<String, Object> valuesAux = values;
 		
 		valuesAux.remove(col);	

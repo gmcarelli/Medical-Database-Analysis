@@ -2,14 +2,10 @@ package br.edu.ifsp.neo4j.dao;
 
 import static org.junit.Assert.assertTrue;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
-import br.edu.ifsp.connection.MongodbConnection;
 import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
