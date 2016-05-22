@@ -11,16 +11,16 @@ import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.postgresql.connection.PostgreJDBCConnection;
 
-public class UpdateMyImageDAOTest {
+public class DeleteMyImageTest {
 
 	@Test
-	public void UpdateMyImagetest() throws SQLException {
-
+	public void deleteMyImagetest() throws SQLException {
+		
 		MyImageDAO myImageDAO = new MyImageDAO(new PostgreJDBCConnection());
 
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(5);
+		myImage.setImageId(6);
 
 		myImage.setImageName("ECC.TIFF");
 
@@ -37,20 +37,10 @@ public class UpdateMyImageDAOTest {
 		}
 
 		myImageDAO.insert(myImage);
-
-		myImage = myImageDAO.search(myImage.getImageId());
-
-		assertEquals("ECC.TIFF", myImage.getImageName());
-
-		myImage.setImageName("DCC.TIFF");
-
-		assertTrue(myImageDAO.update(myImage));
 		
-		myImage = myImageDAO.search(myImage.getImageId());
-
-		assertEquals("DCC.TIFF", myImage.getImageName());
-
-
+		assertTrue(myImageDAO.delete(myImage.getImageId()));
+		
+		assertEquals(myImageDAO.search(myImage.getImageId()), null);
+		
 	}
-
 }

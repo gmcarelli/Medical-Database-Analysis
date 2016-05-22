@@ -1,9 +1,8 @@
 package br.edu.ifsp.neo4j.dao;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -11,30 +10,35 @@ import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
-public class InsertMyImageDAONeo4JTest {
+public class DeleteMyImageTest {
 
 	@Test
-	public void insertImageTest() throws UnsupportedEncodingException {
+	public void deleteMyImagetest() {
 		
 		MyImageDAO myImageDAO = new MyImageDAO(new Neo4jJDBCConnection());
-		
+
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(2);
+		myImage.setImageId(1);
 
 		myImage.setImageName("ECC.TIFF");
 
 		try {
-			myImage.setImageBytes(myImageDAO.ImageFileToByteArray("imageSamples/ECC.TIFF"));
+
+			myImage.setImageBytes(myImageDAO.ImageFileToByteArray("imageSamples/DCC.TIFF"));
 
 			System.out.println(myImage.getImageBytes().length);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}						
-		
-		assertTrue(myImageDAO.insert(myImage));
 
-	}	
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+		myImageDAO.insert(myImage);
 		
+		assertTrue(myImageDAO.delete(myImage.getImageId()));
+		
+	}
+
 }

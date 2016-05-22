@@ -180,9 +180,17 @@ public class Neo4jJDBCConnection extends AConnection {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				executeDelete = preparedStatement.executeUpdate() > 0;
+				ResultSet resultSet = preparedStatement.executeQuery();
 
-				preparedStatement.close();
+				int result = 0;
+				
+				if (resultSet.next()) {
+					
+					result = resultSet.getInt(1);
+					
+				}
+				
+				executeDelete = result > 0;
 
 			} catch (SQLException e) {
 

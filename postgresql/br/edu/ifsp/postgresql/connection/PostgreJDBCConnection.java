@@ -236,8 +236,6 @@ public class PostgreJDBCConnection extends AConnection {
 
 				resultSet = preparedStatement.executeQuery();
 
-				preparedStatement.close();
-
 			} catch (SQLException e) {
 
 				System.out.println(e.getMessage());
