@@ -1,5 +1,6 @@
 package br.edu.ifsp.helper;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class QueryHelper {
 		}
 
 		query += ") VALUES (";
-		
+
 		i = 0;
 
 		for (int j = 0; j < values.size(); j++) {
@@ -57,7 +58,7 @@ public class QueryHelper {
 		}
 
 		query += " }) RETURN 1";
-		
+
 		return query;
 
 	}
@@ -67,16 +68,22 @@ public class QueryHelper {
 		query = "UPDATE " + tableName + " SET ";
 
 		int i = 0;
-		
-		Set<String> set = values.keySet();
-		
-		String col = set.iterator().next();
-		
-		Map<String, Object> valuesAux = values;
-		
-		valuesAux.remove(col);	
 
-		for (String key : valuesAux.keySet()) {			
+		Set<String> set = values.keySet();
+
+		String column = set.iterator().next();
+
+		Map<String, Object> valuesAux = new HashMap<String, Object>();
+
+		for(String key : values.keySet()) {
+			
+			valuesAux.put(key, values.get(key));
+			
+		}
+
+		valuesAux.remove(column);
+
+		for (String key : valuesAux.keySet()) {
 
 			query += key + " = ?";
 
@@ -84,46 +91,44 @@ public class QueryHelper {
 
 				query += ", ";
 
-			} 			
-			
+			}
+
 		}
-		
-		query += " WHERE " + col + " = ?";
-		
+
+		query += " WHERE " + column + " = ?";
+
 		return query;
 
 	}
 
 	public String createUpdateQueryNeo4j(String tableName, Map<String, Object> values) {
 
-		query = "MATCH (n:" + tableName + "{ "; 
+		query = "MATCH (n:" + tableName + "{ ";
 
 		int i = 0;
 
 		for (String key : values.keySet()) {
-			
-			if(i == 0) {
-				
+
+			if (i == 0) {
+
 				query += key + " : ? }) SET ";
-				
+
 				i++;
-				
-			}  else {
-				
-				query += key + " : ?";
+
+			} else {
+
+				query += "n." + key + " = ?";
 
 				if (++i < values.size()) {
 
 					query += ", ";
 
-				} 
+				}
 			}
 
 		}
-		
+
 		query += " RETURN 1";
-		
-		System.out.println(query);
 
 		return query;
 

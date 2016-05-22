@@ -141,8 +141,18 @@ public class Neo4jJDBCConnection extends AConnection {
 						preparedStatement.setString(++i, Base64.encodeBase64String((byte[]) value));
 
 				}
+				
+				ResultSet resultSet = preparedStatement.executeQuery();
 
-				executeUpdate = preparedStatement.executeUpdate() > 0;
+				int result = 0;
+				
+				if (resultSet.next()) {
+					
+					result = resultSet.getInt(1);
+					
+				}
+				
+				executeUpdate = result > 0;				
 
 				preparedStatement.close();
 

@@ -17,7 +17,7 @@ public class ReadFromFileDAOTest {
 		
 		String imageUrl = "imageSamples/DCC.TIFF";
 		
-		byte[] imageBytes = myImageDAO.ImageFileToByteArray(imageUrl);
+		byte[] imageBytes = myImageDAO.ImageFileToByteArray(imageUrl);		
 		
 		System.out.println(imageBytes.length);
 		

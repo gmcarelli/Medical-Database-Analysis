@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Set;
 
 import br.edu.ifsp.connection.AConnection;
 import br.edu.ifsp.helper.QueryHelper;
@@ -115,11 +116,23 @@ public class PostgreJDBCConnection extends AConnection {
 
 			String query = queryHelper.createUpdateQueryPostgre(tableName, values);
 
-			try {
-
-				int i = 0;
+			try {				
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
+				
+				Set<String> set = values.keySet();
+
+				String column = set.iterator().next();
+				
+				int objectId = (int) values.get(column);			
+
+				values.remove(column);
+				
+				int i = 0;
+				
+				byte[] bytes = (byte[]) values.get("imageBytes");
+				
+				System.out.println(bytes.length);
 
 				for (Object value : values.values()) {
 
@@ -131,6 +144,10 @@ public class PostgreJDBCConnection extends AConnection {
 						preparedStatement.setBytes(++i, (byte[]) value);
 
 				}
+				
+				preparedStatement.setInt(++i, objectId);
+				
+				System.out.println(preparedStatement.toString());
 
 				executeUpdate = preparedStatement.executeUpdate() > 0;
 
