@@ -15,13 +15,13 @@ public class ReadToFileMyImageDAOPostgre {
 
 	@Test
 	public void ReadToFileTest() throws SQLException {
-		
-MyImageDAO myImageDAO = new MyImageDAO(new PostgreJDBCConnection());
-		
+
+		MyImageDAO myImageDAO = new MyImageDAO(new PostgreJDBCConnection());
+
 		PostgreJDBCConnection connection = new PostgreJDBCConnection();
-		
+
 		connection.connect();
-		
+
 		int imageId = connection.getLastInsertedId("MyImage", "imageId");
 
 		MyImage myImage = myImageDAO.search(imageId);

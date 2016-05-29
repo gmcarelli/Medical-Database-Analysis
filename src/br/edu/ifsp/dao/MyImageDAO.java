@@ -14,10 +14,7 @@ import org.bson.types.Binary;
 import com.mongodb.client.FindIterable;
 
 import br.edu.ifsp.connection.AConnection;
-import br.edu.ifsp.connection.MongodbConnection;
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
-import br.edu.ifsp.postgresql.connection.PostgreJDBCConnection;
 
 public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
@@ -97,7 +94,7 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 		if (queryResult != null) {
 
-			if (this.connection instanceof PostgreJDBCConnection) {
+			if (queryResult instanceof ResultSet) {
 
 				ResultSet resultSet = (ResultSet) queryResult;
 
@@ -108,30 +105,18 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 					myImage.setImageId(resultSet.getInt("imageId"));
 
 					myImage.setImageName(resultSet.getString("imageName"));
-
-					myImage.setImageBytes(resultSet.getBytes("imageBytes"));
-
-				}
-
-				((ResultSet) queryResult).close();
-
-				resultSet.close();
-
-				this.connection.disconnect();
-
-			} else if (this.connection instanceof Neo4jJDBCConnection) {
-
-				ResultSet resultSet = (ResultSet) queryResult;
-
-				if (resultSet.next()) {
-
-					myImage = new MyImage();
-
-					myImage.setImageId(resultSet.getInt("n.imageId"));
-
-					myImage.setImageName(resultSet.getString("n.imageName"));
-
-					myImage.setImageBytes(Base64.decodeBase64(resultSet.getString("n.imageBytes")));
+					
+					Object object = resultSet.getObject("imageBytes");
+					
+					if (object instanceof String) {
+						
+						myImage.setImageBytes(Base64.decodeBase64((String) object));
+						
+					} else {
+						
+						myImage.setImageBytes((byte[]) object);
+						
+					}
 
 				}
 
@@ -141,7 +126,7 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 				this.connection.disconnect();
 
-			} else if (this.connection instanceof MongodbConnection) {
+			} else {
 
 				Document document = (Document) queryResult;
 
@@ -179,7 +164,7 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 		if (queryResult != null) {
 
-			if (this.connection instanceof PostgreJDBCConnection) {
+			if (queryResult instanceof ResultSet) {
 
 				ResultSet resultSet = (ResultSet) queryResult;
 
@@ -190,32 +175,18 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 					myImage.setImageId(resultSet.getInt("imageId"));
 
 					myImage.setImageName(resultSet.getString("imageName"));
-
-					myImage.setImageBytes(resultSet.getBytes("imageBytes"));
-
-					myImageList.add(myImage);
-
-				}
-
-				((ResultSet) queryResult).close();
-
-				resultSet.close();
-
-				this.connection.disconnect();
-
-			} else if (this.connection instanceof Neo4jJDBCConnection) {
-
-				ResultSet resultSet = (ResultSet) queryResult;
-
-				while (resultSet.next()) {
-
-					myImage = new MyImage();
-
-					myImage.setImageId(resultSet.getInt("n.imageId"));
-
-					myImage.setImageName(resultSet.getString("n.imageName"));
-
-					myImage.setImageBytes(Base64.decodeBase64(resultSet.getString("n.imageBytes")));
+					
+					Object object = resultSet.getObject("imageBytes");
+					
+					if (object instanceof String) {
+						
+						myImage.setImageBytes(Base64.decodeBase64((String) object));
+						
+					} else {
+						
+						myImage.setImageBytes((byte[]) object);
+						
+					}
 
 					myImageList.add(myImage);
 
@@ -227,7 +198,7 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 				this.connection.disconnect();
 
-			} else if (this.connection instanceof MongodbConnection) {
+			} else {
 
 				@SuppressWarnings("unchecked")
 				FindIterable<Document> findIterable = (FindIterable<Document>) queryResult;
