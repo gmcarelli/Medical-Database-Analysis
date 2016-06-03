@@ -1,3 +1,3 @@
-# Medical-Database-Analysis
+### Contexto para Análise de Desempenho
 
-This project consists in a performance analysis of medical database between different programing languages(Java, Python and C++) and different databases (postgreSQL, Neo4J and MongoDB).
+Estes arquivos descrevem o contexto no qual serão realizadas as análises de desempenho. Mais detalhes estão disponíveis no Wiki deste projeto.
