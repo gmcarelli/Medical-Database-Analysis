@@ -29,8 +29,6 @@ public class Main {
 			} catch (Exception e) {
 
 				System.out.println("O parâmetro imageId deve receber um número inteiro maior que zero.");
-				
-				help();
 
 			}
 
@@ -101,8 +99,6 @@ public class Main {
 
 				System.out.println("O parâmetro imageId deve receber um número inteiro maior que zero.");
 				
-				help();
-
 			}
 
 			if (imageId > 0) {
@@ -186,7 +182,7 @@ public class Main {
 		System.out.println("\nComo utilizar este programa:\n");
 		System.out.println("Para inserir uma imagem:\n"
 				+ "$>java -jar medical.jar -p <imageId> <nome da imagem> <local da imagem> <nome do banco>\n" );
-		System.out.println("Para recuperar uma imagem: $>java -jar medical.jar -r <imagemId> <nome do banco>\n");
+		System.out.println("Para recuperar uma imagem: $>java -jar medical.jar -r <imageId> <nome do banco>\n");
 		System.out.println("Parâmetro aceitos: \n");
 		System.out.println("-p - para persistência de uma imagem.");
 		System.out.println("-r - para recuperação de uma imagem.");
