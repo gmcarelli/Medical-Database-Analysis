@@ -29,6 +29,8 @@ public class Main {
 			} catch (Exception e) {
 
 				System.out.println("O parâmetro imageId deve receber um número inteiro maior que zero.");
+				
+				help();
 
 			}
 
@@ -49,6 +51,8 @@ public class Main {
 				} else {
 
 					System.out.println("Não há suporte para o banco de dados escolhido.");
+					
+					help();
 
 				}
 
@@ -78,7 +82,7 @@ public class Main {
 
 			} else {
 
-				System.out.println("O valor do parâmetro imageId deve ser maior que zero.");
+				help();
 
 			}
 
@@ -96,6 +100,8 @@ public class Main {
 			} catch (Exception e) {
 
 				System.out.println("O parâmetro imageId deve receber um número inteiro maior que zero.");
+				
+				help();
 
 			}
 
@@ -116,6 +122,8 @@ public class Main {
 				} else {
 
 					System.out.println("Não há suporte para o banco de dados escolhido.");
+					
+					help();
 
 				}
 
@@ -157,7 +165,7 @@ public class Main {
 
 			} else {
 
-				System.out.println("O valor do parâmetro imageId deve ser maior que zero.");
+				help();
 
 			}
 
@@ -166,7 +174,9 @@ public class Main {
 		 * Parâmetros inválidos
 		 */
 		else {
+			
 			help();
+			
 		}
 
 	}
