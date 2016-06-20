@@ -25,9 +25,10 @@ public class ReadImageNeo4jTest {
 		
 		assertTrue(myImage.getImageId() == 1);
 
-		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
+		assertTrue(myImage.getImageName().equals("ECC.TIFF"));
 
-		assertTrue(myImage.getImageBytes().length == 11487232);
+		assertTrue(myImage.getImageBytes().length == 11397120
+);
 
 	}
 

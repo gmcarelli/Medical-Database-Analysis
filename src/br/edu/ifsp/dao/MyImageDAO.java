@@ -102,11 +102,11 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 
 					myImage = new MyImage();
 
-					myImage.setImageId(resultSet.getInt("imageId"));
+					myImage.setImageId(resultSet.getInt("n.imageId"));
 
-					myImage.setImageName(resultSet.getString("imageName"));
+					myImage.setImageName(resultSet.getString("n.imageName"));
 					
-					Object object = resultSet.getObject("imageBytes");
+					Object object = resultSet.getObject("n.imageBytes");
 					
 					if (object instanceof String) {
 						
