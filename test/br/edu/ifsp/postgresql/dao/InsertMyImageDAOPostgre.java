@@ -20,7 +20,7 @@ public class InsertMyImageDAOPostgre {
 
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(1);
+		myImage.setImageId(6);
 
 		myImage.setImageName("DCC.TIFF");
 

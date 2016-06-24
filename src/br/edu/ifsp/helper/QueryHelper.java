@@ -10,22 +10,9 @@ public class QueryHelper {
 
 	public String createInsertQueryPostgre(String tableName, Map<String, Object> values) {
 
-		query = "INSERT INTO " + tableName + " (";
+		query = "INSERT INTO " + tableName + " VALUES (";
 
 		int i = 0;
-
-		for (String key : values.keySet()) {
-			query += key;
-
-			if (++i < values.size()) {
-				query += ", ";
-			}
-
-		}
-
-		query += ") VALUES (";
-
-		i = 0;
 
 		for (int j = 0; j < values.size(); j++) {
 			query += "?";
@@ -37,7 +24,7 @@ public class QueryHelper {
 		}
 
 		query += ")";
-
+		
 		return query;
 
 	}
