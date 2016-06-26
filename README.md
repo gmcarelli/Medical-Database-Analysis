@@ -19,7 +19,7 @@ To run some tests execute
 
 ```
 cd /opt/ifsp/medical-images-analysis
-./performance-analysis.sh pgsql postgres postgres
+./performance-analysis.sh pgsql postgres postgres -p 1 "image-1-name" "path/to/image-1" ... n "image-n-name" "path/to/image-n"
 ```
 
 #### Authors
