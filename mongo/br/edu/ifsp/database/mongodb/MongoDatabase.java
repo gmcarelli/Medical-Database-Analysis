@@ -16,6 +16,14 @@ import br.edu.ifsp.database.Database;
 
 public class MongoDatabase extends Database {
 	
+	public MongoDatabase(String databaseName, String username, String password, String host, Integer port) {
+		super(databaseName, username, password, host, port);
+	}
+
+	public MongoDatabase(String propertiesPath) throws Exception {
+		super(propertiesPath);
+	}
+
 	private MongoClient connection;
 
 	public MongoDatabase(String databaseName, String username, String password, String host, int port) {

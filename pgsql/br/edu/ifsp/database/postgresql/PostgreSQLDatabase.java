@@ -27,6 +27,10 @@ public class PostgreSQLDatabase extends Database {
 	public PostgreSQLDatabase(Properties properties) {
 		super(properties);
 	}
+	
+	public PostgreSQLDatabase(String propertiesPath) throws Exception {
+		super(propertiesPath);
+	}
 
 	@Override
 	public boolean connect() throws Exception {

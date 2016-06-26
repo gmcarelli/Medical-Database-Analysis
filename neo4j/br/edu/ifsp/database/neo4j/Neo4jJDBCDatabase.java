@@ -12,9 +12,17 @@ import org.apache.commons.codec.binary.Base64;
 import br.edu.ifsp.database.Database;
 
 public class Neo4jJDBCDatabase extends Database {
-	
+
 	public Connection connection;
 	
+	public Neo4jJDBCDatabase(String databaseName, String username, String password, String host, Integer port) {
+		super(databaseName, username, password, host, port);
+	}
+
+	public Neo4jJDBCDatabase(String propertiesPath) throws Exception {
+		super(propertiesPath);
+	}
+
 	public Neo4jJDBCDatabase(String databaseName, String username, String password, String host, int port) {
 		super(databaseName, username, password, host, port);
 	}

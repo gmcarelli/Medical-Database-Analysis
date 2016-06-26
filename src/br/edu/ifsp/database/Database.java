@@ -1,7 +1,12 @@
 package br.edu.ifsp.database;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
+
+import org.restlet.engine.io.ReaderInputStream;
 
 public abstract class Database {
 
@@ -27,6 +32,25 @@ public abstract class Database {
 		this(properties.getProperty("database"), properties.getProperty("username"), properties.getProperty("password"),
 				properties.getProperty("host", "localhost"), Integer.parseInt(properties.getProperty("port")));
 	}
+	
+	public Database(String propertiesPath) throws Exception {
+		
+		Properties properties = new Properties();
+		
+		InputStream inputStream = 
+			new ReaderInputStream(
+				new FileReader(
+					new File(propertiesPath)));
+		
+		properties.load(inputStream);
+		
+		this.databaseName = properties.getProperty("database");
+		this.username = properties.getProperty("username");
+		this.password = properties.getProperty("password");
+		this.host = properties.getProperty("host", "localhost");
+		this.port = Integer.parseInt(properties.getProperty("port"));
+	}
+
 
 	public abstract boolean connect() throws Exception;
 
