@@ -6,53 +6,83 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.types.Binary;
 
-import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 
-import br.edu.ifsp.connection.AConnection;
+import br.edu.ifsp.database.Database;
 import br.edu.ifsp.model.MyImage;
 
-public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
+public class MyImageDAO extends DAO<MyImage> {
 
-	private AConnection connection;
-
-	public MyImageDAO(AConnection connection) {
-
-		this.connection = connection;
-
+	public MyImageDAO(Database database) {
+		this.database = database;
 	}
 
 	@Override
-	public boolean insert(MyImage myImage) {
+	public boolean insert(MyImage myImage) throws Exception {
 
-		boolean insert = false;
+		boolean result = false;
 
-		this.connection.connect();
+		try {
 
-		Map<String, Object> values = new HashMap<String, Object>();
+			this.database.connect();
 
-		values.put("imageId", myImage.getImageId());
-		values.put("imageName", myImage.getImageName());
-		values.put("imageBytes", myImage.getImageBytes());
+			Map<String, Object> values = new HashMap<String, Object>();
 
-		insert = connection.executeInsert("MyImage", values);
+			values.put("imageId", myImage.getImageId());
+			values.put("imageName", myImage.getImageName());
+			values.put("imageBytes", myImage.getImageBytes());
 
-		this.connection.disconnect();
+			result = database.insert("MyImage", values);
 
-		return insert;
+			return result;
 
+		} finally {
+
+			this.database.disconnect();
+
+		}
+	}
+
+	public boolean insert(List<MyImage> list) throws Exception {
+
+		boolean result = true;
+
+		try {
+
+			this.database.connect();
+
+			for (MyImage image : list) {
+
+				Map<String, Object> values = new HashMap<String, Object>();
+
+				values.put("imageId", image.getImageId());
+				values.put("imageName", image.getImageName());
+				values.put("imageBytes", image.getImageBytes());
+
+				result &= database.insert("MyImage", values);
+			}
+
+			return result;
+
+		} finally {
+
+			this.database.disconnect();
+
+		}
 	}
 
 	@Override
-	public boolean update(MyImage myImage) {
+	public boolean update(MyImage myImage) throws Exception {
 
 		boolean update = false;
 
-		this.connection.connect();
+		this.database.connect();
 
 		Map<String, Object> values = new HashMap<String, Object>();
 
@@ -60,177 +90,175 @@ public class MyImageDAO extends ImageFileDAO implements IDAO<MyImage> {
 		values.put("imageName", myImage.getImageName());
 		values.put("imageBytes", myImage.getImageBytes());
 
-		update = connection.executeUpdate("MyImage", values);
+		update = database.update("MyImage", values);
 
-		this.connection.disconnect();
+		this.database.disconnect();
 
 		return update;
-
 	}
 
 	@Override
-	public boolean delete(int imageId) {
+	public boolean delete(Integer id) throws Exception {
 
 		boolean delete = false;
 
-		this.connection.connect();
+		try {
 
-		delete = connection.executeDelete("MyImage", "imageId", imageId);
+			this.database.connect();
 
-		this.connection.disconnect();
+			delete = database.delete("MyImage", "imageId", id);
 
-		return delete;
+			return delete;
 
+		} finally {
+
+			this.database.disconnect();
+		}
 	}
 
 	@Override
-	public MyImage search(int imageId) throws SQLException {
+	public MyImage searchById(Integer id) throws Exception {
 
-		this.connection.connect();
+		this.database.connect();
 
-		MyImage myImage = null;
+		Object result = database.searchById("MyImage", "imageId", id);
 
-		Object queryResult = connection.executeSearch("MyImage", "imageId", imageId);
+		Integer imageId;
+		String imageName;
+		byte[] bytes;
 
-		if (queryResult != null) {
+		if (result instanceof ResultSet) {
 
-			if (queryResult instanceof ResultSet) {
+			imageId = ((ResultSet) result).getInt("imageId");
+			imageName = ((ResultSet) result).getString("imageName");
+			bytes = ((ResultSet) result).getBytes("imageName");
 
-				ResultSet resultSet = (ResultSet) queryResult;
+		} else {
 
-				if (resultSet.next()) {
-
-					myImage = new MyImage();
-
-					myImage.setImageId(resultSet.getInt("n.imageId"));
-
-					myImage.setImageName(resultSet.getString("n.imageName"));
-					
-					Object object = resultSet.getObject("n.imageBytes");
-					
-					if (object instanceof String) {
-						
-						myImage.setImageBytes(Base64.decodeBase64((String) object));
-						
-					} else {
-						
-						myImage.setImageBytes((byte[]) object);
-						
-					}
-
-				}
-
-				((ResultSet) queryResult).close();
-
-				resultSet.close();
-
-				this.connection.disconnect();
-
-			} else {
-
-				Document document = (Document) queryResult;
-
-				myImage = new MyImage();
-
-				myImage.setImageId((int) document.get("imageId"));
-
-				myImage.setImageName((String) document.get("imageName"));
-				
-				Binary binary = (Binary) document.get("imageBytes");
-
-				byte[] imageBytes = binary.getData();
-
-				myImage.setImageBytes((imageBytes));
-
-				this.connection.disconnect();
-
-			}
-
+			imageId = ((Document) result).getInteger("imageId");
+			imageName = ((Document) result).getString("imageName");
+			bytes = ((Binary) ((Document) result).get("imageBytes")).getData();
 		}
+
+		MyImage myImage = new MyImage();
+
+		myImage.setImageId(imageId);
+		myImage.setImageName(imageName);
+		myImage.setImageBytes(bytes);
 
 		return myImage;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<MyImage> list() throws SQLException {
+	public List<MyImage> listAll() throws Exception {
 
-		this.connection.connect();
+		this.database.connect();
 
-		List<MyImage> myImageList = new ArrayList<>();
+		List<MyImage> result = new ArrayList<MyImage>();
 
-		Object queryResult = connection.executeListData("MyImage");
-
-		MyImage myImage = null;
+		Object queryResult = database.listAll("MyImage");
 
 		if (queryResult != null) {
 
-			if (queryResult instanceof ResultSet) {
+			if (queryResult instanceof ResultSet)
+				result.addAll(this.resultToList((ResultSet)queryResult));
+			
+			else if (queryResult instanceof MongoCursor<?>)
+				result.addAll(this.resultToList((MongoCursor<Document>)queryResult));
+			
 
-				ResultSet resultSet = (ResultSet) queryResult;
-
-				while (resultSet.next()) {
-
-					myImage = new MyImage();
-
-					myImage.setImageId(resultSet.getInt("imageId"));
-
-					myImage.setImageName(resultSet.getString("imageName"));
-					
-					Object object = resultSet.getObject("imageBytes");
-					
-					if (object instanceof String) {
-						
-						myImage.setImageBytes(Base64.decodeBase64((String) object));
-						
-					} else {
-						
-						myImage.setImageBytes((byte[]) object);
-						
-					}
-
-					myImageList.add(myImage);
-
-				}
-
-				((ResultSet) queryResult).close();
-
-				resultSet.close();
-
-				this.connection.disconnect();
-
-			} else {
-
-				@SuppressWarnings("unchecked")
-				FindIterable<Document> findIterable = (FindIterable<Document>) queryResult;
 				
-				Document document;
-
-				while (findIterable.iterator().hasNext()) {
-
-					document = findIterable.iterator().next();
-
-					myImage = new MyImage();
-
-					myImage.setImageId((int) document.get("imageId"));
-
-					myImage.setImageName((String) document.get("imageName"));
-
-					byte[] imageBytes = (byte[]) document.get("imageBytes");
-
-					myImage.setImageBytes((imageBytes));
-
-					myImageList.add(myImage);
-
-				}
-
-				this.connection.disconnect();
-
-			}
+				this.database.disconnect();
 
 		}
 
-		return myImageList;
+		return result;
 
 	}
 
+	private List<? extends MyImage> resultToList(MongoCursor<Document> mongoCursor) {
+		
+		List<MyImage> result = new ArrayList<MyImage>();
+		
+		while (mongoCursor.hasNext()) {
+
+			Document document = mongoCursor.next();
+
+			MyImage myImage = new MyImage();
+
+			myImage.setImageId(document.getInteger("imageId"));
+
+			myImage.setImageName(document.getString("imageName"));
+
+			byte[] imageBytes = ((Binary) document.get("imageBytes")).getData();
+
+			myImage.setImageBytes((imageBytes));
+
+			result.add(myImage);
+
+		}
+
+		return result;
+	}
+
+	private List<? extends MyImage> resultToList(ResultSet resultSet) throws SQLException {
+
+		List<MyImage> result = new ArrayList<MyImage>();
+
+		try {
+
+			while (resultSet.next()) {
+
+				MyImage myImage = new MyImage();
+
+				myImage.setImageId(resultSet.getInt("imageId"));
+
+				myImage.setImageName(resultSet.getString("imageName"));
+
+				Object object = resultSet.getObject("imageBytes");
+
+				if (object instanceof String) {
+
+					myImage.setImageBytes(Base64.decodeBase64((String) object));
+
+				} else {
+
+					myImage.setImageBytes((byte[]) object);
+
+				}
+
+				result.add(myImage);
+			}
+		
+		} finally {
+			resultSet.close();
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean update(List<MyImage> list) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(List<Integer> ids) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public List<MyImage> search(Set<Integer> ids) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteAll() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

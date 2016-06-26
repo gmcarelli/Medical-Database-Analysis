@@ -3,8 +3,14 @@ package br.edu.ifsp.helper;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import com.idrsolutions.image.tiff.TiffDecoder;
+
+import br.edu.ifsp.model.MyImage;
 
 public class ImageHelper {	
 	
@@ -33,5 +39,35 @@ public class ImageHelper {
 
 		return resizedImage;
 	}
+	
+	public static byte[] imageFileToByteArray(String imageUrl) throws IOException {
 
+		File file = new File(imageUrl);
+
+		return imageFileToByteArray(file);
+	}
+	
+	public static byte[] imageFileToByteArray(File file) throws IOException {
+		return Files.readAllBytes(file.toPath());
+	}
+
+	public static boolean byteArrayToTiffFile(MyImage myImage) throws IOException {
+
+		boolean writeToFile = false;
+
+		FileOutputStream stream = new FileOutputStream("imageOutput/" + myImage.getImageName());
+
+		try {
+
+			stream.write(myImage.getImageBytes());
+
+		} finally {
+
+			stream.close();
+			writeToFile = true;
+		}
+
+		return writeToFile;
+
+	}
 }

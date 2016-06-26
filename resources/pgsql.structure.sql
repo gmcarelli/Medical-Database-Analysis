@@ -1,0 +1,7 @@
+CREATE DATABASE MEDICALIMAGE;
+
+CREATE TABLE MyImage (
+   imageId    INTEGER      NOT NULL PRIMARY KEY,
+   imageName  VARCHAR(100) NOT NULL,
+   imageBytes BYTEA        NOT NULL
+);
