@@ -21,7 +21,8 @@ To run some tests execute
 ```
 cd /opt/ifsp/medical-images-analysis
 #
-# Analysis postgresql sql using username "postgres" with password "postgres". The test uses n images to be persisted sequentially with the same connection. 
+# Analysing PostgreSQL Database using the username "postgres" with password "postgres". 
+# The test uses n images to be persisted sequentially with the same connection. 
 #
 ./performance-analysis.sh pgsql postgres postgres -p \ 
 		1 "image-1-name" "path/to/image-1" ... n "image-n-name" "path/to/image-n"
