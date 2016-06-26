@@ -1,4 +1,4 @@
-package br.edu.ifsp.connection;
+package br.edu.ifsp.connection.mongodb;
 
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +12,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
+import br.edu.ifsp.connection.AConnection;
 
 public class MongodbConnection extends AConnection {
 

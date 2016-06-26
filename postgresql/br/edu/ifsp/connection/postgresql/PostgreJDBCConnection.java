@@ -1,4 +1,4 @@
-package br.edu.ifsp.postgresql.connection;
+package br.edu.ifsp.connection.postgresql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -116,22 +116,22 @@ public class PostgreJDBCConnection extends AConnection {
 
 			String query = queryHelper.createUpdateQueryPostgre(tableName, values);
 
-			try {				
+			try {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
-				
+
 				Set<String> set = values.keySet();
 
 				String column = set.iterator().next();
-				
-				int objectId = (int) values.get(column);			
+
+				int objectId = (int) values.get(column);
 
 				values.remove(column);
-				
+
 				int i = 0;
-				
+
 				byte[] bytes = (byte[]) values.get("imageBytes");
-				
+
 				System.out.println(bytes.length);
 
 				for (Object value : values.values()) {
@@ -144,9 +144,9 @@ public class PostgreJDBCConnection extends AConnection {
 						preparedStatement.setBytes(++i, (byte[]) value);
 
 				}
-				
+
 				preparedStatement.setInt(++i, objectId);
-				
+
 				System.out.println(preparedStatement.toString());
 
 				executeUpdate = preparedStatement.executeUpdate() > 0;
@@ -207,7 +207,7 @@ public class PostgreJDBCConnection extends AConnection {
 
 				PreparedStatement preparedStatement = ((Connection) this.connection).prepareStatement(query);
 
-				resultSet = preparedStatement.executeQuery();				
+				resultSet = preparedStatement.executeQuery();
 
 			} catch (SQLException e) {
 
@@ -272,11 +272,8 @@ public class PostgreJDBCConnection extends AConnection {
 				resultSet.close();
 
 			} catch (SQLException e) {
-				
-				System.out.println(e.getMessage());				
-				
+				System.out.println(e.getMessage());
 			}
-
 		}
 
 		return lastInsertedId;

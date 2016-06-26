@@ -1,12 +1,12 @@
 package br.edu.ifsp.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.postgresql.connection.PostgreJDBCConnection;
+import br.edu.ifsp.connection.postgresql.PostgreJDBCConnection;
 
 public class ReadFromFileDAOTest {
 

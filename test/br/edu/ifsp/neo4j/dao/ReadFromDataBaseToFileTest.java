@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import br.edu.ifsp.connection.neo4j.Neo4jJDBCConnection;
 import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.neo4j.connection.Neo4jJDBCConnection;
 
 public class ReadFromDataBaseToFileTest {
 

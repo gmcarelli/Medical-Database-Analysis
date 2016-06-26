@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import br.edu.ifsp.connection.postgresql.PostgreJDBCConnection;
 import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
-import br.edu.ifsp.postgresql.connection.PostgreJDBCConnection;
 
 public class DeleteMyImageTest {
 

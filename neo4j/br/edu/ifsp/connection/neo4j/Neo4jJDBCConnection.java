@@ -1,4 +1,4 @@
-package br.edu.ifsp.neo4j.connection;
+package br.edu.ifsp.connection.neo4j;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

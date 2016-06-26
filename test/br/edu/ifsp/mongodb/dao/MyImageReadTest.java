@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import br.edu.ifsp.connection.MongodbConnection;
+import br.edu.ifsp.connection.mongodb.MongodbConnection;
 import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.model.MyImage;
 
