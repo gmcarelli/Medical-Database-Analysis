@@ -1,12 +1,12 @@
 # Medical Database Analysis Framework
 
-This framework aims at providing a set of resource to analysis the persistence of relational and non-relational database systems for dealing with medical images.
+This framework aims at providing a unified way to analysis the performance of relational and non-relational database systems for dealing with medical images.
 
-For now, this framework support only Java technology and the database systems postgreSQL, Neo4J and MongoDB.
+For now, this framework supports only Java technology and the PostgreSQL, Neo4J, and MongoDB database systems.
 
-### Install
+### Installation
 
-To install on linux it is required ant, jdk1.7, postgresql-server, mongodb-server, and neo4j-server installed.
+To install on linux it is required [ant](http://ant.apache.org/), [Java Development Kit (>= 1.7)](http://openjdk.java.net/), [PostgreSQL](https://www.postgresql.org/), [MongoDB](https://www.mongodb.com/), and [Neo4J](https://neo4j.com/).
 
 ```
 wget https://raw.githubusercontent.com/gmcarelli/medical-database-analysis/master/install.sh
