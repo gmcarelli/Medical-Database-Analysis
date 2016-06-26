@@ -1,6 +1,8 @@
 package br.edu.ifsp.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.edu.ifsp.dao.MyImageDAO;
 import br.edu.ifsp.database.mongodb.MongoDatabase;
@@ -36,10 +38,17 @@ public class Service {
 			break;
 		}
 
-		if (operationType.valueOf(OperationType.PERSISTENCE)) {
-
+		if (operationType.valueOf(OperationType.PERSISTENCE))
+			result &= this.dao.insert(imagesList);
+		
+		else if (operationType.valueOf(OperationType.RETRIVEMENT)) {
+			
+			Set<Integer> ids = new HashSet<Integer>();
+			
 			for (MyImage image : imagesList)
-				result &= this.dao.insert(image);
+				ids.add(image.getImageId());
+			
+			result &= this.dao.search(ids).size() == imagesList.size();
 		}
 		
 		return result;

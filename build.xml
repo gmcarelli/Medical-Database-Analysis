@@ -12,7 +12,7 @@
 	<property name="src.dir" value="src" />
 	<property name="lib.dir" value="lib" />
 	<property name="classes.dir" value="${build.dir}/classes" />
-	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="jar.dir" value="../" />
 	<property name="jar.file" value="${jar.dir}/mda.jar" />
 	<property name="manifest.file" value="${jar.dir}/MANIFEST.MF" />
 
@@ -59,6 +59,12 @@
 	</target>
 
 	<target name="build-jar" depends="build">
+		<move todir="../images">
+		    <fileset dir="resources/images"/>
+		</move>
+		<move todir="../">
+		    <fileset file="performance-analysis.sh"/>
+		</move>
 		<delete file="${jar.file}" />
 		<delete file="${manifest.file}" />
 

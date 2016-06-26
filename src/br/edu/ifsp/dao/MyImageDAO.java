@@ -26,27 +26,28 @@ public class MyImageDAO extends DAO<MyImage> {
 	@Override
 	public boolean insert(MyImage myImage) throws Exception {
 
-		boolean result = false;
-
 		try {
 
 			this.database.connect();
 
-			Map<String, Object> values = new HashMap<String, Object>();
-
-			values.put("imageId", myImage.getImageId());
-			values.put("imageName", myImage.getImageName());
-			values.put("imageBytes", myImage.getImageBytes());
-
-			result = database.insert("MyImage", values);
-
-			return result;
+			return database.insert("MyImage", myImageToMap(myImage));
 
 		} finally {
 
 			this.database.disconnect();
 
 		}
+	}
+
+	private Map<String, Object> myImageToMap(MyImage myImage) {
+		
+		Map<String, Object> values = new HashMap<String, Object>();
+
+		values.put("imageId", myImage.getImageId());
+		values.put("imageName", myImage.getImageName());
+		values.put("imageBytes", myImage.getImageBytes());
+		
+		return values;
 	}
 
 	public boolean insert(List<MyImage> list) throws Exception {
@@ -57,16 +58,8 @@ public class MyImageDAO extends DAO<MyImage> {
 
 			this.database.connect();
 
-			for (MyImage image : list) {
-
-				Map<String, Object> values = new HashMap<String, Object>();
-
-				values.put("imageId", image.getImageId());
-				values.put("imageName", image.getImageName());
-				values.put("imageBytes", image.getImageBytes());
-
-				result &= database.insert("MyImage", values);
-			}
+			for (MyImage image : list)
+				result &= database.insert("MyImage", myImageToMap(image));
 
 			return result;
 
@@ -122,33 +115,46 @@ public class MyImageDAO extends DAO<MyImage> {
 		this.database.connect();
 
 		Object result = database.searchById("MyImage", "imageId", id);
+		
+		MyImage myImage;
+		
+		if (result instanceof ResultSet)
+			myImage = getMyImageFromId((ResultSet)result);
 
-		Integer imageId;
-		String imageName;
-		byte[] bytes;
-
-		if (result instanceof ResultSet) {
-
-			imageId = ((ResultSet) result).getInt("imageId");
-			imageName = ((ResultSet) result).getString("imageName");
-			bytes = ((ResultSet) result).getBytes("imageName");
-
-		} else {
-
-			imageId = ((Document) result).getInteger("imageId");
-			imageName = ((Document) result).getString("imageName");
-			bytes = ((Binary) ((Document) result).get("imageBytes")).getData();
-		}
-
-		MyImage myImage = new MyImage();
-
-		myImage.setImageId(imageId);
-		myImage.setImageName(imageName);
-		myImage.setImageBytes(bytes);
+		else
+			myImage = getMyImageFromId((Document)result);
 
 		return myImage;
 	}
 
+	private MyImage getMyImageFromId(Document result) {
+		
+		Integer imageId = ((Document) result).getInteger("imageId");
+		String imageName = ((Document) result).getString("imageName");
+		byte[] bytes = ((Binary) ((Document) result).get("imageBytes")).getData();
+		
+		MyImage image = new MyImage();
+		image.setImageId(imageId);
+		image.setImageName(imageName);
+		image.setImageBytes(bytes);
+		
+		return image;
+	}
+
+	private MyImage getMyImageFromId(ResultSet resultSet) throws Exception {
+		
+		Integer imageId = ((ResultSet) resultSet).getInt("imageId");
+		String imageName = ((ResultSet) resultSet).getString("imageName");
+		byte[] bytes = ((ResultSet) resultSet).getBytes("imageName");
+		
+		MyImage image = new MyImage();
+		image.setImageId(imageId);
+		image.setImageName(imageName);
+		image.setImageBytes(bytes);
+		
+		return image;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MyImage> listAll() throws Exception {
@@ -196,7 +202,6 @@ public class MyImageDAO extends DAO<MyImage> {
 			myImage.setImageBytes((imageBytes));
 
 			result.add(myImage);
-
 		}
 
 		return result;
@@ -252,8 +257,35 @@ public class MyImageDAO extends DAO<MyImage> {
 	
 	@Override
 	public List<MyImage> search(Set<Integer> ids) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<MyImage> list = new ArrayList<MyImage>();
+		
+		try {
+			
+			this.database.connect();
+
+			for (Integer id : ids) {
+			
+				Object result = database.searchById("MyImage", "imageId", id);
+				
+				MyImage myImage;
+				
+				if (result instanceof ResultSet)
+					myImage = getMyImageFromId((ResultSet)result);
+		
+				else
+					myImage = getMyImageFromId((Document)result);
+				
+				list.add(myImage);
+			}
+		
+		} finally {
+			
+			this.database.disconnect();
+			
+		}
+		
+		return list;
 	}
 
 	@Override
