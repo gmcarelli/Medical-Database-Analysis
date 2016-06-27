@@ -22,36 +22,43 @@ public class Control {
 
 	public boolean forwardData(String[] args) throws Exception {
 
+		boolean result = false;
+
 		if (!hasValidParam(args))
 			help(args);
-		
-		DatabaseManagementSystem dbms = DatabaseManagementSystem.valueOf(args[0]);
-		
-		String username = args[1];
-		
-		String password = args[2];
-		
-		String databaseName = args[3];
-		
-		OperationType operationType = OperationType.valueOf(args[4]);
-		
-		List<MyImage> imagesList = new ArrayList<MyImage>();
 
-		MyImage image = new MyImage();
+		else {
+			
+			DatabaseManagementSystem dbms = DatabaseManagementSystem.getValue(args[0]);
 
-		for (int i = 5; i < args.length; i++) {	
+			String databaseName = args[1];
 			
-			image.setImageId(Integer.parseInt(args[i]));
-			
-			if (operationType.equals(OperationType.PERSISTENCE)) {
-				image.setImageName(args[++i]);
-				image.setImageBytes(ImageHelper.imageFileToByteArray(args[++i]));
+			String username = args[2];
+
+			String password = args[3];
+
+			OperationType operationType = OperationType.getValue(args[4]);
+
+			List<MyImage> imagesList = new ArrayList<MyImage>();
+
+			for (int i = 5; i < args.length; i++) {
+
+				MyImage image = new MyImage();
+				
+				image.setImageId(Integer.parseInt(args[i]));
+
+				if (operationType.equals(OperationType.PERSISTENCE)) {
+					image.setImageName(args[++i]);
+					image.setImageBytes(ImageHelper.imageFileToByteArray(args[++i]));
+				}
+
+				imagesList.add(image);
 			}
-			
-			imagesList.add(image);
+
+			result = service.performTest(dbms, username, password, databaseName, operationType, imagesList);
 		}
 		
-		return service.performTest(dbms, username, password, databaseName, operationType, imagesList);
+		return result;
 	}
 
 	/**
@@ -65,10 +72,13 @@ public class Control {
 
 		boolean result = false;
 
-		result |= args.length >= 6 && args[0].matches("{mongo|neo4j|pgsql}") && args[4].equals("-p")
-				&& ((args.length - 5) % 3 == 0);
+		if (args.length > 0) {
 
-		result |= args.length >= 6 && args[0].matches("{mongo|neo4j|pgsql}") && args[4].equals("-r");
+			result |= args.length >= 6 && args[0].matches("(mongo|neo4j|pgsql)") && args[4].equals("-p")
+					&& ((args.length - 5) % 3 == 0);
+
+			result |= args.length >= 6 && args[0].matches("(mongo|neo4j|pgsql)") && args[4].equals("-r");
+		}
 
 		return result;
 	}
@@ -82,7 +92,7 @@ public class Control {
 
 		StringBuffer sb = new StringBuffer();
 
-		if (args.length == 1 && args[0].matches("{-v|--version}"))
+		if (args.length == 1 && args[0].matches("(\\-v|\\-\\-version)"))
 			sb.append(System.getProperty("line.separator")).append(VERSION)
 					.append(System.getProperty("line.separator"));
 
@@ -125,6 +135,9 @@ public class Control {
 			sb.append("VERSION").append(System.getProperty("line.separator"))
 					.append(System.getProperty("line.separator")).append(VERSION);
 		}
+		
+		System.out.println(sb.toString());
+		
 		return sb.toString();
 	}
 }

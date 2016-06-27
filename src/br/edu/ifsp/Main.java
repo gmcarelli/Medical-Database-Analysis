@@ -10,7 +10,7 @@ public class Main {
 			
 			Control control = new Control();		
 			
-			System.out.println(control.forwardData(args));
+			control.forwardData(args);
 		
 		} catch (Exception e) {
 

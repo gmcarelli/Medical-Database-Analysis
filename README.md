@@ -6,17 +6,18 @@ For now, this framework supports only Java technology and the PostgreSQL, Neo4J,
 
 ### Installation
 
-To install on linux it is required [ant](http://ant.apache.org/), [Java Development Kit (>= 1.7)](http://openjdk.java.net/), [PostgreSQL](https://www.postgresql.org/), [MongoDB](https://www.mongodb.com/), and [Neo4J](https://neo4j.com/).
+To install on linux it is required [ant](http://ant.apache.org/), [openjdk-7-jdk](http://openjdk.java.net/), git.
 
 ```
-sudo wget https://raw.githubusercontent.com/gmcarelli/medical-database-analysis/master/install.sh
-sudo chmod +x ./install.sh
-sudo ./install.sh 
+apt-get install ant, got, openjdk-7-jdk
+wget https://raw.githubusercontent.com/gmcarelli/medical-database-analysis/master/install.sh
+chmod +x ./install.sh
+./install.sh 
 ```
 
 ### Getting Started
 
-To run some tests execute
+To run some tests execute (it is required database management systems installed)
 
 ```
 cd /opt/ifsp/medical-images-analysis
@@ -32,3 +33,8 @@ cd /opt/ifsp/medical-images-analysis
 * Gil Carelli (gilcarelli@gmail.com)
 * Lucas Venezian Povoa (lucasvenez@gmail.com)
 
+#### License
+
+[GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
+
+This code was not widely tested. Thus, unpredictable behaver is a possibility. The usage of this is only user's responsibility. Pay attention when running this code, once insert, delete, update operations could occur in your database management system without previous warning.

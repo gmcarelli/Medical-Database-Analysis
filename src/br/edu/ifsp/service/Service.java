@@ -36,6 +36,8 @@ public class Service {
 		case PGSQL:
 			this.dao = new MyImageDAO(new PostgreSQLDatabase(databaseName, username, password));
 			break;
+		default:
+			throw new Exception("invalid database system");
 		}
 
 		if (operationType.valueOf(OperationType.PERSISTENCE))

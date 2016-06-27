@@ -2,29 +2,35 @@ package br.edu.ifsp.helper;
 
 public enum DatabaseManagementSystem {
 
-	MONGO("mongo"),
-	NEO4J("neo4j"),
-	PGSQL("pgsql");
-	
-	private final String databaseManagementSystem;
-	
-	DatabaseManagementSystem(String databaseManagementSystem) {
-		this.databaseManagementSystem = databaseManagementSystem;
+	MONGO("mongo"), NEO4J("neo4j"), PGSQL("pgsql");
+
+	private final String value;
+
+	DatabaseManagementSystem(String value) {
+		this.value = value;
 	}
-	
+
 	public String getValue() {
-		return this.databaseManagementSystem;
+		return this.value;
 	}
-	
+
 	public boolean isMongo() {
-		return this.databaseManagementSystem.equals(MONGO.getValue());
+		return this.value.equals(MONGO.getValue());
 	}
-	
+
 	public boolean isNeo4j() {
-		return this.databaseManagementSystem.equals(NEO4J.getValue());
+		return this.value.equals(NEO4J.getValue());
 	}
-	
+
 	public boolean isPgSQL() {
-		return this.databaseManagementSystem.equals(PGSQL.getValue());
+		return this.value.equals(PGSQL.getValue());
+	}
+
+	public static DatabaseManagementSystem getValue(String value) {
+		for (DatabaseManagementSystem e : DatabaseManagementSystem.values())
+			if (e.value.toLowerCase().equals(value.toLowerCase()))
+				return e;
+
+		return null;
 	}
 }

@@ -54,7 +54,7 @@ public class MongoDatabase extends Database {
 	}
 
 	@Override
-	public boolean insert(String tableName, Map<String, Object> values) {
+	public boolean insert(String collection, Map<String, Object> values) {
 
 		boolean writeResult = false;
 
@@ -62,7 +62,7 @@ public class MongoDatabase extends Database {
 
 			com.mongodb.client.MongoDatabase mongoDatabase = this.connection.getDatabase(super.databaseName);
 
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(tableName);
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(super.databaseName);
 
 			Document document = new Document();
 

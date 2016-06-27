@@ -67,7 +67,7 @@ public class PostgreSQLDatabase extends Database {
 				if (value instanceof String)
 					preparedStatement.setString(++i, (String) value);
 				else if (value instanceof Integer)
-					preparedStatement.setInt(++i, (int) value);
+					preparedStatement.setInt(++i, (Integer) value);
 				else if (value instanceof byte[])
 					preparedStatement.setBytes(++i, (byte[]) value);
 			}
@@ -196,7 +196,7 @@ public class PostgreSQLDatabase extends Database {
 				query += ", ";
 		}
 
-		query += ")";
+		query += ");";
 
 		return query;
 
