@@ -37,6 +37,10 @@ neo4j)
    exit 1
 esac
 #
+# Creating file name
+#
+file="`date +%Y%m%d%H%M%S`-$database-$numberOfTests.csv"
+#
 # Executing tests 
 #
 for i in `seq 1 $n`; do
@@ -53,5 +57,5 @@ for i in `seq 1 $n`; do
    #
    # Running application 
    #
-   java -jar medical-database-analasys.jar > "`date +%Y%m%d%H%M%S`-$database-$numberOfTests.csv"
+   time java -jar medical-database-analasys.jar > $file
 done
