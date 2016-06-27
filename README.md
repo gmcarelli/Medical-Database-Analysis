@@ -9,7 +9,7 @@ For now, this framework supports only Java technology and the PostgreSQL, Neo4J,
 To install on linux it is required [ant](http://ant.apache.org/), [openjdk-7-jdk](http://openjdk.java.net/), git.
 
 ```
-apt-get install ant, got, openjdk-7-jdk
+apt-get install ant, git, openjdk-7-jdk
 wget https://raw.githubusercontent.com/gmcarelli/medical-database-analysis/master/install.sh
 chmod +x ./install.sh
 ./install.sh 
@@ -20,7 +20,7 @@ chmod +x ./install.sh
 To run some tests execute (it is required database management systems installed)
 
 ```
-cd /opt/ifsp/medical-images-analysis
+cd /opt/ifsp/
 #
 # Analysing PostgreSQL Database using the username "postgres" with password "postgres". 
 # The test uses n images to be persisted sequentially with the same connection. 
