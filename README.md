@@ -37,4 +37,4 @@ cd /opt/ifsp/
 
 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
 
-This code was not widely tested. Thus, unpredictable behaver is a possibility. Its usage only user's responsibility. Pay attention when running this code, since insert, delete, update operations could occur in your database management system without previous warning.
+This code was not widely tested. Thus, unpredictable behaver is a possibility. Its usage is user's responsibility only. Pay attention when running this code, since insert, delete, update operations could occur in your database management system without previous warning.
