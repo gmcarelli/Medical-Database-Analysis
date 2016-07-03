@@ -17,6 +17,9 @@ database=$1
 username=$2
 password=$3
 numberOfTests=$4
+operation=$5
+imagesDirectory=$6
+
 #
 # Setting database admin command
 #
@@ -24,26 +27,43 @@ databaseadmin=""
 
 case "$1" in
 pgsql)
-   databaseadmin="/bin/pg_ctl"
+   databaseadmin="/etc/init.d/postgresql"
    ;;
 mongo)
-   databaseadmin="/bin/mongod"
+   databaseadmin="/etc/init.d/mongdb"
    ;;
 neo4j)
-   databaseadmin="/bin/neo4j"
+   databaseadmin="/etc/init.d/neo4j"
    ;;
 *)
    echo "Usage deploy.sh <database-system> <username> <password> <number-of-tests>"
    exit 1
 esac
 #
+#
+#
+i=1
+images=""
+if [[ -d $imagesDirectory ]]; then
+   for file in $imagesDirectory/*; do
+      if [[ -f $file ]]; then
+         if 
+         images="$images $i $(basename $file) $file"
+         i=$((i+1))
+      fi
+   done	
+fi
+
+echo $images
+exit 0
+#
 # Creating file name
 #
-file="`date +%Y%m%d%H%M%S`-$database-$numberOfTests.csv"
+file="$database-times.csv"
 #
 # Executing tests 
 #
-for i in `seq 1 $n`; do
+for i in `seq 1 $numberOfTests`; do
    # 
    # Clearning memory and swap before execute tests
    # Script indicated at http://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/
@@ -52,10 +72,11 @@ for i in `seq 1 $n`; do
    #
    # Restating database server
    #
-   `$databaseadmin` stop
-   `$databaseadmin` start
+   $databaseadmin stop
+   $databaseadmin start
    #
    # Running application 
    #
-   time java -jar medical-database-analasys.jar > $file
+   t=`time java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images'
+   echo "$database;$numberOfTests;$operation;$numberOfImages;$t"
 done
