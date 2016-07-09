@@ -59,13 +59,121 @@
 	</target>
 
 	<target name="build-jar" depends="build">
-		<move todir="../images">
-		    <fileset dir="resources/images"/>
-		</move>
-		<move todir="../">
-		    <fileset file="performance-analysis.sh"/>
-		</move>
+		<copy todir="../images">
+			<fileset dir="resources/images" />
+		</copy>
+
+		<mkdir dir="../images/01" />
+		<copy tofile="../images/01/MI01.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+
+		<mkdir dir="../images/02" />
+		<copy tofile="../images/02/MI01.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/02/MI02.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+
+		<mkdir dir="../images/03" />
+		<copy tofile="../images/03/MI01.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/03/MI02.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/03/MI03.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/03/MI04.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+
+		<mkdir dir="../images/04" />
+		<copy tofile="../images/04/MI01.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI02.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI03.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI04.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI05.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI06.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI07.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/04/MI08.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+
+		<mkdir dir="../images/05" />
+		<copy tofile="../images/05/MI01.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI02.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI03.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI04.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI05.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI06.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI07.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI08.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI09.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI10.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI11.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI12.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI13.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI14.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI15.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		<copy tofile="../images/05/MI16.TIFF">
+			<fileset file="../images/MIXX.TIFF" />
+		</copy>
+		
+		<delete file="../images/MIXX.TIFF"/>
+
+		<copy todir="../">
+			<fileset file="performance-analysis.sh" />
+		</copy>
+		
 		<delete file="${jar.file}" />
+		
 		<delete file="${manifest.file}" />
 
 		<manifest file="${manifest.file}">
