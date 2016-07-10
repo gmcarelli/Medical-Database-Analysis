@@ -19,6 +19,7 @@ password=$3
 numberOfTests=$4
 operation=$5
 imagesDirectoryOrImagesId=$6
+$time="/usr/local/time"
 #
 # Setting database admin command
 #
@@ -102,7 +103,7 @@ for i in `seq 1 $numberOfTests`; do
    	#
    	# Running application 
    	#
-	sudo time -o time.txt -f %U,%S java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images
+	sudo $time -o time.txt -f %U,%S java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images
 	#
 	#
 	#	 
