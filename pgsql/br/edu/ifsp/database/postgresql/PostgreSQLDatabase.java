@@ -46,7 +46,9 @@ public class PostgreSQLDatabase extends Database {
 
 	@Override
 	public void disconnect() throws Exception {
-		this.connection.close();
+		
+		if (this.connection != null)
+			this.connection.close();
 	}
 
 	@Override

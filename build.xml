@@ -165,16 +165,16 @@
 		<copy tofile="../images/05/MI16.TIFF">
 			<fileset file="../images/MIXX.TIFF" />
 		</copy>
-		
-		<delete file="../images/MIXX.TIFF"/>
+
+		<delete file="../images/MIXX.TIFF" />
 
 		<copy todir="../">
 			<fileset file="performance-analysis.sh" />
 		</copy>
 		
+		<chmod file="../performance-analysis.sh" perm="+w" type="both"/>
+
 		<delete file="${jar.file}" />
-		
-		<delete file="${manifest.file}" />
 
 		<manifest file="${manifest.file}">
 			<attribute name="built-by" value="${user.name}" />
@@ -183,7 +183,7 @@
 
 		<jar destfile="${jar.file}" basedir="${build.dir}" manifest="${manifest.file}">
 			<fileset dir="${classes.dir}" includes="**/*.class" />
-			<fileset dir="${lib.dir}" includes="**/*.jar" />
+			<zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
 		</jar>
 	</target>
 </project>

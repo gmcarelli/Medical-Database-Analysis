@@ -1,12 +1,8 @@
 package br.edu.ifsp.database;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
-
-import org.restlet.engine.io.ReaderInputStream;
 
 public abstract class Database {
 
@@ -38,9 +34,7 @@ public abstract class Database {
 		Properties properties = new Properties();
 		
 		InputStream inputStream = 
-			new ReaderInputStream(
-				new FileReader(
-					new File(propertiesPath)));
+			getClass().getClassLoader().getResourceAsStream(propertiesPath);
 		
 		properties.load(inputStream);
 		

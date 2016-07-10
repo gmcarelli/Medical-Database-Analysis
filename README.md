@@ -1,6 +1,6 @@
 # Medical Database Analysis Framework
 
-This framework aims at providing a unified way to analysis the performance of relational and non-relational database systems for dealing with medical images.
+This framework aims at providing a unified way to analysis performance of relational and non-relational database systems for dealing with medical images.
 
 For now, this framework supports only Java technology and the PostgreSQL, Neo4J, and MongoDB database systems.
 
@@ -30,8 +30,8 @@ cd /opt/ifsp/
 ```
 
 #### Authors
-* Gil Carelli (gilcarelli@gmail.com)
-* Lucas Venezian Povoa (lucasvenez@gmail.com)
+* Gil Carelli (gilcarelli at gmail dot com)
+* Lucas Venezian Povoa (lucasvenez at gmail dot com)
 
 #### License
 

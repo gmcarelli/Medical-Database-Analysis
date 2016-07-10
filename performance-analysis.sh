@@ -5,7 +5,7 @@
 # retrieval performance of relational and non relational database systems
 # into a Unix-like operating system. How to use:
 #
-# sudo deploy.sh <database-system> <username> <password> <number-of-tests> <operation>
+# sudo performanceanalysis.sh <database-system> <username> <password> <number-of-tests> <operation>
 # <database-system> is the database system, which may be defined as: pgsql, mongo, or neo4j
 # <username> is the username of the database system
 # <password> is the user password of the database system
@@ -80,7 +80,7 @@ fi
 #
 # Creating file name
 #
-file="$database$operation-$numberOfTests.csv"
+file="database-performance.csv"
 #
 # Executing tests 
 #
@@ -97,16 +97,27 @@ for i in `seq 1 $numberOfTests`; do
    	#
    	# Restating database server
    	#
-	#$databaseadmin stop
-	#$databaseadmin start
+	$databaseadmin stop
+	$databaseadmin start
    	#
    	# Running application 
    	#
-	t=`time java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images`
+	sudo time -o time.txt -f %U,%S java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images
+	#
+	#
+	#	 
+	t=`cat time.txt`
+	#
+	#
+	#
+	ope=""	
 	if [ "$operation" = "-p" ]; then
 		ope="persistence"
 	else
 		ope="retrieve"
 	fi
-	echo "$database;$numberOfTests;$ope;$numberOfImages;$t"
+	#
+	#
+	#
+	echo "$database,$numberOfTests,$ope,$numberOfImages,$t" >> $file
 done
