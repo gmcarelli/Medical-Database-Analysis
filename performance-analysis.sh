@@ -5,7 +5,7 @@
 # retrieval performance of relational and non relational database systems
 # into a Unix-like operating system. How to use:
 #
-# sudo performanceanalysis.sh <database-system> <username> <password> <number-of-tests> <operation>
+# performanceanalysis.sh <database-system> <username> <password> <number-of-tests> <operation>
 # <database-system> is the database system, which may be defined as: pgsql, mongo, or neo4j
 # <username> is the username of the database system
 # <password> is the user password of the database system
@@ -19,7 +19,7 @@ password=$3
 numberOfTests=$4
 operation=$5
 imagesDirectoryOrImagesId=$6
-$time="/usr/local/time"
+time="/usr/bin/time"
 #
 # Setting database admin command
 #
@@ -103,7 +103,7 @@ for i in `seq 1 $numberOfTests`; do
    	#
    	# Running application 
    	#
-	sudo $time -o time.txt -f %U,%S java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images
+	$time -o time.txt -f %U,%S java -jar mda.jar $database MEDICALIMAGE $username $password $operation $images
 	#
 	#
 	#	 

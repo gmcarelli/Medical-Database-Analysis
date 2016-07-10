@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -186,21 +188,30 @@ public class PostgreSQLDatabase extends Database {
 
 	private String createInsertQuery(String tableName, Map<String, Object> values) {
 
-		String query = "INSERT INTO " + tableName + " VALUES (";
+		String query = "INSERT INTO " + tableName + "(";
 
-		int i = 0;
+		List<String> keys = new ArrayList<String>(values.keySet());
+		
+		for (int j = 0; j < keys.size(); j++) {
+
+			
+			query += keys.get(j);
+
+			if (j + 1 < keys.size())
+				query += ", ";
+		}
+
+		query += ") VALUES (";
 
 		for (int j = 0; j < values.size(); j++) {
 
 			query += "?";
 
-			if (++i < values.size())
+			if (j + 1 < values.size())
 				query += ", ";
 		}
 
-		query += ");";
-
-		return query;
+		return query + ");";
 
 	}
 
