@@ -40,13 +40,13 @@ public class MyImageDAO extends DAO<MyImage> {
 	}
 
 	private Map<String, Object> myImageToMap(MyImage myImage) {
-		
+
 		Map<String, Object> values = new HashMap<String, Object>();
 
 		values.put("imageId", myImage.getImageId());
 		values.put("imageName", myImage.getImageName());
 		values.put("imageBytes", myImage.getImageBytes());
-		
+
 		return values;
 	}
 
@@ -115,46 +115,52 @@ public class MyImageDAO extends DAO<MyImage> {
 		this.database.connect();
 
 		Object result = database.searchById("MyImage", "imageId", id);
-		
+
 		MyImage myImage;
-		
+
 		if (result instanceof ResultSet)
-			myImage = getMyImageFromId((ResultSet)result);
+			myImage = getMyImageFromId((ResultSet) result);
 
 		else
-			myImage = getMyImageFromId((Document)result);
+			myImage = getMyImageFromId((Document) result);
 
 		return myImage;
 	}
 
 	private MyImage getMyImageFromId(Document result) {
-		
+
 		Integer imageId = ((Document) result).getInteger("imageId");
 		String imageName = ((Document) result).getString("imageName");
 		byte[] bytes = ((Binary) ((Document) result).get("imageBytes")).getData();
-		
+
 		MyImage image = new MyImage();
 		image.setImageId(imageId);
 		image.setImageName(imageName);
 		image.setImageBytes(bytes);
-		
+
 		return image;
 	}
 
 	private MyImage getMyImageFromId(ResultSet resultSet) throws Exception {
-		
-		Integer imageId = ((ResultSet) resultSet).getInt("imageId");
-		String imageName = ((ResultSet) resultSet).getString("imageName");
-		byte[] bytes = ((ResultSet) resultSet).getBytes("imageName");
-		
-		MyImage image = new MyImage();
-		image.setImageId(imageId);
-		image.setImageName(imageName);
-		image.setImageBytes(bytes);
-		
+
+		MyImage image = null;
+
+		if (resultSet.next()) {
+
+			Integer imageId = ((ResultSet) resultSet).getInt("imageId");
+			String imageName = ((ResultSet) resultSet).getString("imageName");
+			byte[] bytes = ((ResultSet) resultSet).getBytes("imageName");
+
+			image = new MyImage();
+			image.setImageId(imageId);
+			image.setImageName(imageName);
+			image.setImageBytes(bytes);
+
+		}
+
 		return image;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MyImage> listAll() throws Exception {
@@ -168,14 +174,12 @@ public class MyImageDAO extends DAO<MyImage> {
 		if (queryResult != null) {
 
 			if (queryResult instanceof ResultSet)
-				result.addAll(this.resultToList((ResultSet)queryResult));
-			
-			else if (queryResult instanceof MongoCursor<?>)
-				result.addAll(this.resultToList((MongoCursor<Document>)queryResult));
-			
+				result.addAll(this.resultToList((ResultSet) queryResult));
 
-				
-				this.database.disconnect();
+			else if (queryResult instanceof MongoCursor<?>)
+				result.addAll(this.resultToList((MongoCursor<Document>) queryResult));
+
+			this.database.disconnect();
 
 		}
 
@@ -184,9 +188,9 @@ public class MyImageDAO extends DAO<MyImage> {
 	}
 
 	private List<? extends MyImage> resultToList(MongoCursor<Document> mongoCursor) {
-		
+
 		List<MyImage> result = new ArrayList<MyImage>();
-		
+
 		while (mongoCursor.hasNext()) {
 
 			Document document = mongoCursor.next();
@@ -235,7 +239,7 @@ public class MyImageDAO extends DAO<MyImage> {
 
 				result.add(myImage);
 			}
-		
+
 		} finally {
 			resultSet.close();
 		}
@@ -254,37 +258,39 @@ public class MyImageDAO extends DAO<MyImage> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public List<MyImage> search(Set<Integer> ids) throws Exception {
 
 		List<MyImage> list = new ArrayList<MyImage>();
-		
+
 		try {
-			
+
 			this.database.connect();
 
 			for (Integer id : ids) {
-			
+
 				Object result = database.searchById("MyImage", "imageId", id);
-				
+
 				MyImage myImage;
-				
+
 				if (result instanceof ResultSet)
-					myImage = getMyImageFromId((ResultSet)result);
-		
+					myImage = getMyImageFromId((ResultSet) result);
+
 				else
-					myImage = getMyImageFromId((Document)result);
+					myImage = getMyImageFromId((Document) result);
+
+				if (myImage != null)
+					list.add(myImage);
 				
-				list.add(myImage);
 			}
-		
+
 		} finally {
-			
+
 			this.database.disconnect();
-			
+
 		}
-		
+
 		return list;
 	}
 
