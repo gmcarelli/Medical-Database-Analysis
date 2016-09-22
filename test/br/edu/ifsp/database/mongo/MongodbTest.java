@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.restlet.engine.io.ReaderInputStream;
 
 import br.edu.ifsp.database.Database;
-import br.edu.ifsp.database.mongodb.MongoDatabase;
+import br.edu.ifsp.database.mongodb.MongodbDatabase;
 
 public class MongodbTest {
 
@@ -31,7 +31,7 @@ public class MongodbTest {
 		
 		properties.load(inputStream);
 		
-		this.database = new MongoDatabase(properties);
+		this.database = new MongodbDatabase(properties);
 	}
 	
 	@Test

@@ -11,30 +11,31 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 
 import br.edu.ifsp.database.Database;
 
-public class MongoDatabase extends Database {
+public class MongodbDatabase extends Database {
 	
-	public MongoDatabase(String databaseName, String username, String password, String host, Integer port) {
+	public MongodbDatabase(String databaseName, String username, String password, String host, Integer port) {
 		super(databaseName, username, password, host, port);
 	}
 
-	public MongoDatabase(String propertiesPath) throws Exception {
+	public MongodbDatabase(String propertiesPath) throws Exception {
 		super(propertiesPath);
 	}
 
 	private MongoClient connection;
 
-	public MongoDatabase(String databaseName, String username, String password, String host, int port) {
+	public MongodbDatabase(String databaseName, String username, String password, String host, int port) {
 		super(databaseName, username, password, host, port);
 	}
 
-	public MongoDatabase(String databaseName, String username, String password) {
+	public MongodbDatabase(String databaseName, String username, String password) {
 		super(databaseName, username, password, "localhost", 27017);
 	}
 
-	public MongoDatabase(Properties properties) {
+	public MongodbDatabase(Properties properties) {
 		super(properties);
 	}
 
@@ -138,11 +139,12 @@ public class MongoDatabase extends Database {
 
 		if (this.connection != null) {
 
-			MongoDatabase mongoDatabase = (MongoDatabase) ((MongoClient) this.connection).getDatabase(this.databaseName);
+			MongoDatabase mongoDatabase = this.connection.getDatabase(this.databaseName);
 
-			MongoCollection<Document> mongoCollection = ((com.mongodb.client.MongoDatabase) mongoDatabase).getCollection(collection);
+			MongoCollection<Document> mongoCollection =  mongoDatabase.getCollection(this.databaseName);
 
 			document = mongoCollection.find(new BasicDBObject(column, id)).first();
+			
 		}
 
 		return document;

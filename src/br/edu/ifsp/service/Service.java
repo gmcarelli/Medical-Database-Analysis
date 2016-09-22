@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.edu.ifsp.dao.MyImageDAO;
-import br.edu.ifsp.database.mongodb.MongoDatabase;
+import br.edu.ifsp.database.mongodb.MongodbDatabase;
 import br.edu.ifsp.database.neo4j.Neo4jJDBCDatabase;
 import br.edu.ifsp.database.postgresql.PostgreSQLDatabase;
 import br.edu.ifsp.helper.DatabaseManagementSystem;
@@ -28,7 +28,7 @@ public class Service {
 		
 		switch (dbms) {
 		case MONGO:
-			this.dao = new MyImageDAO(new MongoDatabase(databaseName, username, password));
+			this.dao = new MyImageDAO(new MongodbDatabase(databaseName, username, password));
 			break;
 		case NEO4J:
 			this.dao = new MyImageDAO(new Neo4jJDBCDatabase(databaseName, username, password));
