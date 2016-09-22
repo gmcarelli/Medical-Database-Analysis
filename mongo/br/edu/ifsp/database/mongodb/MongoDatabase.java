@@ -138,10 +138,9 @@ public class MongoDatabase extends Database {
 
 		if (this.connection != null) {
 
-			com.mongodb.client.MongoDatabase mongoDatabase = this.connection
-					.getDatabase(this.databaseName);
+			MongoDatabase mongoDatabase = (MongoDatabase) ((MongoClient) this.connection).getDatabase(this.databaseName);
 
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection(collection);
+			MongoCollection<Document> mongoCollection = ((com.mongodb.client.MongoDatabase) mongoDatabase).getCollection(collection);
 
 			document = mongoCollection.find(new BasicDBObject(column, id)).first();
 		}
