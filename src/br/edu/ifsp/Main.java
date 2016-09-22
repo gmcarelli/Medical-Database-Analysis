@@ -10,7 +10,17 @@ public class Main {
 			
 			Control control = new Control();		
 			
-			control.forwardData(args);
+			boolean aux =  control.forwardData(args);
+			
+			if (aux) {
+				
+				System.out.println("success!");
+				
+			} else {
+				
+				System.out.println("fail!");
+				
+			}
 		
 		} catch (Exception e) {
 
