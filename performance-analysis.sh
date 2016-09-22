@@ -32,7 +32,7 @@ pgsql)
    databaseadmin="/etc/init.d/postgresql"
    ;;
 mongo)
-   databaseadmin="/etc/init.d/mongdb"
+   databaseadmin="/etc/init.d/mongodb"
    ;;
 neo4j)
    databaseadmin="/etc/init.d/neo4j"
