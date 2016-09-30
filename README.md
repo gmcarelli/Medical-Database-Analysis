@@ -9,7 +9,7 @@ For now, this framework supports only Java technology and the PostgreSQL, Neo4J,
 To install on linux it is required [ant](http://ant.apache.org/), [openjdk-7-jdk](http://openjdk.java.net/), git.
 
 ```
-apt-get install ant, git, openjdk-7-jdk
+apt-get install ant git openjdk-7-jdk
 wget https://raw.githubusercontent.com/gmcarelli/medical-database-analysis/master/install.sh
 chmod +x ./install.sh
 ./install.sh 
