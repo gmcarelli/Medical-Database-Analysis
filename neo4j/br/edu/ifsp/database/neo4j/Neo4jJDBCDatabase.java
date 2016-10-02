@@ -114,7 +114,7 @@ public class Neo4jJDBCDatabase extends Database {
 				if (value instanceof String)
 					preparedStatement.setString(++i, (String) value);
 				else if (value instanceof Integer)
-					preparedStatement.setInt(++i, (int) value);
+					preparedStatement.setInt(++i, (Integer) value);
 				else if (value instanceof byte[])
 					preparedStatement.setString(++i, Base64.encodeBase64String((byte[]) value));
 			}

@@ -101,7 +101,7 @@ public class PostgreSQLDatabase extends Database {
 
 			String column = set.iterator().next();
 
-			int objectId = (int) values.get(column);
+			int objectId = (Integer) values.get(column);
 
 			values.remove(column);
 
@@ -116,7 +116,7 @@ public class PostgreSQLDatabase extends Database {
 				if (value instanceof String)
 					preparedStatement.setString(++i, (String) value);
 				else if (value instanceof Integer)
-					preparedStatement.setInt(++i, (int) value);
+					preparedStatement.setInt(++i, (Integer) value);
 				else if (value instanceof byte[])
 					preparedStatement.setBytes(++i, (byte[]) value);
 			}

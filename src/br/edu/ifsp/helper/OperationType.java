@@ -2,7 +2,7 @@ package br.edu.ifsp.helper;
 
 public enum OperationType {
 
-	PERSISTENCE("-p"), RETRIVEMENT("-r");
+	PERSISTENCE("-p"), RETRIVEMENT("-r"), UPDATE("-u");
 
 	private String value;
 
