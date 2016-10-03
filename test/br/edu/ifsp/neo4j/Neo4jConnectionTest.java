@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.restlet.engine.io.ReaderInputStream;
 
 import br.edu.ifsp.database.Database;
-import br.edu.ifsp.database.neo4j.Neo4j;
+//import br.edu.ifsp.database.neo4j.Neo4j;
 
 public class Neo4jConnectionTest {
 
@@ -26,7 +26,7 @@ public class Neo4jConnectionTest {
 
 		properties.load(inputStream);
 
-		this.database = new Neo4j(properties);
+		//this.database = new Neo4j(properties);
 		
 		assertTrue(this.database.connect());
 		

@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.restlet.engine.io.ReaderInputStream;
 
 import br.edu.ifsp.dao.MyImageDAO;
-import br.edu.ifsp.database.neo4j.Neo4j;
 import br.edu.ifsp.database.neo4j.Neo4jJDBCDatabase;
 import br.edu.ifsp.helper.ImageHelper;
 import br.edu.ifsp.model.MyImage;
