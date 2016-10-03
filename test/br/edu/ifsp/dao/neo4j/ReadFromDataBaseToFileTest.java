@@ -27,7 +27,7 @@ public class ReadFromDataBaseToFileTest {
 		
 		Properties properties = new Properties();
 		
-		InputStream inputStream = new ReaderInputStream(new FileReader(new File("neo4j.test.properties")));
+		InputStream inputStream = new ReaderInputStream(new FileReader(new File("resources/neo4j.test.properties")));
 		
 		properties.load(inputStream);
 		
@@ -41,7 +41,7 @@ public class ReadFromDataBaseToFileTest {
 
 		MyImage myImage = null;
 
-		int imageId = 1;
+		int imageId = 5;
 
 		myImage = myImageDAO.searchById(imageId);
 
@@ -55,9 +55,9 @@ public class ReadFromDataBaseToFileTest {
 
 		System.out.println(myImage.getImageBytes().length);
 
-		assertTrue(myImage.getImageId() == 1);
+		assertTrue(myImage.getImageId() == 5);
 
-		assertTrue(myImage.getImageName().equals("DCC.TIFF"));
+		assertTrue(myImage.getImageName().equals("MIXX.TIFF"));
 
 		assertTrue(myImage.getImageBytes().length == 11487232);
 		

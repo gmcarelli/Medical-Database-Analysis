@@ -15,6 +15,7 @@ import org.bson.types.Binary;
 import com.mongodb.client.MongoCursor;
 
 import br.edu.ifsp.database.Database;
+import br.edu.ifsp.database.neo4j.Neo4jJDBCDatabase;
 import br.edu.ifsp.model.MyImage;
 
 public class MyImageDAO extends DAO<MyImage> {
@@ -76,14 +77,8 @@ public class MyImageDAO extends DAO<MyImage> {
 		boolean update = false;
 
 		this.database.connect();
-
-		Map<String, Object> values = new HashMap<String, Object>();
-
-		values.put("imageId", myImage.getImageId());
-		values.put("imageName", myImage.getImageName());
-		values.put("imageBytes", myImage.getImageBytes());
-
-		update = database.update("MyImage", values);
+		
+		update = database.update("MyImage", myImageToMap(myImage));
 
 		this.database.disconnect();
 
@@ -147,9 +142,24 @@ public class MyImageDAO extends DAO<MyImage> {
 
 		if (resultSet.next()) {
 
-			Integer imageId = ((ResultSet) resultSet).getInt("imageId");
-			String imageName = ((ResultSet) resultSet).getString("imageName");
-			byte[] bytes = ((ResultSet) resultSet).getBytes("imageName");
+			Integer imageId;
+			String imageName;
+			byte[] bytes;
+
+			if (this.database instanceof Neo4jJDBCDatabase) {
+
+				imageId = ((ResultSet) resultSet).getInt("n.imageId");
+				imageName = ((ResultSet) resultSet).getString("n.imageName");
+				String aux = ((ResultSet) resultSet).getString("n.imageBytes");
+				bytes = Base64.decodeBase64(aux);
+
+			} else {
+
+				imageId = ((ResultSet) resultSet).getInt("imageId");
+				imageName = ((ResultSet) resultSet).getString("imageName");
+				bytes = ((ResultSet) resultSet).getBytes("imageBytes");
+
+			}
 
 			image = new MyImage();
 			image.setImageId(imageId);
@@ -282,7 +292,7 @@ public class MyImageDAO extends DAO<MyImage> {
 
 				if (myImage != null)
 					list.add(myImage);
-				
+
 			}
 
 		} finally {

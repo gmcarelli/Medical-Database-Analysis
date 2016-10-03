@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.restlet.engine.io.ReaderInputStream;
 
 import br.edu.ifsp.dao.MyImageDAO;
+import br.edu.ifsp.database.neo4j.Neo4j;
 import br.edu.ifsp.database.neo4j.Neo4jJDBCDatabase;
 import br.edu.ifsp.helper.ImageHelper;
 import br.edu.ifsp.model.MyImage;
@@ -40,11 +41,11 @@ public class InsertMyImageDAONeo4JTest {
 
 		MyImage myImage = new MyImage();
 
-		myImage.setImageId(2);
+		myImage.setImageId(5);
 
-		myImage.setImageName("ECC.TIFF");
+		myImage.setImageName("MIXX.TIFF");
 
-		myImage.setImageBytes(ImageHelper.imageFileToByteArray("imageSamples/ECC.TIFF"));
+		myImage.setImageBytes(ImageHelper.imageFileToByteArray("resources/images/MIXX.TIFF"));
 
 		assertTrue(myImageDAO.insert(myImage));
 	}
