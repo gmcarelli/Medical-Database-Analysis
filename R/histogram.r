@@ -14,6 +14,7 @@ d$operation <- replace(d$operation, d$operation == "retrieve", "Recuperação")
 d$operation <- as.factor(d$operation)
 
 gplot <- ggplot(d) + geom_histogram(aes(totaltime)) + facet_grid(database ~ operation) + 
-  xlab("Millisegundos") + ylab("Frequência")
+  xlab("Tempo de Execução (ms)") + ylab("Frequência") +
+  theme(text = element_text(size=10))
 
-ggsave(plot = gplot, filename = "images/histogram.png", units = "cm", height = 8, width = 10)
+ggsave(plot = gplot, filename = "images/histogram.png", units = "cm", height = 8, width = 10) 
